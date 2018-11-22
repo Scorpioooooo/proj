@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.coocaa.fire.video.admin.mapper.SysLogLoginMapper" >
+	<!-- Base Result Map-->
+	<resultMap id="BaseResultMap" type="com.coocaa.fire.video.admin.entity.SysLogLoginEntity" >
+		<result column="id" property="id"/>
+		<result column="user_name" property="userName"/>
+		<result column="user_id" property="userId"/>
+		<result column="login_time" property="loginTime"/>
+		<result column="login_ip" property="loginIp"/>
+		<result column="user_agent" property="userAgent"/>
+		<result column="login_type" property="loginType"/>
+		<result column="remark" property="remark"/>
+	</resultMap>
+
+	<!-- Extend Result Map-->
+	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.fire.video.admin.entity.SysLogLoginEntity">
+	</resultMap>
+       
+	<!-- sys_log_login table all fields -->
+	<sql id="Base_Column_List" >
+		a.id,a.user_name,a.user_id,a.login_time,a.login_ip,a.user_agent,a.login_type,a.remark
+	</sql>
+   
+	<!-- 基本查询条件 -->
+	<sql id="Example_Where_Clause">
+		<where>
+			<trim  suffixOverrides="," >
+				<if test="id != null" > and id =  #{id}</if>
+				<if test="userName != null and userName != ''" > and user_name =  #{userName}</if>
+				<if test="userId != null" > and user_id =  #{userId}</if>
+				<if test="loginTime != null" > and login_time =  #{loginTime}</if>
+				<if test="loginIp != null and loginIp != ''" > and login_ip =  #{loginIp}</if>
+				<if test="userAgent != null and userAgent != ''" > and user_agent =  #{userAgent}</if>
+				<if test="loginType != null" > and login_type =  #{loginType}</if>
+				<if test="remark != null and remark != ''" > and remark =  #{remark}</if>
+			</trim>
+		</where>
+	</sql>
+   
+	<!-- 插入记录 -->
+	<insert id="add" parameterType="com.coocaa.fire.video.admin.entity.SysLogLoginEntity" useGeneratedKeys="true" keyProperty="id" >
+		insert into sys_log_login(id,user_name,user_id,login_time,login_ip,user_agent,login_type,remark)
+		values(#{id},#{userName},#{userId},#{loginTime},#{loginIp},#{userAgent},#{loginType},#{remark})
+	</insert>
+	
+	<!-- 批量插入记录 -->
+	<insert id="addBatch" parameterType="java.util.List">  
+    	insert into sys_log_login(
+			id,user_name,user_id,login_time,login_ip,user_agent,login_type,remark
+		) values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.id},#{item.userName},#{item.userId},#{item.loginTime},#{item.loginIp},#{item.userAgent},#{item.loginType},#{item.remark})
+		</foreach>  
+  	</insert>
+
+	<!-- 根据id，修改记录-->  
+	<update id="update" parameterType="com.coocaa.fire.video.admin.entity.SysLogLoginEntity" >
+		update sys_log_login 
+		set user_name=#{userName},user_id=#{userId},login_time=#{loginTime},login_ip=#{loginIp},user_agent=#{userAgent},login_type=#{loginType},remark=#{remark} 
+		where id=#{id}
+	</update>
+ 
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="updateBySelective" parameterType="com.coocaa.fire.video.admin.entity.SysLogLoginEntity" >
+		update sys_log_login set 
+		<trim  suffixOverrides="," >
+			<if test="userName != null "> user_name=#{userName},</if>
+			<if test="userId != null "> user_id=#{userId},</if>
+			<if test="loginTime != null "> login_time=#{loginTime},</if>
+			<if test="loginIp != null "> login_ip=#{loginIp},</if>
+			<if test="userAgent != null "> user_agent=#{userAgent},</if>
+			<if test="loginType != null "> login_type=#{loginType},</if>
+			<if test="remark != null "> remark=#{remark},</if>
+		</trim>
+		where id=#{id}
+	</update>
+
+	<!-- 删除记录 -->
+	<delete id="delete" parameterType="Object">
+		delete from sys_log_login
+		where id = #{id}
+	</delete>
+	
+	<!-- 按id批量删除记录 -->
+	<delete id="deleteBatchByIds">
+		delete from sys_log_login
+		<where>
+			id in
+			<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</where>
+	</delete>
+	
+	<!-- 按条件批量删除记录 -->
+	<delete id="deleteBatch" parameterType = "com.coocaa.fire.video.admin.entity.SysLogLoginEntity">
+		delete from sys_log_login
+		<include refid="Example_Where_Clause"/> 
+	</delete>
+ 	
+ 	<!-- 查找所有记录 -->
+ 	<select id="queryByAll" resultMap="BaseResultMap" parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
+ 		select 
+			 <include refid="Base_Column_List" /> 
+		from sys_log_login a
+ 	</select>
+ 
+	<!-- 根据id查询 登录日志 -->
+	<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
+		select 
+			 <include refid="Base_Column_List" /> 
+		from sys_log_login a
+		WHERE a.id = #{id}
+	</select>
+
+	<!-- 登录日志 符合条件总数-->
+	<select id="queryByCount" resultType="java.lang.Integer"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
+		select count(1) from sys_log_login a
+	</select>
+  	
+	<!-- 查询登录日志列表 -->
+	<select id="queryByList" resultMap="extendResultMap"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
+		select 
+			 <include refid="Base_Column_List" /> 
+		from sys_log_login a
+	</select>
+	
+	<!-- 登录日志分页查询 -->
+	<select id="queryByPage" resultMap="extendResultMap"  parameterType="com.coocaa.fire.utils.plugin.Pager">
+		select 
+			 <include refid="Base_Column_List" /> 
+		from sys_log_login a
+	</select>
+
+</mapper>   

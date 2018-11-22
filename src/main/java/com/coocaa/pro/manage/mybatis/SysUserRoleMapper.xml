@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.coocaa.fire.video.admin.mapper.SysUserRoleMapper" >
+	<!-- Base Result Map-->
+	<resultMap id="BaseResultMap" type="com.coocaa.fire.video.admin.entity.SysUserRoleEntity" >
+		<result column="user_id" property="userId"/>
+		<result column="role_id" property="roleId"/>
+	</resultMap>
+
+	<!-- Extend Result Map-->
+	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.fire.video.admin.entity.SysUserRoleEntity">
+		<association property="sysRole" column="role_id" resultMap="com.coocaa.fire.video.admin.mapper.SysRoleMapper.BaseResultMap">
+		</association>
+		<association property="sysUser" column="user_id" resultMap="com.coocaa.fire.video.admin.mapper.SysUserMapper.BaseResultMap">
+		</association>
+	</resultMap>
+       
+	<!-- sys_user_role table all fields -->
+	<sql id="Base_Column_List" >
+		a.user_id,a.role_id
+	</sql>
+   
+	<!-- 基本查询条件 -->
+	<sql id="Example_Where_Clause">
+		<where>
+			<trim  suffixOverrides="," >
+				<if test="userId != null" > and user_id =  #{userId}</if>
+				<if test="roleId != null" > and role_id =  #{roleId}</if>
+			</trim>
+		</where>
+	</sql>
+   
+	<!-- 插入记录 -->
+	<insert id="add" parameterType="com.coocaa.fire.video.admin.entity.SysUserRoleEntity" >
+		insert into sys_user_role(user_id,role_id)
+		values(#{userId},#{roleId})
+	</insert>
+	
+	<!-- 批量插入记录 -->
+	<insert id="addBatch" parameterType="java.util.List">  
+    	insert into sys_user_role(
+			user_id,role_id
+		) values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.userId},#{item.roleId})
+		</foreach>  
+  	</insert>
+
+	<!-- 根据id，修改记录-->  
+	<update id="update" parameterType="com.coocaa.fire.video.admin.entity.SysUserRoleEntity" >
+		update sys_user_role 
+		set role_id=#{roleId} 
+		where user_id=#{userId}
+	</update>
+ 
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="updateBySelective" parameterType="com.coocaa.fire.video.admin.entity.SysUserRoleEntity" >
+		update sys_user_role set 
+		<trim  suffixOverrides="," >
+			<if test="roleId != null "> role_id=#{roleId},</if>
+		</trim>
+		where user_id=#{userId}
+	</update>
+
+	<!-- 删除记录 -->
+	<delete id="delete" parameterType="Object">
+		delete from sys_user_role
+		where user_id = #{userId}
+	</delete>
+	
+	<!-- 按id批量删除记录 -->
+	<delete id="deleteBatchByIds">
+		delete from sys_user_role
+		<where>
+			user_id in
+			<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</where>
+	</delete>
+	
+	<!-- 按条件批量删除记录 -->
+	<delete id="deleteBatch" parameterType = "com.coocaa.fire.video.admin.entity.SysUserRoleEntity">
+		delete from sys_user_role
+		<include refid="Example_Where_Clause"/> 
+	</delete>
+ 	
+ 	<!-- 查找所有记录 -->
+ 	<select id="queryByAll" resultMap="BaseResultMap" parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
+ 		select 
+			 <include refid="Base_Column_List" /> 
+		from sys_user_role a
+			left join sys_role b on(a.role_id = b.role_id)
+			left join sys_user c on(a.user_id = c.user_id)
+ 	</select>
+ 
+	<!-- 根据id查询 用户角色 -->
+	<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
+		select 
+			 <include refid="Base_Column_List" /> 
+		from sys_user_role a
+			left join sys_role b on(a.role_id = b.role_id)
+			left join sys_user c on(a.user_id = c.user_id)
+		WHERE a.user_id = #{userId}
+	</select>
+
+	<!-- 用户角色 符合条件总数-->
+	<select id="queryByCount" resultType="java.lang.Integer"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
+		select count(1) from sys_user_role a
+			left join sys_role b on(a.role_id = b.role_id)
+			left join sys_user c on(a.user_id = c.user_id)
+	</select>
+  	
+	<!-- 查询用户角色列表 -->
+	<select id="queryByList" resultMap="extendResultMap"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
+		select 
+			 <include refid="Base_Column_List" /> 
+		from sys_user_role a
+			left join sys_role b on(a.role_id = b.role_id)
+			left join sys_user c on(a.user_id = c.user_id)
+	</select>
+	
+	<!-- 用户角色分页查询 -->
+	<select id="queryByPage" resultMap="extendResultMap"  parameterType="com.coocaa.fire.utils.plugin.Pager">
+		select 
+			 <include refid="Base_Column_List" /> 
+		from sys_user_role a
+			left join sys_role b on(a.role_id = b.role_id)
+			left join sys_user c on(a.user_id = c.user_id)
+	</select>
+
+</mapper>   
