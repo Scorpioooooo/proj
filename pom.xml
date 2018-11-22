@@ -98,31 +98,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-cache</artifactId>
         </dependency>
-        <dependency>
-            <groupId>net.sf.javavp8decoder</groupId>
-            <artifactId>webp-viewer</artifactId>
-            <version>0.2</version>
-        </dependency>
-        <dependency>
-            <groupId>net.sf.javavp8decoder</groupId>
-            <artifactId>webp-viewer</artifactId>
-            <version>0.2</version>
-        </dependency>
-        <dependency>
-            <groupId>net.sf.javavp8decoder</groupId>
-            <artifactId>webp-viewer</artifactId>
-            <version>0.2</version>
-        </dependency>
-        <dependency>
-            <groupId>net.sf.javavp8decoder</groupId>
-            <artifactId>webp-viewer</artifactId>
-            <version>0.2</version>
-        </dependency>
-        <dependency>
-            <groupId>net.sf.javavp8decoder</groupId>
-            <artifactId>webp-viewer</artifactId>
-            <version>0.2</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>net.sf.javavp8decoder</groupId>-->
+            <!--<artifactId>webp-viewer</artifactId>-->
+            <!--<version>0.2</version>-->
+        <!--</dependency>-->
+
         <dependency>
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>

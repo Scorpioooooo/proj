@@ -1,6 +1,7 @@
 package com.coocaa.pro.manage.utils;
 
 import com.coocaa.fire.utils.PropertiesUtil;
+
 import org.apache.commons.net.PrintCommandListener;
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;

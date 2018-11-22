@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.coocaa.fire.video.admin.mapper.SysMenuRunMapper" >
+<mapper namespace="com.coocaa.pro.manage.mapper.SysMenuRunMapper" >
 	<!-- Base Result Map-->
-	<resultMap id="BaseResultMap" type="com.coocaa.fire.video.admin.entity.SysMenuRunEntity" >
+	<resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.SysMenuRunEntity" >
 		<result column="menu_id" property="menuId"/>
 		<result column="run_id" property="runId"/>
 	</resultMap>
 
 	<!-- Extend Result Map-->
-	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.fire.video.admin.entity.SysMenuRunEntity">
-		<association property="sysRun" column="run_id" resultMap="com.coocaa.fire.video.admin.mapper.SysRunMapper.BaseResultMap">
+	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.SysMenuRunEntity">
+		<association property="sysRun" column="run_id" resultMap="com.coocaa.pro.manage.mapper.SysRunMapper.BaseResultMap">
 		</association>
-		<association property="sysMenu" column="menu_id" resultMap="com.coocaa.fire.video.admin.mapper.SysMenuMapper.BaseResultMap">
+		<association property="sysMenu" column="menu_id" resultMap="com.coocaa.pro.manage.mapper.SysMenuMapper.BaseResultMap">
 		</association>
 	</resultMap>
        
@@ -31,7 +31,7 @@
 	</sql>
    
 	<!-- 插入记录 -->
-	<insert id="add" parameterType="com.coocaa.fire.video.admin.entity.SysMenuRunEntity" >
+	<insert id="add" parameterType="com.coocaa.pro.manage.entity.SysMenuRunEntity" >
 		insert into sys_menu_run(menu_id,run_id)
 		values(#{menuId},#{runId})
 	</insert>
@@ -47,14 +47,14 @@
   	</insert>
 
 	<!-- 根据id，修改记录-->  
-	<update id="update" parameterType="com.coocaa.fire.video.admin.entity.SysMenuRunEntity" >
+	<update id="update" parameterType="com.coocaa.pro.manage.entity.SysMenuRunEntity" >
 		update sys_menu_run 
 		set run_id=#{runId} 
 		where menu_id=#{menuId}
 	</update>
  
 	<!-- 修改记录，只修改只不为空的字段 -->
-	<update id="updateBySelective" parameterType="com.coocaa.fire.video.admin.entity.SysMenuRunEntity" >
+	<update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.SysMenuRunEntity" >
 		update sys_menu_run set 
 		<trim  suffixOverrides="," >
 			<if test="runId != null "> run_id=#{runId},</if>
@@ -80,7 +80,7 @@
 	</delete>
 	
 	<!-- 按条件批量删除记录 -->
-	<delete id="deleteBatch" parameterType = "com.coocaa.fire.video.admin.entity.SysMenuRunEntity">
+	<delete id="deleteBatch" parameterType = "com.coocaa.pro.manage.entity.SysMenuRunEntity">
 		delete from sys_menu_run
 		<include refid="Example_Where_Clause"/> 
 	</delete>

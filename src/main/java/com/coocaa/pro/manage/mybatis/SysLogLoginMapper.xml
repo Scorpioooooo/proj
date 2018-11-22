@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.coocaa.fire.video.admin.mapper.SysLogLoginMapper" >
+<mapper namespace="com.coocaa.pro.manage.mapper.SysLogLoginMapper" >
 	<!-- Base Result Map-->
-	<resultMap id="BaseResultMap" type="com.coocaa.fire.video.admin.entity.SysLogLoginEntity" >
+	<resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.SysLogLoginEntity" >
 		<result column="id" property="id"/>
 		<result column="user_name" property="userName"/>
 		<result column="user_id" property="userId"/>
@@ -14,7 +14,7 @@
 	</resultMap>
 
 	<!-- Extend Result Map-->
-	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.fire.video.admin.entity.SysLogLoginEntity">
+	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.SysLogLoginEntity">
 	</resultMap>
        
 	<!-- sys_log_login table all fields -->
@@ -39,7 +39,7 @@
 	</sql>
    
 	<!-- 插入记录 -->
-	<insert id="add" parameterType="com.coocaa.fire.video.admin.entity.SysLogLoginEntity" useGeneratedKeys="true" keyProperty="id" >
+	<insert id="add" parameterType="com.coocaa.pro.manage.entity.SysLogLoginEntity" useGeneratedKeys="true" keyProperty="id" >
 		insert into sys_log_login(id,user_name,user_id,login_time,login_ip,user_agent,login_type,remark)
 		values(#{id},#{userName},#{userId},#{loginTime},#{loginIp},#{userAgent},#{loginType},#{remark})
 	</insert>
@@ -55,14 +55,14 @@
   	</insert>
 
 	<!-- 根据id，修改记录-->  
-	<update id="update" parameterType="com.coocaa.fire.video.admin.entity.SysLogLoginEntity" >
+	<update id="update" parameterType="com.coocaa.pro.manage.entity.SysLogLoginEntity" >
 		update sys_log_login 
 		set user_name=#{userName},user_id=#{userId},login_time=#{loginTime},login_ip=#{loginIp},user_agent=#{userAgent},login_type=#{loginType},remark=#{remark} 
 		where id=#{id}
 	</update>
  
 	<!-- 修改记录，只修改只不为空的字段 -->
-	<update id="updateBySelective" parameterType="com.coocaa.fire.video.admin.entity.SysLogLoginEntity" >
+	<update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.SysLogLoginEntity" >
 		update sys_log_login set 
 		<trim  suffixOverrides="," >
 			<if test="userName != null "> user_name=#{userName},</if>
@@ -94,7 +94,7 @@
 	</delete>
 	
 	<!-- 按条件批量删除记录 -->
-	<delete id="deleteBatch" parameterType = "com.coocaa.fire.video.admin.entity.SysLogLoginEntity">
+	<delete id="deleteBatch" parameterType = "com.coocaa.pro.manage.entity.SysLogLoginEntity">
 		delete from sys_log_login
 		<include refid="Example_Where_Clause"/> 
 	</delete>

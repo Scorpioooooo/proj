@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.coocaa.fire.video.admin.mapper.SysRoleMenuRunMapper" >
+<mapper namespace="com.coocaa.pro.manage.mapper.SysRoleMenuRunMapper" >
 	<!-- Base Result Map-->
-	<resultMap id="BaseResultMap" type="com.coocaa.fire.video.admin.entity.SysRoleMenuRunEntity" >
+	<resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.SysRoleMenuRunEntity" >
 		<result column="role_id" property="roleId"/>
 		<result column="menu_id" property="menuId"/>
 		<result column="run_id" property="runId"/>
 	</resultMap>
 
 	<!-- Extend Result Map-->
-	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.fire.video.admin.entity.SysRoleMenuRunEntity">
-		<association property="sysRun" column="run_id" resultMap="com.coocaa.fire.video.admin.mapper.SysRunMapper.BaseResultMap">
+	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.SysRoleMenuRunEntity">
+		<association property="sysRun" column="run_id" resultMap="com.coocaa.pro.manage.mapper.SysRunMapper.BaseResultMap">
 		</association>
-		<association property="sysRole" column="role_id" resultMap="com.coocaa.fire.video.admin.mapper.SysRoleMapper.BaseResultMap">
+		<association property="sysRole" column="role_id" resultMap="com.coocaa.pro.manage.mapper.SysRoleMapper.BaseResultMap">
 		</association>
-		<association property="sysMenu" column="menu_id" resultMap="com.coocaa.fire.video.admin.mapper.SysMenuMapper.BaseResultMap">
+		<association property="sysMenu" column="menu_id" resultMap="com.coocaa.pro.manage.mapper.SysMenuMapper.BaseResultMap">
 		</association>
 	</resultMap>
        
@@ -35,7 +35,7 @@
 	</sql>
    
 	<!-- 插入记录 -->
-	<insert id="add" parameterType="com.coocaa.fire.video.admin.entity.SysRoleMenuRunEntity" >
+	<insert id="add" parameterType="com.coocaa.pro.manage.entity.SysRoleMenuRunEntity" >
 		insert into sys_role_menu_run(role_id,menu_id,run_id)
 		values(#{roleId},#{menuId},#{runId})
 	</insert>
@@ -51,14 +51,14 @@
   	</insert>
 
 	<!-- 根据id，修改记录-->  
-	<update id="update" parameterType="com.coocaa.fire.video.admin.entity.SysRoleMenuRunEntity" >
+	<update id="update" parameterType="com.coocaa.pro.manage.entity.SysRoleMenuRunEntity" >
 		update sys_role_menu_run 
 		set menu_id=#{menuId},run_id=#{runId} 
 		where role_id=#{roleId}
 	</update>
  
 	<!-- 修改记录，只修改只不为空的字段 -->
-	<update id="updateBySelective" parameterType="com.coocaa.fire.video.admin.entity.SysRoleMenuRunEntity" >
+	<update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.SysRoleMenuRunEntity" >
 		update sys_role_menu_run set 
 		<trim  suffixOverrides="," >
 			<if test="menuId != null "> menu_id=#{menuId},</if>
@@ -85,7 +85,7 @@
 	</delete>
 	
 	<!-- 按条件批量删除记录 -->
-	<delete id="deleteBatch" parameterType = "com.coocaa.fire.video.admin.entity.SysRoleMenuRunEntity">
+	<delete id="deleteBatch" parameterType = "com.coocaa.pro.manage.entity.SysRoleMenuRunEntity">
 		delete from sys_role_menu_run
 		<include refid="Example_Where_Clause"/> 
 	</delete>

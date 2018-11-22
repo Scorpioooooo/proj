@@ -1,8 +1,7 @@
 package com.coocaa.pro.manage.service.sys;
 
-import com.coocaa.fire.video.admin.baseclass.BaseService;
-import com.coocaa.fire.video.admin.entity.SysLogOpEntity;
-import com.coocaa.fire.video.admin.mapper.SysLogOpMapper;
+import com.coocaa.pro.manage.entity.SysLogOpEntity;
+import com.coocaa.pro.manage.mapper.SysLogOpMapper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

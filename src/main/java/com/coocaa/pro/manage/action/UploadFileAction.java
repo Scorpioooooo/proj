@@ -1,13 +1,10 @@
 package com.coocaa.pro.manage.action;
 
-import com.coocaa.admin.utils.ApkUtil;
-import com.coocaa.admin.utils.CheckApks;
-import com.coocaa.admin.utils.UploadifyUtils;
-import com.coocaa.core.utils.Md5FileUtil;
-import com.coocaa.core.utils.PinyinUtil;
+import com.coocaa.fire.utils.Md5FileUtil;
 import com.coocaa.fire.utils.PropertiesUtil;
 import com.coocaa.fire.utils.exception.OriginException;
 import com.coocaa.pro.manage.annotation.Auth;
+import com.coocaa.pro.manage.utils.UploadifyUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -84,64 +81,7 @@ public class UploadFileAction extends BasicAction {
 		return renderToJson(result);
 	}
 
-	/**
-	 * APK文件上传
-	 * @param request
-	 * @return
-	 * @throws Exception
-	 */
-	@Auth(verifyLogin = false)
-	@RequestMapping(value = "/uploaderApkFile", produces = "text/html;charset=UTF-8")
-	@ResponseBody
-	public String uploadApkFile(HttpServletRequest request) throws Exception {
-		String newName = "";
-		Map<String, Object> result = new HashMap<String, Object>();
-		UploadifyUtils utils;
-		try{
-			utils= new UploadifyUtils(request,"apks",true);
-			newName = "/" + utils.getNewName(); // 文件名
-			result.put("success", true);
-			result.put("newName", newName);
-			result.put("fileName", newName);
-			result.put("url", UPLOAD_URL + newName);
 
-			ApkUtil apkUtil = new ApkUtil();
-			String file_path = UPLOAD_PATH + utils.getFileTypePath() + newName;
-			apkUtil =  CheckApks.analysisApks(file_path);
-			File appFile=new File(file_path);
-			String app_file_md5=Md5FileUtil.getMD5(appFile);
-			// [0]:版本名称;[1]版本号;[2]包名;[3]要求安卓版本号
-			//String[] apkInfo = AnalysisApk.unZip(UPLOAD_PATH+newName, "");
-			result.put("appName",apkUtil.getApplicationLabel());
-			result.put("appEngName", PinyinUtil.getPingYin(apkUtil.getApplicationLabel()));
-			result.put("appVersionName", apkUtil.getVersionName());
-			result.put("appVersionNo",apkUtil.getVersion());
-			result.put("appPackageName",apkUtil.getPackName());
-			result.put("androidVersion", apkUtil.getSdkversion());
-			result.put("appFileSize", utils.getFileSize());
-			result.put("appIcon", apkUtil.getIcons());
-			result.put("appIconUrl", UPLOAD_URL + apkUtil.getIcons());
-			result.put("isRootAuth", utils.isRootAuth());
-			result.put("MD5",app_file_md5);
-			/*if(utils.isRootAuth()){
-				result.put("msg", "本平台不允许上传有系统权限的应用");
-			}*/
-		}
-		catch (OriginException e) {
-			e.printStackTrace();
-			result.put("success", false);
-			result.put("msg", e.getErrMeassage());
-		}
-		catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			result.put("success", false);
-			result.put("msg", "上传文件失败");
-		}
-
-		System.out.println("UPLOAD APK INfo:" + renderToJson(result));
-		return renderToJson(result);
-	}
 
 
 	@Auth(verifyLogin = false)
@@ -199,7 +139,7 @@ public class UploadFileAction extends BasicAction {
 			String soPath=UPLOAD_PATH + "/so/" + utils.getNewName();
 			result.put("url", "/"+soFilePath);
 			File soFile=new File(soPath);
-			so_md5=Md5FileUtil.getMD5(soFile);
+			so_md5= Md5FileUtil.getMD5(soFile);
 
 			result.put("DM5",so_md5);
 			result.put("success", true);

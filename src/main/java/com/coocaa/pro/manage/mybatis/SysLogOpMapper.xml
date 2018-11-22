@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.coocaa.fire.video.admin.mapper.SysLogOpMapper" >
+<mapper namespace="com.coocaa.pro.manage.mapper.SysLogOpMapper" >
 	<!-- Base Result Map-->
-	<resultMap id="BaseResultMap" type="com.coocaa.fire.video.admin.entity.SysLogOpEntity" >
+	<resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.SysLogOpEntity" >
 		<result column="id" property="id"/>
 		<result column="create_time" property="createTime"/>
 		<result column="elapsed_time" property="elapsedTime"/>
@@ -14,7 +14,7 @@
 	</resultMap>
 
 	<!-- Extend Result Map-->
-	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.fire.video.admin.entity.SysLogOpEntity">
+	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.SysLogOpEntity">
 	</resultMap>
        
 	<!-- sys_log_op table all fields -->
@@ -39,7 +39,7 @@
 	</sql>
    
 	<!-- 插入记录 -->
-	<insert id="add" parameterType="com.coocaa.fire.video.admin.entity.SysLogOpEntity" useGeneratedKeys="true" keyProperty="id" >
+	<insert id="add" parameterType="com.coocaa.pro.manage.entity.SysLogOpEntity" useGeneratedKeys="true" keyProperty="id" >
 		insert into sys_log_op(id,create_time,elapsed_time,exec_sql,user_id,user_name,exec_type,exec_table)
 		values(#{id},now(),#{elapsedTime},#{execSql},#{userId},#{userName},#{execType},#{execTable})
 	</insert>
@@ -55,14 +55,14 @@
   	</insert>
 
 	<!-- 根据id，修改记录-->  
-	<update id="update" parameterType="com.coocaa.fire.video.admin.entity.SysLogOpEntity" >
+	<update id="update" parameterType="com.coocaa.pro.manage.entity.SysLogOpEntity" >
 		update sys_log_op 
 		set create_time=now(),elapsed_time=#{elapsedTime},exec_sql=#{execSql},user_id=#{userId},user_name=#{userName},exec_type=#{execType},exec_table=#{execTable}
 		where id=#{id}
 	</update>
  
 	<!-- 修改记录，只修改只不为空的字段 -->
-	<update id="updateBySelective" parameterType="com.coocaa.fire.video.admin.entity.SysLogOpEntity" >
+	<update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.SysLogOpEntity" >
 		update sys_log_op set 
 		<trim  suffixOverrides="," >
 			<if test="createTime != null "> create_time=#{createTime},</if>
@@ -94,7 +94,7 @@
 	</delete>
 	
 	<!-- 按条件批量删除记录 -->
-	<delete id="deleteBatch" parameterType = "com.coocaa.fire.video.admin.entity.SysLogOpEntity">
+	<delete id="deleteBatch" parameterType = "com.coocaa.pro.manage.entity.SysLogOpEntity">
 		delete from sys_log_op
 		<include refid="Example_Where_Clause"/> 
 	</delete>

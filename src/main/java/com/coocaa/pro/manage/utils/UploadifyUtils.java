@@ -6,8 +6,6 @@ import com.coocaa.fire.utils.Utils;
 import com.coocaa.fire.utils.exception.ImgCheckException;
 import com.coocaa.fire.utils.exception.OriginException;
 import org.apache.commons.codec.binary.Hex;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.IOUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -717,15 +715,15 @@ public class UploadifyUtils {
             int imgWidth = 0;
             int imgHeight = 0;
             if ((".webp").equalsIgnoreCase(extName)) {
-                ImageReader ir = new WebPImageReader(new WebPImageReaderSpi());//读取WEBP格式图片插件
-                try {
-                    ir.setInput(ImageIO.createImageInputStream(mf.getInputStream()));
-                    imgWidth = ir.getWidth(0);
-                    imgHeight = ir.getHeight(0);
-                    System.out.print("w:" + imgWidth + ",高:" + imgHeight);
-                } catch (Exception e) {
-                    e.getMessage();
-                }
+//                ImageReader ir = new WebPImageReader(new WebPImageReaderSpi());//读取WEBP格式图片插件
+//                try {
+//                    ir.setInput(ImageIO.createImageInputStream(mf.getInputStream()));
+//                    imgWidth = ir.getWidth(0);
+//                    imgHeight = ir.getHeight(0);
+//                    System.out.print("w:" + imgWidth + ",高:" + imgHeight);
+//                } catch (Exception e) {
+//                    e.getMessage();
+//                }
 
 //                try {
 //                    InputStream is = mf.getInputStream();
@@ -914,13 +912,13 @@ public class UploadifyUtils {
      * @throws IOException
      */
     public void write(File saveFile) throws IOException {
-        if (!saveFile.getParentFile().exists()) {
-            FileUtils.forceMkdir(saveFile.getParentFile());
-        }
-        OutputStream output = new FileOutputStream(saveFile);
-
-        IOUtils.copy(getInputStream(), output);
-        IOUtils.closeQuietly(output);
+//        if (!saveFile.getParentFile().exists()) {
+//            FileUtils.forceMkdir(saveFile.getParentFile());
+//        }
+//        OutputStream output = new FileOutputStream(saveFile);
+//
+//        IOUtils.copy(getInputStream(), output);
+//        IOUtils.closeQuietly(output);
     }
 
     private void uploadToCDN(ContinueFTP cftp, String localFile, String remoteFile) {

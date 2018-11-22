@@ -1,5 +1,6 @@
 package com.coocaa.pro.manage.config;
 
+import com.coocaa.pro.manage.common.ResultMessage;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -21,8 +22,8 @@ public class AuthenticationAccessDeniedHandler implements AccessDeniedHandler {
         resp.setStatus(HttpServletResponse.SC_FORBIDDEN);
         resp.setContentType("application/json;charset=UTF-8");
         PrintWriter out = resp.getWriter();
-        RespBean error = RespBean.error("权限不足，请联系管理员!");
-        out.write(new ObjectMapper().writeValueAsString(error));
+        String error = ResultMessage.fail("权限不足，请联系管理员!");
+        out.write(error);
         out.flush();
         out.close();
     }

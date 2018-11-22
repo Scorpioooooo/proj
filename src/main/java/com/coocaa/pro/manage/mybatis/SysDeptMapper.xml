@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.coocaa.fire.video.admin.mapper.SysDeptMapper" >
+<mapper namespace="com.coocaa.pro.manage.mapper.SysDeptMapper" >
 	<!-- Base Result Map-->
-	<resultMap id="BaseResultMap" type="com.coocaa.fire.video.admin.entity.SysDeptEntity" >
+	<resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.SysDeptEntity" >
 		<result column="dept_id" property="deptId"/>
 		<result column="dept_name" property="deptName"/>
 		<result column="dept_tel" property="deptTel"/>
@@ -14,7 +14,7 @@
 	</resultMap>
 
 	<!-- Extend Result Map-->
-	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.fire.video.admin.entity.SysDeptEntity">
+	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.SysDeptEntity">
 	</resultMap>
        
 	<!-- sys_dept table all fields -->
@@ -39,7 +39,7 @@
 	</sql>
    
 	<!-- 插入记录 -->
-	<insert id="add" parameterType="com.coocaa.fire.video.admin.entity.SysDeptEntity" useGeneratedKeys="true" keyProperty="dept_id" >
+	<insert id="add" parameterType="com.coocaa.pro.manage.entity.SysDeptEntity" useGeneratedKeys="true" keyProperty="dept_id" >
 		insert into sys_dept(dept_id,dept_name,dept_tel,dept_fax,disabled,remark,seq,pid)
 		values(#{deptId},#{deptName},#{deptTel},#{deptFax},#{disabled},#{remark},#{seq},#{pid})
 	</insert>
@@ -55,14 +55,14 @@
   	</insert>
 
 	<!-- 根据id，修改记录-->  
-	<update id="update" parameterType="com.coocaa.fire.video.admin.entity.SysDeptEntity" >
+	<update id="update" parameterType="com.coocaa.pro.manage.entity.SysDeptEntity" >
 		update sys_dept 
 		set dept_name=#{deptName},dept_tel=#{deptTel},dept_fax=#{deptFax},disabled=#{disabled},remark=#{remark},seq=#{seq},pid=#{pid} 
 		where dept_id=#{deptId}
 	</update>
  
 	<!-- 修改记录，只修改只不为空的字段 -->
-	<update id="updateBySelective" parameterType="com.coocaa.fire.video.admin.entity.SysDeptEntity" >
+	<update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.SysDeptEntity" >
 		update sys_dept set 
 		<trim  suffixOverrides="," >
 			<if test="deptName != null "> dept_name=#{deptName},</if>
@@ -94,7 +94,7 @@
 	</delete>
 	
 	<!-- 按条件批量删除记录 -->
-	<delete id="deleteBatch" parameterType = "com.coocaa.fire.video.admin.entity.SysDeptEntity">
+	<delete id="deleteBatch" parameterType = "com.coocaa.pro.manage.entity.SysDeptEntity">
 		delete from sys_dept
 		<include refid="Example_Where_Clause"/> 
 	</delete>

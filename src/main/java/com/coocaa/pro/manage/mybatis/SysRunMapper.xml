@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.coocaa.fire.video.admin.mapper.SysRunMapper" >
+<mapper namespace="com.coocaa.pro.manage.mapper.SysRunMapper" >
 	<!-- Base Result Map-->
-	<resultMap id="BaseResultMap" type="com.coocaa.fire.video.admin.entity.SysRunEntity" >
+	<resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.SysRunEntity" >
 		<result column="run_id" property="runId"/>
 		<result column="run_comm" property="runComm"/>
 		<result column="run_name" property="runName"/>
@@ -12,7 +12,7 @@
 	</resultMap>
 
 	<!-- Extend Result Map-->
-	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.fire.video.admin.entity.SysRunEntity">
+	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.SysRunEntity">
 	</resultMap>
        
 	<!-- sys_run table all fields -->
@@ -35,7 +35,7 @@
 	</sql>
    
 	<!-- 插入记录 -->
-	<insert id="add" parameterType="com.coocaa.fire.video.admin.entity.SysRunEntity" useGeneratedKeys="true" keyProperty="run_id" >
+	<insert id="add" parameterType="com.coocaa.pro.manage.entity.SysRunEntity" useGeneratedKeys="true" keyProperty="run_id" >
 		insert into sys_run(run_id,run_comm,run_name,run_btn,run_btn_icon,seq)
 		values(#{runId},#{runComm},#{runName},#{runBtn},#{runBtnIcon},#{seq})
 	</insert>
@@ -51,14 +51,14 @@
   	</insert>
 
 	<!-- 根据id，修改记录-->  
-	<update id="update" parameterType="com.coocaa.fire.video.admin.entity.SysRunEntity" >
+	<update id="update" parameterType="com.coocaa.pro.manage.entity.SysRunEntity" >
 		update sys_run 
 		set run_comm=#{runComm},run_name=#{runName},run_btn=#{runBtn},run_btn_icon=#{runBtnIcon},seq=#{seq} 
 		where run_id=#{runId}
 	</update>
  
 	<!-- 修改记录，只修改只不为空的字段 -->
-	<update id="updateBySelective" parameterType="com.coocaa.fire.video.admin.entity.SysRunEntity" >
+	<update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.SysRunEntity" >
 		update sys_run set 
 		<trim  suffixOverrides="," >
 			<if test="runComm != null "> run_comm=#{runComm},</if>
@@ -88,7 +88,7 @@
 	</delete>
 	
 	<!-- 按条件批量删除记录 -->
-	<delete id="deleteBatch" parameterType = "com.coocaa.fire.video.admin.entity.SysRunEntity">
+	<delete id="deleteBatch" parameterType = "com.coocaa.pro.manage.entity.SysRunEntity">
 		delete from sys_run
 		<include refid="Example_Where_Clause"/> 
 	</delete>
