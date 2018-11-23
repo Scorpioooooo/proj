@@ -8,8 +8,8 @@ import com.coocaa.fire.utils.plugin.Pager;
 import com.coocaa.fire.utils.plugin.QueryOperator;
 import com.coocaa.fire.utils.plugin.SortOperator;
 import com.coocaa.fire.utils.plugin.WhereOperator;
-import com.coocaa.fire.utils.plugin.bean.QueryEnums.Operator;
 import com.coocaa.fire.utils.plugin.bean.QueryEnums.Compare;
+import com.coocaa.fire.utils.plugin.bean.QueryEnums.Operator;
 import com.coocaa.fire.utils.plugin.bean.QuerySortBean;
 import com.coocaa.fire.utils.plugin.bean.QueryWhereBean;
 import com.coocaa.pro.manage.action.BasicAction;
@@ -33,7 +33,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -66,11 +65,10 @@ public class SysLogOpAction extends BasicAction {
      */
     @Auth(verifyAuthority = true, authorityType = AuthorityEnum.BROWSER)
     @RequestMapping(value = "/view")
-    public ModelAndView list(HttpServletRequest request) throws Exception {
-
+    public String list(HttpServletRequest request) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
-
-        return RenderView(request, "sysLogOp/sysLogOpView", map);
+        map.put("path","sysLogOp/sysLogOpView");
+        return renderToJson(map);
     }
 
     /**
@@ -183,11 +181,10 @@ public class SysLogOpAction extends BasicAction {
      */
     @Auth(verifyAuthority = true, authorityType = AuthorityEnum.ADD)
     @RequestMapping("/add")
-    public ModelAndView add(HttpServletRequest request) throws Exception {
-
+    public String add(HttpServletRequest request) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
-
-        return RenderView(request, "sysLogOp/sysLogOpAdd", map);
+        map.put("path","sysLogOp/sysLogOpAdd");
+        return renderToJson(map);
     }
 
     /**
@@ -200,13 +197,13 @@ public class SysLogOpAction extends BasicAction {
      */
     @Auth(verifyAuthority = true, authorityType = AuthorityEnum.EDIT)
     @RequestMapping("/edit")
-    public ModelAndView edit(HttpServletRequest request, @RequestParam Integer id) throws Exception {
+    public String edit(HttpServletRequest request, @RequestParam Integer id) throws Exception {
 
         Map<String, Object> map = new HashMap<String, Object>();
         SysLogOpEntity entity = sysLogOpService.queryById(id);
         map.put("entity", JsonUtils.obj2Json(entity));
-
-        return RenderView(request, "sysLogOp/sysLogOpEdit", map);
+        map.put("path","sysLogOp/sysLogOpEdit");
+        return renderToJson(map);
     }
 
     /**

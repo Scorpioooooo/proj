@@ -31,7 +31,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -64,13 +63,13 @@ public class SysDeptAction extends BasicAction {
      */
     @Auth(verifyAuthority = true, authorityType = AuthorityEnum.BROWSER)
     @RequestMapping(value = "/view")
-    public ModelAndView list(HttpServletRequest request) throws Exception {
+    public String list(HttpServletRequest request) throws Exception {
 
         Map<String, Object> map = new HashMap<String, Object>();
         List<SysDeptEntity> depts = sysDeptService.queryByAll(null);
         map.put("depts", depts);
-
-        return RenderView(request, "sysDept/sysDeptView", map);
+        map.put("path", "sysDept/sysDeptView");
+        return renderToJson(map);
     }
 
     /**
@@ -143,13 +142,13 @@ public class SysDeptAction extends BasicAction {
      */
     @Auth(verifyAuthority = true, authorityType = AuthorityEnum.ADD)
     @RequestMapping("/add")
-    public ModelAndView add(HttpServletRequest request) throws Exception {
+    public String add(HttpServletRequest request) throws Exception {
 
         Map<String, Object> map = new HashMap<String, Object>();
         List<SysDeptEntity> depts = sysDeptService.queryByAll(null);
         map.put("depts", depts);
-
-        return RenderView(request, "sysDept/sysDeptAdd", map);
+        map.put("path", "sysDept/sysDeptAdd");
+        return renderToJson(map);
     }
 
     /**
@@ -162,15 +161,15 @@ public class SysDeptAction extends BasicAction {
      */
     @Auth(verifyAuthority = true, authorityType = AuthorityEnum.EDIT)
     @RequestMapping("/edit")
-    public ModelAndView edit(HttpServletRequest request, @RequestParam Integer id) throws Exception {
+    public String edit(HttpServletRequest request, @RequestParam Integer id) throws Exception {
 
         Map<String, Object> map = new HashMap<String, Object>();
         SysDeptEntity entity = sysDeptService.queryById(id);
         map.put("entity", JsonUtils.obj2Json(entity));
         List<SysDeptEntity> depts = sysDeptService.queryByAll(null);
         map.put("depts", depts);
-
-        return RenderView(request, "sysDept/sysDeptEdit", map);
+        map.put("path", "sysDept/sysDeptEdit");
+        return renderToJson(map);
     }
 
     /**

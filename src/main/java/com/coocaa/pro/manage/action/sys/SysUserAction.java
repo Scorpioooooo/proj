@@ -2,7 +2,6 @@ package com.coocaa.pro.manage.action.sys;
 
 import com.coocaa.fire.utils.*;
 import com.coocaa.fire.utils.plugin.Pager;
-import com.coocaa.fire.utils.plugin.QueryOperator;
 import com.coocaa.fire.utils.plugin.SortOperator;
 import com.coocaa.fire.utils.plugin.WhereOperator;
 import com.coocaa.fire.utils.plugin.bean.QueryEnums.Compare;
@@ -17,7 +16,6 @@ import com.coocaa.pro.manage.common.Constant;
 import com.coocaa.pro.manage.common.MenuAuth;
 import com.coocaa.pro.manage.common.ResultMessage;
 import com.coocaa.pro.manage.entity.*;
-import com.coocaa.pro.manage.model.SysRoleModel;
 import com.coocaa.pro.manage.model.SysUserModel;
 import com.coocaa.pro.manage.service.sys.*;
 import org.apache.commons.lang.StringUtils;
@@ -27,7 +25,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
@@ -64,13 +61,12 @@ public class SysUserAction extends BasicAction {
      */
     @Auth(verifyAuthority = true, authorityType = AuthorityEnum.BROWSER)
     @RequestMapping(value = "/view")
-    public ModelAndView view(HttpServletRequest request) throws Exception {
-
+    public String view(HttpServletRequest request) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
         List<SysDeptEntity> depts = sysDeptService.queryByAll(null);
         map.put("depts", depts);
-
-        return RenderView(request, "sysUser/sysUserView", map);
+        map.put("path", "sysUser/sysUserView");
+        return renderToJson(map);
     }
 
     /**
@@ -139,13 +135,12 @@ public class SysUserAction extends BasicAction {
      */
     @Auth(verifyAuthority = true, authorityType = AuthorityEnum.ADD)
     @RequestMapping("/add")
-    public ModelAndView add(HttpServletRequest request) throws Exception {
-
+    public String add(HttpServletRequest request) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
         List<SysDeptEntity> depts = sysDeptService.queryByAll(null);
         map.put("depts", depts);
-
-        return RenderView(request, "sysUser/sysUserAdd", map);
+        map.put("path", "sysUser/sysUserAdd");
+        return renderToJson(map);
     }
 
     /**
@@ -158,7 +153,7 @@ public class SysUserAction extends BasicAction {
      */
     @Auth(verifyAuthority = true, authorityType = AuthorityEnum.EDIT)
     @RequestMapping("/edit")
-    public ModelAndView edit(HttpServletRequest request, @RequestParam Integer id) throws Exception {
+    public String edit(HttpServletRequest request, @RequestParam Integer id) throws Exception {
 
         Map<String, Object> map = new HashMap<String, Object>();
         SysUserEntity entity = sysUserService.queryById(id);
@@ -166,8 +161,8 @@ public class SysUserAction extends BasicAction {
         map.put("entity", JsonUtils.obj2Json(entity));
         List<SysDeptEntity> depts = sysDeptService.queryByAll(null);
         map.put("depts", depts);
-
-        return RenderView(request, "sysUser/sysUserEdit", map);
+        map.put("path", "sysUser/sysUserEdit");
+        return renderToJson(map);
     }
 
     /**

@@ -1,7 +1,5 @@
 package com.coocaa.pro.manage.action.sys;
 
-import com.coocaa.fire.utils.DateUtils;
-import com.coocaa.fire.utils.HttpSessionUtils;
 import com.coocaa.fire.utils.JsonUtils;
 import com.coocaa.fire.utils.ReflectHelper;
 import com.coocaa.fire.utils.plugin.Pager;
@@ -16,22 +14,9 @@ import com.coocaa.pro.manage.action.BasicAction;
 import com.coocaa.pro.manage.annotation.Auth;
 import com.coocaa.pro.manage.annotation.Config;
 import com.coocaa.pro.manage.common.AuthEnum.AuthorityEnum;
-import com.coocaa.pro.manage.common.Constant;
-import com.coocaa.pro.manage.common.MenuAuth;
 import com.coocaa.pro.manage.common.ResultMessage;
-import com.coocaa.pro.manage.entity.SysRoleEntity;
 import com.coocaa.pro.manage.entity.SysRunEntity;
-import com.coocaa.pro.manage.entity.SysUserEntity;
-import com.coocaa.pro.manage.model.SysRoleModel;
 import com.coocaa.pro.manage.model.SysRunModel;
-import com.coocaa.pro.manage.service.sys.SysAdminMgrService;
-import com.coocaa.pro.manage.service.sys.SysRoleService;
-import com.coocaa.pro.manage.service.sys.SysRunService;
-import org.apache.commons.lang.StringUtils;
-import com.coocaa.pro.manage.action.BasicAction;
-import com.coocaa.pro.manage.annotation.Auth;
-import com.coocaa.pro.manage.annotation.Config;
-import com.coocaa.pro.manage.common.AuthEnum.AuthorityEnum;
 import com.coocaa.pro.manage.service.sys.SysAdminMgrService;
 import com.coocaa.pro.manage.service.sys.SysRunService;
 import org.apache.commons.lang.StringUtils;
@@ -41,7 +26,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -71,11 +55,11 @@ public class SysRunAction extends BasicAction {
      */
     @Auth(verifyAuthority = true, authorityType = AuthorityEnum.BROWSER)
     @RequestMapping(value = "/view")
-    public ModelAndView list(HttpServletRequest request) throws Exception {
+    public String list(HttpServletRequest request) throws Exception {
 
         Map<String, Object> map = new HashMap<String, Object>();
-
-        return RenderView(request, "sysRun/sysRunView", map);
+        map.put("path","sysRun/sysRunView");
+        return renderToJson(map);
     }
 
     /**
@@ -167,11 +151,12 @@ public class SysRunAction extends BasicAction {
      */
     @Auth(verifyAuthority = true, authorityType = AuthorityEnum.ADD)
     @RequestMapping("/add")
-    public ModelAndView add(HttpServletRequest request) throws Exception {
+    public String add(HttpServletRequest request) throws Exception {
 
         Map<String, Object> map = new HashMap<String, Object>();
 
-        return RenderView(request, "sysRun/sysRunAdd", map);
+        map.put("path",  "sysRun/sysRunAdd");
+        return renderToJson(map);
     }
 
     /**
@@ -184,13 +169,13 @@ public class SysRunAction extends BasicAction {
      */
     @Auth(verifyAuthority = true, authorityType = AuthorityEnum.EDIT)
     @RequestMapping("/edit")
-    public ModelAndView edit(HttpServletRequest request, @RequestParam Integer id) throws Exception {
+    public String edit(HttpServletRequest request, @RequestParam Integer id) throws Exception {
 
         Map<String, Object> map = new HashMap<String, Object>();
         SysRunEntity entity = sysRunService.queryById(id);
         map.put("entity", JsonUtils.obj2Json(entity));
-
-        return RenderView(request, "sysRun/sysRunEdit", map);
+        map.put("path", "sysRun/sysRunEdit");
+        return renderToJson(map);
     }
 
     /**

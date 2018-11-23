@@ -33,7 +33,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -66,11 +65,11 @@ public class SysLogLoginAction extends BasicAction {
      */
     @Auth(verifyAuthority = true, authorityType = AuthorityEnum.BROWSER)
     @RequestMapping(value = "/view")
-    public ModelAndView list(HttpServletRequest request) throws Exception {
+    public String list(HttpServletRequest request) throws Exception {
 
         Map<String, Object> map = new HashMap<String, Object>();
-
-        return RenderView(request, "sysLogLogin/sysLogLoginView", map);
+        map.put("path",  "sysLogLogin/sysLogLoginView");
+        return renderToJson(map);
     }
 
     /**
@@ -182,11 +181,12 @@ public class SysLogLoginAction extends BasicAction {
      */
     @Auth(verifyAuthority = true, authorityType = AuthorityEnum.ADD)
     @RequestMapping("/add")
-    public ModelAndView add(HttpServletRequest request) throws Exception {
+    public String add(HttpServletRequest request) throws Exception {
 
         Map<String, Object> map = new HashMap<String, Object>();
+        map.put("path", "sysLogLogin/sysLogLoginAdd");
+        return renderToJson(map);
 
-        return RenderView(request, "sysLogLogin/sysLogLoginAdd", map);
     }
 
     /**
@@ -199,13 +199,13 @@ public class SysLogLoginAction extends BasicAction {
      */
     @Auth(verifyAuthority = true, authorityType = AuthorityEnum.EDIT)
     @RequestMapping("/edit")
-    public ModelAndView edit(HttpServletRequest request, @RequestParam Integer id) throws Exception {
+    public String edit(HttpServletRequest request, @RequestParam Integer id) throws Exception {
 
         Map<String, Object> map = new HashMap<String, Object>();
         SysLogLoginEntity entity = sysLogLoginService.queryById(id);
         map.put("entity", JsonUtils.obj2Json(entity));
-
-        return RenderView(request, "sysLogLogin/sysLogLoginEdit", map);
+        map.put("path", "sysLogLogin/sysLogLoginEdit");
+        return renderToJson(map);
     }
 
     /**

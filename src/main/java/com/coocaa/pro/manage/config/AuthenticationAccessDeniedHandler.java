@@ -1,7 +1,6 @@
 package com.coocaa.pro.manage.config;
 
 import com.coocaa.pro.manage.common.ResultMessage;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
@@ -12,7 +11,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
- * Created by sang on 2017/12/29.
+ * Created by xie   拒绝访问时返回数据
  */
 @Component
 public class AuthenticationAccessDeniedHandler implements AccessDeniedHandler {

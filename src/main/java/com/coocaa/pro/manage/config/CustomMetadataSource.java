@@ -1,18 +1,14 @@
 package com.coocaa.pro.manage.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
-import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
 import org.springframework.stereotype.Component;
-import org.springframework.util.AntPathMatcher;
 
 import java.util.Collection;
-import java.util.List;
 
 /**
- * Created by sang on 2017/12/28.
+ * Created by sang on 2017/12/28. q
  */
 @Component
 public class CustomMetadataSource implements FilterInvocationSecurityMetadataSource {

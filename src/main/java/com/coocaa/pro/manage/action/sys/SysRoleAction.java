@@ -34,7 +34,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -67,11 +66,11 @@ public class SysRoleAction extends BasicAction {
      */
     @Auth(verifyAuthority = true, authorityType = AuthorityEnum.BROWSER)
     @RequestMapping(value = "/view")
-    public ModelAndView list(HttpServletRequest request) throws Exception {
+    public String list(HttpServletRequest request) throws Exception {
 
         Map<String, Object> map = new HashMap<String, Object>();
-
-        return RenderView(request, "sysRole/sysRoleView", map);
+        map.put("path", "sysRole/sysRoleView");
+        return renderToJson(map);
     }
 
     /**
@@ -144,11 +143,11 @@ public class SysRoleAction extends BasicAction {
      */
     @Auth(verifyAuthority = true, authorityType = AuthorityEnum.ADD)
     @RequestMapping("/add")
-    public ModelAndView add(HttpServletRequest request) throws Exception {
+    public String add(HttpServletRequest request) throws Exception {
 
         Map<String, Object> map = new HashMap<String, Object>();
-
-        return RenderView(request, "sysRole/sysRoleAdd", map);
+        map.put("path", "sysRole/sysRoleAdd");
+        return renderToJson(map);
     }
 
     /**
@@ -161,13 +160,13 @@ public class SysRoleAction extends BasicAction {
      */
     @Auth(verifyAuthority = true, authorityType = AuthorityEnum.EDIT)
     @RequestMapping("/edit")
-    public ModelAndView edit(HttpServletRequest request, @RequestParam Integer id) throws Exception {
+    public String edit(HttpServletRequest request, @RequestParam Integer id) throws Exception {
 
         Map<String, Object> map = new HashMap<String, Object>();
         SysRoleEntity entity = sysRoleService.queryById(id);
         map.put("entity", JsonUtils.obj2Json(entity));
-
-        return RenderView(request, "sysRole/sysRoleEdit", map);
+        map.put("path","sysRole/sysRoleEdit");
+        return renderToJson(map);
     }
 
     /**
