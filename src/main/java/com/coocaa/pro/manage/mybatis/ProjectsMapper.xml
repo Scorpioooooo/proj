@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.coocaa.pro.manage.mapper.ProjectsMapper" > 
+	<!-- Base Result Map-->
+	<resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.ProjectsEntity" >
+		<result column="id" property="id"/>
+		<result column="proj_id" property="projId"/>
+		<result column="proj_name" property="projName"/>
+		<result column="proj_initiator_id" property="projInitiatorId"/>
+		<result column="proj_include_department_ids" property="projIncludeDepartmentIds"/>
+		<result column="proj_manager_id" property="projManagerId"/>
+		<result column="proj_status" property="projStatus"/>
+		<result column="proj_stage" property="projStage"/>
+		<result column="proj_completion_degree" property="projCompletionDegree"/>
+		<result column="proj_grade" property="projGrade"/>
+		<result column="proj_risk" property="projRisk"/>
+		<result column="risk_ids" property="riskIds"/>
+		<result column="milepost_ids" property="milepostIds"/>
+		<result column="proj_begin_time" property="projBeginTime"/>
+		<result column="proj_end_time" property="projEndTime"/>
+		<result column="proj_real_begin_time" property="projRealBeginTime"/>
+		<result column="proj_real_end_time" property="projRealEndTime"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+	</resultMap>
+
+	<!-- Extend Result Map-->
+	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.ProjectsEntity">
+	</resultMap>
+       
+	<!-- projects table all fields -->
+	<sql id="Base_Column_List" >
+		a.`id`,a.`proj_id`,a.`proj_name`,a.`proj_initiator_id`,a.`proj_include_department_ids`,a.`proj_manager_id`,a.`proj_status`,a.`proj_stage`,a.`proj_completion_degree`,a.`proj_grade`,a.`proj_risk`,a.`risk_ids`,a.`milepost_ids`,a.`proj_begin_time`,a.`proj_end_time`,a.`proj_real_begin_time`,a.`proj_real_end_time`,a.`create_time`,a.`update_time`
+	</sql>
+   
+	<!-- 基本查询条件 -->
+	<sql id="Example_Where_Clause">
+		<where>
+			<trim  suffixOverrides="," >
+				<if test="id != null" > and `id` =  #{id}</if>
+				<if test="projId != null" > and `proj_id` =  #{projId}</if>
+				<if test="projName != null and projName != ''" > and `proj_name` =  #{projName}</if>
+				<if test="projInitiatorId != null" > and `proj_initiator_id` =  #{projInitiatorId}</if>
+				<if test="projIncludeDepartmentIds != null and projIncludeDepartmentIds != ''" > and `proj_include_department_ids` =  #{projIncludeDepartmentIds}</if>
+				<if test="projManagerId != null" > and `proj_manager_id` =  #{projManagerId}</if>
+				<if test="projStatus != null" > and `proj_status` =  #{projStatus}</if>
+				<if test="projStage != null" > and `proj_stage` =  #{projStage}</if>
+				<if test="projCompletionDegree != null" > and `proj_completion_degree` =  #{projCompletionDegree}</if>
+				<if test="projGrade != null" > and `proj_grade` =  #{projGrade}</if>
+				<if test="projRisk != null" > and `proj_risk` =  #{projRisk}</if>
+				<if test="riskIds != null and riskIds != ''" > and `risk_ids` =  #{riskIds}</if>
+				<if test="milepostIds != null and milepostIds != ''" > and `milepost_ids` =  #{milepostIds}</if>
+				<if test="projBeginTime != null" > and `proj_begin_time` =  #{projBeginTime}</if>
+				<if test="projEndTime != null" > and `proj_end_time` =  #{projEndTime}</if>
+				<if test="projRealBeginTime != null" > and `proj_real_begin_time` =  #{projRealBeginTime}</if>
+				<if test="projRealEndTime != null" > and `proj_real_end_time` =  #{projRealEndTime}</if>
+				<if test="createTime != null" > and `create_time` =  #{createTime}</if>
+				<if test="updateTime != null" > and `update_time` =  #{updateTime}</if>
+			</trim>
+		</where>
+	</sql>
+   
+	<!-- 插入记录 -->
+	<insert id="add" parameterType="com.coocaa.pro.manage.entity.ProjectsEntity" useGeneratedKeys="true" keyProperty="`id`" >
+		insert into projects(`id`,`proj_id`,`proj_name`,`proj_initiator_id`,`proj_include_department_ids`,`proj_manager_id`,`proj_status`,`proj_stage`,`proj_completion_degree`,`proj_grade`,`proj_risk`,`risk_ids`,`milepost_ids`,`proj_begin_time`,`proj_end_time`,`proj_real_begin_time`,`proj_real_end_time`,`create_time`,`update_time`)
+		values(#{id},#{projId},#{projName},#{projInitiatorId},#{projIncludeDepartmentIds},#{projManagerId},#{projStatus},#{projStage},#{projCompletionDegree},#{projGrade},#{projRisk},#{riskIds},#{milepostIds},#{projBeginTime},#{projEndTime},#{projRealBeginTime},#{projRealEndTime},now(),now())
+	</insert>
+	
+	<!-- 批量插入记录 -->
+	<insert id="addBatch" parameterType="java.util.List">  
+    	insert into projects(
+			`id`,`proj_id`,`proj_name`,`proj_initiator_id`,`proj_include_department_ids`,`proj_manager_id`,`proj_status`,`proj_stage`,`proj_completion_degree`,`proj_grade`,`proj_risk`,`risk_ids`,`milepost_ids`,`proj_begin_time`,`proj_end_time`,`proj_real_begin_time`,`proj_real_end_time`,`create_time`,`update_time`
+		) values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.id},#{item.projId},#{item.projName},#{item.projInitiatorId},#{item.projIncludeDepartmentIds},#{item.projManagerId},#{item.projStatus},#{item.projStage},#{item.projCompletionDegree},#{item.projGrade},#{item.projRisk},#{item.riskIds},#{item.milepostIds},#{item.projBeginTime},#{item.projEndTime},#{item.projRealBeginTime},#{item.projRealEndTime},#{item.createTime},#{item.updateTime})
+		</foreach>  
+  	</insert>
+
+	<!-- 根据id，修改记录-->  
+	<update id="update" parameterType="com.coocaa.pro.manage.entity.ProjectsEntity" >
+		update projects 
+		set `proj_id`=#{projId},`proj_name`=#{projName},`proj_initiator_id`=#{projInitiatorId},`proj_include_department_ids`=#{projIncludeDepartmentIds},`proj_manager_id`=#{projManagerId},`proj_status`=#{projStatus},`proj_stage`=#{projStage},`proj_completion_degree`=#{projCompletionDegree},`proj_grade`=#{projGrade},`proj_risk`=#{projRisk},`risk_ids`=#{riskIds},`milepost_ids`=#{milepostIds},`proj_begin_time`=#{projBeginTime},`proj_end_time`=#{projEndTime},`proj_real_begin_time`=#{projRealBeginTime},`proj_real_end_time`=#{projRealEndTime},`create_time`=now(),`update_time`=now() 
+		where `id`=#{id}
+	</update>
+ 
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.ProjectsEntity" >
+		update projects set 
+		<trim  suffixOverrides="," >
+			<if test="projId != null "> `proj_id`=#{projId},</if>
+			<if test="projName != null "> `proj_name`=#{projName},</if>
+			<if test="projInitiatorId != null "> `proj_initiator_id`=#{projInitiatorId},</if>
+			<if test="projIncludeDepartmentIds != null "> `proj_include_department_ids`=#{projIncludeDepartmentIds},</if>
+			<if test="projManagerId != null "> `proj_manager_id`=#{projManagerId},</if>
+			<if test="projStatus != null "> `proj_status`=#{projStatus},</if>
+			<if test="projStage != null "> `proj_stage`=#{projStage},</if>
+			<if test="projCompletionDegree != null "> `proj_completion_degree`=#{projCompletionDegree},</if>
+			<if test="projGrade != null "> `proj_grade`=#{projGrade},</if>
+			<if test="projRisk != null "> `proj_risk`=#{projRisk},</if>
+			<if test="riskIds != null "> `risk_ids`=#{riskIds},</if>
+			<if test="milepostIds != null "> `milepost_ids`=#{milepostIds},</if>
+			<if test="projBeginTime != null "> `proj_begin_time`=#{projBeginTime},</if>
+			<if test="projEndTime != null "> `proj_end_time`=#{projEndTime},</if>
+			<if test="projRealBeginTime != null "> `proj_real_begin_time`=#{projRealBeginTime},</if>
+			<if test="projRealEndTime != null "> `proj_real_end_time`=#{projRealEndTime},</if>
+			<if test="createTime != null "> `create_time`=#{createTime},</if>
+			<if test="updateTime != null "> `update_time`=#{updateTime},</if>
+		</trim>
+		where `id`=#{id}
+	</update>
+
+	<!-- 删除记录 -->
+	<delete id="delete" parameterType="Object">
+		delete from projects
+		where `id` = #{id}
+	</delete>
+	
+	<!-- 按id批量删除记录 -->
+	<delete id="deleteBatchByIds">
+		delete from projects
+		<where>
+			`id` in
+			<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</where>
+	</delete>
+	
+	<!-- 按条件批量删除记录 -->
+	<delete id="deleteBatch" parameterType = "com.coocaa.pro.manage.entity.ProjectsEntity">
+		delete from projects
+		<include refid="Example_Where_Clause"/> 
+	</delete>
+ 	
+ 	<!-- 查找所有记录 -->
+ 	<select id="queryByAll" resultMap="BaseResultMap" parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
+ 		select 
+			 <include refid="Base_Column_List" /> 
+		from projects a
+ 	</select>
+ 
+	<!-- 根据id查询 项目表 -->
+	<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
+		select 
+			 <include refid="Base_Column_List" /> 
+		from projects a
+		WHERE a.`id` = #{id}
+	</select>
+
+	<!-- 项目表 符合条件总数-->
+	<select id="queryByCount" resultType="java.lang.Integer"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
+		select count(1) from projects a
+	</select>
+  	
+	<!-- 查询项目表列表 -->
+	<select id="queryByList" resultMap="extendResultMap"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
+		select 
+			 <include refid="Base_Column_List" /> 
+		from projects a
+	</select>
+	
+	<!-- 项目表分页查询 -->
+	<select id="queryByPage" resultMap="extendResultMap"  parameterType="com.coocaa.fire.utils.plugin.Pager">
+		select 
+			 <include refid="Base_Column_List" /> 
+		from projects a
+	</select>
+
+</mapper>   

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.coocaa.pro.manage.mapper.DocumentsMapper" > 
+	<!-- Base Result Map-->
+	<resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.DocumentsEntity" >
+		<result column="id" property="id"/>
+		<result column="document_id" property="documentId"/>
+		<result column="document_name" property="documentName"/>
+		<result column="document_folder" property="documentFolder"/>
+		<result column="document_size" property="documentSize"/>
+		<result column="document_md5" property="documentMd5"/>
+		<result column="belong_project_id" property="belongProjectId"/>
+		<result column="belong_task_id" property="belongTaskId"/>
+		<result column="upload_person_id" property="uploadPersonId"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+	</resultMap>
+
+	<!-- Extend Result Map-->
+	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.DocumentsEntity">
+		<association property="projects" column="belong_project_id" resultMap="com.coocaa.pro.manage.mapper.ProjectsMapper.BaseResultMap">
+		</association>
+	</resultMap>
+       
+	<!-- documents table all fields -->
+	<sql id="Base_Column_List" >
+		a.`id`,a.`document_id`,a.`document_name`,a.`document_folder`,a.`document_size`,a.`document_md5`,a.`belong_project_id`,a.`belong_task_id`,a.`upload_person_id`,a.`create_time`,a.`update_time`
+	</sql>
+   
+	<!-- 基本查询条件 -->
+	<sql id="Example_Where_Clause">
+		<where>
+			<trim  suffixOverrides="," >
+				<if test="id != null" > and `id` =  #{id}</if>
+				<if test="documentId != null" > and `document_id` =  #{documentId}</if>
+				<if test="documentName != null and documentName != ''" > and `document_name` =  #{documentName}</if>
+				<if test="documentFolder != null and documentFolder != ''" > and `document_folder` =  #{documentFolder}</if>
+				<if test="documentSize != null" > and `document_size` =  #{documentSize}</if>
+				<if test="documentMd5 != null and documentMd5 != ''" > and `document_md5` =  #{documentMd5}</if>
+				<if test="belongProjectId != null" > and `belong_project_id` =  #{belongProjectId}</if>
+				<if test="belongTaskId != null" > and `belong_task_id` =  #{belongTaskId}</if>
+				<if test="uploadPersonId != null" > and `upload_person_id` =  #{uploadPersonId}</if>
+				<if test="createTime != null" > and `create_time` =  #{createTime}</if>
+				<if test="updateTime != null" > and `update_time` =  #{updateTime}</if>
+			</trim>
+		</where>
+	</sql>
+   
+	<!-- 插入记录 -->
+	<insert id="add" parameterType="com.coocaa.pro.manage.entity.DocumentsEntity" useGeneratedKeys="true" keyProperty="`id`" >
+		insert into documents(`id`,`document_id`,`document_name`,`document_folder`,`document_size`,`document_md5`,`belong_project_id`,`belong_task_id`,`upload_person_id`,`create_time`,`update_time`)
+		values(#{id},#{documentId},#{documentName},#{documentFolder},#{documentSize},#{documentMd5},#{belongProjectId},#{belongTaskId},#{uploadPersonId},now(),now())
+	</insert>
+	
+	<!-- 批量插入记录 -->
+	<insert id="addBatch" parameterType="java.util.List">  
+    	insert into documents(
+			`id`,`document_id`,`document_name`,`document_folder`,`document_size`,`document_md5`,`belong_project_id`,`belong_task_id`,`upload_person_id`,`create_time`,`update_time`
+		) values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.id},#{item.documentId},#{item.documentName},#{item.documentFolder},#{item.documentSize},#{item.documentMd5},#{item.belongProjectId},#{item.belongTaskId},#{item.uploadPersonId},#{item.createTime},#{item.updateTime})
+		</foreach>  
+  	</insert>
+
+	<!-- 根据id，修改记录-->  
+	<update id="update" parameterType="com.coocaa.pro.manage.entity.DocumentsEntity" >
+		update documents 
+		set `document_id`=#{documentId},`document_name`=#{documentName},`document_folder`=#{documentFolder},`document_size`=#{documentSize},`document_md5`=#{documentMd5},`belong_project_id`=#{belongProjectId},`belong_task_id`=#{belongTaskId},`upload_person_id`=#{uploadPersonId},`create_time`=now(),`update_time`=now() 
+		where `id`=#{id}
+	</update>
+ 
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.DocumentsEntity" >
+		update documents set 
+		<trim  suffixOverrides="," >
+			<if test="documentId != null "> `document_id`=#{documentId},</if>
+			<if test="documentName != null "> `document_name`=#{documentName},</if>
+			<if test="documentFolder != null "> `document_folder`=#{documentFolder},</if>
+			<if test="documentSize != null "> `document_size`=#{documentSize},</if>
+			<if test="documentMd5 != null "> `document_md5`=#{documentMd5},</if>
+			<if test="belongProjectId != null "> `belong_project_id`=#{belongProjectId},</if>
+			<if test="belongTaskId != null "> `belong_task_id`=#{belongTaskId},</if>
+			<if test="uploadPersonId != null "> `upload_person_id`=#{uploadPersonId},</if>
+			<if test="createTime != null "> `create_time`=#{createTime},</if>
+			<if test="updateTime != null "> `update_time`=#{updateTime},</if>
+		</trim>
+		where `id`=#{id}
+	</update>
+
+	<!-- 删除记录 -->
+	<delete id="delete" parameterType="Object">
+		delete from documents
+		where `id` = #{id}
+	</delete>
+	
+	<!-- 按id批量删除记录 -->
+	<delete id="deleteBatchByIds">
+		delete from documents
+		<where>
+			`id` in
+			<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</where>
+	</delete>
+	
+	<!-- 按条件批量删除记录 -->
+	<delete id="deleteBatch" parameterType = "com.coocaa.pro.manage.entity.DocumentsEntity">
+		delete from documents
+		<include refid="Example_Where_Clause"/> 
+	</delete>
+ 	
+ 	<!-- 查找所有记录 -->
+ 	<select id="queryByAll" resultMap="BaseResultMap" parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
+ 		select 
+			 <include refid="Base_Column_List" /> 
+		from documents a
+			left join projects b on(a.belong_project_id = b.proj_id)
+ 	</select>
+ 
+	<!-- 根据id查询 文档管理 -->
+	<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
+		select 
+			 <include refid="Base_Column_List" /> 
+		from documents a
+			left join projects b on(a.belong_project_id = b.proj_id)
+		WHERE a.`id` = #{id}
+	</select>
+
+	<!-- 文档管理 符合条件总数-->
+	<select id="queryByCount" resultType="java.lang.Integer"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
+		select count(1) from documents a
+			left join projects b on(a.belong_project_id = b.proj_id)
+	</select>
+  	
+	<!-- 查询文档管理列表 -->
+	<select id="queryByList" resultMap="extendResultMap"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
+		select 
+			 <include refid="Base_Column_List" /> 
+		from documents a
+			left join projects b on(a.belong_project_id = b.proj_id)
+	</select>
+	
+	<!-- 文档管理分页查询 -->
+	<select id="queryByPage" resultMap="extendResultMap"  parameterType="com.coocaa.fire.utils.plugin.Pager">
+		select 
+			 <include refid="Base_Column_List" /> 
+		from documents a
+			left join projects b on(a.belong_project_id = b.proj_id)
+	</select>
+
+</mapper>   

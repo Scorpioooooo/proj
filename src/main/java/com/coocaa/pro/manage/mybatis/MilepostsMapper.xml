@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.coocaa.pro.manage.mapper.MilepostsMapper" > 
+	<!-- Base Result Map-->
+	<resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.MilepostsEntity" >
+		<result column="id" property="id"/>
+		<result column="milepost_id" property="milepostId"/>
+		<result column="milepost_description" property="milepostDescription"/>
+		<result column="sort" property="sort"/>
+		<result column="resolved" property="resolved"/>
+		<result column="resolve_time" property="resolveTime"/>
+		<result column="create_time" property="createTime"/>
+		<result column="update_time" property="updateTime"/>
+	</resultMap>
+
+	<!-- Extend Result Map-->
+	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.MilepostsEntity">
+	</resultMap>
+       
+	<!-- mileposts table all fields -->
+	<sql id="Base_Column_List" >
+		a.`id`,a.`milepost_id`,a.`milepost_description`,a.`sort`,a.`resolved`,a.`resolve_time`,a.`create_time`,a.`update_time`
+	</sql>
+   
+	<!-- 基本查询条件 -->
+	<sql id="Example_Where_Clause">
+		<where>
+			<trim  suffixOverrides="," >
+				<if test="id != null" > and `id` =  #{id}</if>
+				<if test="milepostId != null" > and `milepost_id` =  #{milepostId}</if>
+				<if test="milepostDescription != null and milepostDescription != ''" > and `milepost_description` =  #{milepostDescription}</if>
+				<if test="sort != null" > and `sort` =  #{sort}</if>
+				<if test="resolved != null" > and `resolved` =  #{resolved}</if>
+				<if test="resolveTime != null" > and `resolve_time` =  #{resolveTime}</if>
+				<if test="createTime != null" > and `create_time` =  #{createTime}</if>
+				<if test="updateTime != null" > and `update_time` =  #{updateTime}</if>
+			</trim>
+		</where>
+	</sql>
+   
+	<!-- 插入记录 -->
+	<insert id="add" parameterType="com.coocaa.pro.manage.entity.MilepostsEntity" useGeneratedKeys="true" keyProperty="`id`" >
+		insert into mileposts(`id`,`milepost_id`,`milepost_description`,`sort`,`resolved`,`resolve_time`,`create_time`,`update_time`)
+		values(#{id},#{milepostId},#{milepostDescription},#{sort},#{resolved},#{resolveTime},now(),now())
+	</insert>
+	
+	<!-- 批量插入记录 -->
+	<insert id="addBatch" parameterType="java.util.List">  
+    	insert into mileposts(
+			`id`,`milepost_id`,`milepost_description`,`sort`,`resolved`,`resolve_time`,`create_time`,`update_time`
+		) values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.id},#{item.milepostId},#{item.milepostDescription},#{item.sort},#{item.resolved},#{item.resolveTime},#{item.createTime},#{item.updateTime})
+		</foreach>  
+  	</insert>
+
+	<!-- 根据id，修改记录-->  
+	<update id="update" parameterType="com.coocaa.pro.manage.entity.MilepostsEntity" >
+		update mileposts 
+		set `milepost_id`=#{milepostId},`milepost_description`=#{milepostDescription},`sort`=#{sort},`resolved`=#{resolved},`resolve_time`=#{resolveTime},`create_time`=now(),`update_time`=now() 
+		where `id`=#{id}
+	</update>
+ 
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.MilepostsEntity" >
+		update mileposts set 
+		<trim  suffixOverrides="," >
+			<if test="milepostId != null "> `milepost_id`=#{milepostId},</if>
+			<if test="milepostDescription != null "> `milepost_description`=#{milepostDescription},</if>
+			<if test="sort != null "> `sort`=#{sort},</if>
+			<if test="resolved != null "> `resolved`=#{resolved},</if>
+			<if test="resolveTime != null "> `resolve_time`=#{resolveTime},</if>
+			<if test="createTime != null "> `create_time`=#{createTime},</if>
+			<if test="updateTime != null "> `update_time`=#{updateTime},</if>
+		</trim>
+		where `id`=#{id}
+	</update>
+
+	<!-- 删除记录 -->
+	<delete id="delete" parameterType="Object">
+		delete from mileposts
+		where `id` = #{id}
+	</delete>
+	
+	<!-- 按id批量删除记录 -->
+	<delete id="deleteBatchByIds">
+		delete from mileposts
+		<where>
+			`id` in
+			<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</where>
+	</delete>
+	
+	<!-- 按条件批量删除记录 -->
+	<delete id="deleteBatch" parameterType = "com.coocaa.pro.manage.entity.MilepostsEntity">
+		delete from mileposts
+		<include refid="Example_Where_Clause"/> 
+	</delete>
+ 	
+ 	<!-- 查找所有记录 -->
+ 	<select id="queryByAll" resultMap="BaseResultMap" parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
+ 		select 
+			 <include refid="Base_Column_List" /> 
+		from mileposts a
+ 	</select>
+ 
+	<!-- 根据id查询 里程碑表 -->
+	<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
+		select 
+			 <include refid="Base_Column_List" /> 
+		from mileposts a
+		WHERE a.`id` = #{id}
+	</select>
+
+	<!-- 里程碑表 符合条件总数-->
+	<select id="queryByCount" resultType="java.lang.Integer"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
+		select count(1) from mileposts a
+	</select>
+  	
+	<!-- 查询里程碑表列表 -->
+	<select id="queryByList" resultMap="extendResultMap"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
+		select 
+			 <include refid="Base_Column_List" /> 
+		from mileposts a
+	</select>
+	
+	<!-- 里程碑表分页查询 -->
+	<select id="queryByPage" resultMap="extendResultMap"  parameterType="com.coocaa.fire.utils.plugin.Pager">
+		select 
+			 <include refid="Base_Column_List" /> 
+		from mileposts a
+	</select>
+
+</mapper>   

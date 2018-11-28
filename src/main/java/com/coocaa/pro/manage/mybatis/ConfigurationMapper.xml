@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.coocaa.pro.manage.mapper.ConfigurationMapper" > 
+	<!-- Base Result Map-->
+	<resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.ConfigurationEntity" >
+		<result column="id" property="id"/>
+		<result column="key" property="key"/>
+		<result column="value" property="value"/>
+	</resultMap>
+
+	<!-- Extend Result Map-->
+	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.ConfigurationEntity">
+	</resultMap>
+       
+	<!-- configuration table all fields -->
+	<sql id="Base_Column_List" >
+		a.`id`,a.`key`,a.`value`
+	</sql>
+   
+	<!-- 基本查询条件 -->
+	<sql id="Example_Where_Clause">
+		<where>
+			<trim  suffixOverrides="," >
+				<if test="id != null" > and `id` =  #{id}</if>
+				<if test="key != null and key != ''" > and `key` =  #{key}</if>
+				<if test="value != null and value != ''" > and `value` =  #{value}</if>
+			</trim>
+		</where>
+	</sql>
+   
+	<!-- 插入记录 -->
+	<insert id="add" parameterType="com.coocaa.pro.manage.entity.ConfigurationEntity" useGeneratedKeys="true" keyProperty="`id`" >
+		insert into configuration(`id`,`key`,`value`)
+		values(#{id},#{key},#{value})
+	</insert>
+	
+	<!-- 批量插入记录 -->
+	<insert id="addBatch" parameterType="java.util.List">  
+    	insert into configuration(
+			`id`,`key`,`value`
+		) values
+		<foreach collection="list" item="item" index="index" separator=",">
+			(#{item.id},#{item.key},#{item.value})
+		</foreach>  
+  	</insert>
+
+	<!-- 根据id，修改记录-->  
+	<update id="update" parameterType="com.coocaa.pro.manage.entity.ConfigurationEntity" >
+		update configuration 
+		set `key`=#{key},`value`=#{value} 
+		where `id`=#{id}
+	</update>
+ 
+	<!-- 修改记录，只修改只不为空的字段 -->
+	<update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.ConfigurationEntity" >
+		update configuration set 
+		<trim  suffixOverrides="," >
+			<if test="key != null "> `key`=#{key},</if>
+			<if test="value != null "> `value`=#{value},</if>
+		</trim>
+		where `id`=#{id}
+	</update>
+
+	<!-- 删除记录 -->
+	<delete id="delete" parameterType="Object">
+		delete from configuration
+		where `id` = #{id}
+	</delete>
+	
+	<!-- 按id批量删除记录 -->
+	<delete id="deleteBatchByIds">
+		delete from configuration
+		<where>
+			`id` in
+			<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+				#{item}
+			</foreach>
+		</where>
+	</delete>
+	
+	<!-- 按条件批量删除记录 -->
+	<delete id="deleteBatch" parameterType = "com.coocaa.pro.manage.entity.ConfigurationEntity">
+		delete from configuration
+		<include refid="Example_Where_Clause"/> 
+	</delete>
+ 	
+ 	<!-- 查找所有记录 -->
+ 	<select id="queryByAll" resultMap="BaseResultMap" parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
+ 		select 
+			 <include refid="Base_Column_List" /> 
+		from configuration a
+ 	</select>
+ 
+	<!-- 根据id查询 配置表 -->
+	<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
+		select 
+			 <include refid="Base_Column_List" /> 
+		from configuration a
+		WHERE a.`id` = #{id}
+	</select>
+
+	<!-- 配置表 符合条件总数-->
+	<select id="queryByCount" resultType="java.lang.Integer"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
+		select count(1) from configuration a
+	</select>
+  	
+	<!-- 查询配置表列表 -->
+	<select id="queryByList" resultMap="extendResultMap"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
+		select 
+			 <include refid="Base_Column_List" /> 
+		from configuration a
+	</select>
+	
+	<!-- 配置表分页查询 -->
+	<select id="queryByPage" resultMap="extendResultMap"  parameterType="com.coocaa.fire.utils.plugin.Pager">
+		select 
+			 <include refid="Base_Column_List" /> 
+		from configuration a
+	</select>
+
+</mapper>   
