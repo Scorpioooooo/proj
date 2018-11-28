@@ -1,16 +1,9 @@
 package com.coocaa.pro.manage.service.sys;
 
-import com.coocaa.fire.utils.plugin.QueryOperator;
-import com.coocaa.fire.utils.plugin.WhereOperator;
-import com.coocaa.fire.utils.plugin.bean.QueryEnums;
-import com.coocaa.fire.utils.plugin.bean.QueryWhereBean;
 import com.coocaa.pro.manage.entity.SysUserEntity;
 import com.coocaa.pro.manage.mapper.SysUserMapper;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,7 +19,7 @@ import java.util.List;
  */
 @Service("sysUserService")
 @Transactional
-public class SysUserService extends BaseService<SysUserEntity> implements UserDetailsService {
+public class SysUserService extends BaseService<SysUserEntity>  {
 	
 	private final static Logger log= Logger.getLogger(SysUserService.class);
 
@@ -42,18 +35,18 @@ public class SysUserService extends BaseService<SysUserEntity> implements UserDe
 		return mapper.queryUserRoleEmail(roleid);
 	}
 
-	@Override
-	public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-
-		QueryOperator query = new QueryOperator();
-		WhereOperator where = new WhereOperator();
-		where.addWhere(new QueryWhereBean(QueryEnums.Operator.AND, "loginName", QueryEnums.Compare.EQ, s, SysUserEntity.class));
-		query.setWhereOperator(where);
-		SysUserEntity  sysUserEntity = this.queryByOne(query);
-		if (sysUserEntity == null) {
-			throw new UsernameNotFoundException("用户名不对");
-		}
-		return sysUserEntity;
-	}
+//	@Override
+//	public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+//
+//		QueryOperator query = new QueryOperator();
+//		WhereOperator where = new WhereOperator();
+//		where.addWhere(new QueryWhereBean(QueryEnums.Operator.AND, "loginName", QueryEnums.Compare.EQ, s, SysUserEntity.class));
+//		query.setWhereOperator(where);
+//		SysUserEntity  sysUserEntity = this.queryByOne(query);
+//		if (sysUserEntity == null) {
+//			throw new UsernameNotFoundException("用户名不对");
+//		}
+//		return sysUserEntity;
+//	}
 
 }
