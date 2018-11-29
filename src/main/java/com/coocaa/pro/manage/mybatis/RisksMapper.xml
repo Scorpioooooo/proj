@@ -5,7 +5,7 @@
 	<resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.RisksEntity" >
 		<result column="id" property="id"/>
 		<result column="risk_id" property="riskId"/>
-		<result column="sort" property="sort"/>
+		<result column="orderby" property="orderby"/>
 		<result column="risk_discription" property="riskDiscription"/>
 		<result column="risk_solution" property="riskSolution"/>
 		<result column="risk_isresolved" property="riskIsresolved"/>
@@ -20,7 +20,7 @@
        
 	<!-- risks table all fields -->
 	<sql id="Base_Column_List" >
-		a.`id`,a.`risk_id`,a.`sort`,a.`risk_discription`,a.`risk_solution`,a.`risk_isresolved`,a.`resolve_time`,a.`create_time`,a.`update_time`
+		a.`id`,a.`risk_id`,a.`orderby`,a.`risk_discription`,a.`risk_solution`,a.`risk_isresolved`,a.`resolve_time`,a.`create_time`,a.`update_time`
 	</sql>
    
 	<!-- 基本查询条件 -->
@@ -29,7 +29,7 @@
 			<trim  suffixOverrides="," >
 				<if test="id != null" > and `id` =  #{id}</if>
 				<if test="riskId != null" > and `risk_id` =  #{riskId}</if>
-				<if test="sort != null" > and `sort` =  #{sort}</if>
+				<if test="orderby != null" > and `orderby` =  #{orderby}</if>
 				<if test="riskDiscription != null and riskDiscription != ''" > and `risk_discription` =  #{riskDiscription}</if>
 				<if test="riskSolution != null and riskSolution != ''" > and `risk_solution` =  #{riskSolution}</if>
 				<if test="riskIsresolved != null" > and `risk_isresolved` =  #{riskIsresolved}</if>
@@ -42,24 +42,24 @@
    
 	<!-- 插入记录 -->
 	<insert id="add" parameterType="com.coocaa.pro.manage.entity.RisksEntity" useGeneratedKeys="true" keyProperty="`id`" >
-		insert into risks(`id`,`risk_id`,`sort`,`risk_discription`,`risk_solution`,`risk_isresolved`,`resolve_time`,`create_time`,`update_time`)
-		values(#{id},#{riskId},#{sort},#{riskDiscription},#{riskSolution},#{riskIsresolved},#{resolveTime},now(),now())
+		insert into risks(`id`,`risk_id`,`orderby`,`risk_discription`,`risk_solution`,`risk_isresolved`,`resolve_time`,`create_time`,`update_time`)
+		values(#{id},#{riskId},#{orderby},#{riskDiscription},#{riskSolution},#{riskIsresolved},#{resolveTime},now(),now())
 	</insert>
 	
 	<!-- 批量插入记录 -->
 	<insert id="addBatch" parameterType="java.util.List">  
     	insert into risks(
-			`id`,`risk_id`,`sort`,`risk_discription`,`risk_solution`,`risk_isresolved`,`resolve_time`,`create_time`,`update_time`
+			`id`,`risk_id`,`orderby`,`risk_discription`,`risk_solution`,`risk_isresolved`,`resolve_time`,`create_time`,`update_time`
 		) values
 		<foreach collection="list" item="item" index="index" separator=",">
-			(#{item.id},#{item.riskId},#{item.sort},#{item.riskDiscription},#{item.riskSolution},#{item.riskIsresolved},#{item.resolveTime},#{item.createTime},#{item.updateTime})
+			(#{item.id},#{item.riskId},#{item.orderby},#{item.riskDiscription},#{item.riskSolution},#{item.riskIsresolved},#{item.resolveTime},#{item.createTime},#{item.updateTime})
 		</foreach>  
   	</insert>
 
 	<!-- 根据id，修改记录-->  
 	<update id="update" parameterType="com.coocaa.pro.manage.entity.RisksEntity" >
 		update risks 
-		set `risk_id`=#{riskId},`sort`=#{sort},`risk_discription`=#{riskDiscription},`risk_solution`=#{riskSolution},`risk_isresolved`=#{riskIsresolved},`resolve_time`=#{resolveTime},`create_time`=now(),`update_time`=now() 
+		set `risk_id`=#{riskId},`orderby`=#{orderby},`risk_discription`=#{riskDiscription},`risk_solution`=#{riskSolution},`risk_isresolved`=#{riskIsresolved},`resolve_time`=#{resolveTime},`create_time`=now(),`update_time`=now() 
 		where `id`=#{id}
 	</update>
  
@@ -68,7 +68,7 @@
 		update risks set 
 		<trim  suffixOverrides="," >
 			<if test="riskId != null "> `risk_id`=#{riskId},</if>
-			<if test="sort != null "> `sort`=#{sort},</if>
+			<if test="orderby != null "> `orderby`=#{orderby},</if>
 			<if test="riskDiscription != null "> `risk_discription`=#{riskDiscription},</if>
 			<if test="riskSolution != null "> `risk_solution`=#{riskSolution},</if>
 			<if test="riskIsresolved != null "> `risk_isresolved`=#{riskIsresolved},</if>

@@ -6,7 +6,7 @@
 		<result column="id" property="id"/>
 		<result column="milepost_id" property="milepostId"/>
 		<result column="milepost_description" property="milepostDescription"/>
-		<result column="sort" property="sort"/>
+		<result column="orderby" property="orderby"/>
 		<result column="resolved" property="resolved"/>
 		<result column="resolve_time" property="resolveTime"/>
 		<result column="create_time" property="createTime"/>
@@ -19,7 +19,7 @@
        
 	<!-- mileposts table all fields -->
 	<sql id="Base_Column_List" >
-		a.`id`,a.`milepost_id`,a.`milepost_description`,a.`sort`,a.`resolved`,a.`resolve_time`,a.`create_time`,a.`update_time`
+		a.`id`,a.`milepost_id`,a.`milepost_description`,a.`orderby`,a.`resolved`,a.`resolve_time`,a.`create_time`,a.`update_time`
 	</sql>
    
 	<!-- 基本查询条件 -->
@@ -29,7 +29,7 @@
 				<if test="id != null" > and `id` =  #{id}</if>
 				<if test="milepostId != null" > and `milepost_id` =  #{milepostId}</if>
 				<if test="milepostDescription != null and milepostDescription != ''" > and `milepost_description` =  #{milepostDescription}</if>
-				<if test="sort != null" > and `sort` =  #{sort}</if>
+				<if test="orderby != null" > and `orderby` =  #{orderby}</if>
 				<if test="resolved != null" > and `resolved` =  #{resolved}</if>
 				<if test="resolveTime != null" > and `resolve_time` =  #{resolveTime}</if>
 				<if test="createTime != null" > and `create_time` =  #{createTime}</if>
@@ -40,24 +40,24 @@
    
 	<!-- 插入记录 -->
 	<insert id="add" parameterType="com.coocaa.pro.manage.entity.MilepostsEntity" useGeneratedKeys="true" keyProperty="`id`" >
-		insert into mileposts(`id`,`milepost_id`,`milepost_description`,`sort`,`resolved`,`resolve_time`,`create_time`,`update_time`)
-		values(#{id},#{milepostId},#{milepostDescription},#{sort},#{resolved},#{resolveTime},now(),now())
+		insert into mileposts(`id`,`milepost_id`,`milepost_description`,`orderby`,`resolved`,`resolve_time`,`create_time`,`update_time`)
+		values(#{id},#{milepostId},#{milepostDescription},#{orderby},#{resolved},#{resolveTime},now(),now())
 	</insert>
 	
 	<!-- 批量插入记录 -->
 	<insert id="addBatch" parameterType="java.util.List">  
     	insert into mileposts(
-			`id`,`milepost_id`,`milepost_description`,`sort`,`resolved`,`resolve_time`,`create_time`,`update_time`
+			`id`,`milepost_id`,`milepost_description`,`orderby`,`resolved`,`resolve_time`,`create_time`,`update_time`
 		) values
 		<foreach collection="list" item="item" index="index" separator=",">
-			(#{item.id},#{item.milepostId},#{item.milepostDescription},#{item.sort},#{item.resolved},#{item.resolveTime},#{item.createTime},#{item.updateTime})
+			(#{item.id},#{item.milepostId},#{item.milepostDescription},#{item.orderby},#{item.resolved},#{item.resolveTime},#{item.createTime},#{item.updateTime})
 		</foreach>  
   	</insert>
 
 	<!-- 根据id，修改记录-->  
 	<update id="update" parameterType="com.coocaa.pro.manage.entity.MilepostsEntity" >
 		update mileposts 
-		set `milepost_id`=#{milepostId},`milepost_description`=#{milepostDescription},`sort`=#{sort},`resolved`=#{resolved},`resolve_time`=#{resolveTime},`create_time`=now(),`update_time`=now() 
+		set `milepost_id`=#{milepostId},`milepost_description`=#{milepostDescription},`orderby`=#{orderby},`resolved`=#{resolved},`resolve_time`=#{resolveTime},`create_time`=now(),`update_time`=now() 
 		where `id`=#{id}
 	</update>
  
@@ -67,7 +67,7 @@
 		<trim  suffixOverrides="," >
 			<if test="milepostId != null "> `milepost_id`=#{milepostId},</if>
 			<if test="milepostDescription != null "> `milepost_description`=#{milepostDescription},</if>
-			<if test="sort != null "> `sort`=#{sort},</if>
+			<if test="orderby != null "> `orderby`=#{orderby},</if>
 			<if test="resolved != null "> `resolved`=#{resolved},</if>
 			<if test="resolveTime != null "> `resolve_time`=#{resolveTime},</if>
 			<if test="createTime != null "> `create_time`=#{createTime},</if>

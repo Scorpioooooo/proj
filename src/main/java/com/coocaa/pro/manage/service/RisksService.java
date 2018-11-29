@@ -12,7 +12,7 @@ import com.coocaa.pro.manage.mapper.RisksMapper;
  * <br>
  * <b>功能：</b>风险表 Service<br>
  * <b>作者：</b>bean creater<br>
- * <b>日期：</b>2018-11-28 17:44:45<br>
+ * <b>日期：</b>2018-11-29 15:19:11<br>
  * <b>详细说明：</b>无<br>
  */
 @Service("risksService")

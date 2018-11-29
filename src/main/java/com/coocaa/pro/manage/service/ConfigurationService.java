@@ -12,7 +12,7 @@ import com.coocaa.pro.manage.mapper.ConfigurationMapper;
  * <br>
  * <b>功能：</b>配置表 Service<br>
  * <b>作者：</b>bean creater<br>
- * <b>日期：</b>2018-11-28 17:44:44<br>
+ * <b>日期：</b>2018-11-29 15:19:10<br>
  * <b>详细说明：</b>无<br>
  */
 @Service("configurationService")
