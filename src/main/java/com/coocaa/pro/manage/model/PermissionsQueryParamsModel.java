@@ -6,8 +6,8 @@ package com.coocaa.pro.manage.model;
  * @author xuchen
  * @author 其他作者姓名
  * @version 1.00 2017/1/16 xuchen 创建
- *          <p>
- *          <p>1.01 YYYY/MM/DD 修改者姓名 修改内容说明</p>
+ * <p>
+ * <p>1.01 YYYY/MM/DD 修改者姓名 修改内容说明</p>
  */
 public class PermissionsQueryParamsModel extends BaseModel {
     private int openIdType = 1;         //openID类型 1：酷开openID   2:thirdOpenID

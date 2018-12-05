@@ -1,221 +1,225 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.coocaa.pro.manage.mapper.SysMenuMapper" >
-	<!-- Base Result Map-->
-	<resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.SysMenuEntity" >
-		<result column="menu_id" property="menuId"/>
-		<result column="menu_name" property="menuName"/>
-		<result column="elid" property="elid"/>
-		<result column="icon_class" property="iconClass"/>
-		<result column="tab_id" property="tabId"/>
-		<result column="tab_title" property="tabTitle"/>
-		<result column="tab_icon" property="tabIcon"/>
-		<result column="iframe_url" property="iframeUrl"/>
-		<result column="seq" property="seq"/>
-		<result column="modle" property="modle"/>
-		<result column="disabled" property="disabled"/>
-		<result column="pmid" property="pmid"/>
-	</resultMap>
+<mapper namespace="com.coocaa.pro.manage.mapper.SysMenuMapper">
+    <!-- Base Result Map-->
+    <resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.SysMenuEntity">
+        <result column="menu_id" property="menuId"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="elid" property="elid"/>
+        <result column="icon_class" property="iconClass"/>
+        <result column="tab_id" property="tabId"/>
+        <result column="tab_title" property="tabTitle"/>
+        <result column="tab_icon" property="tabIcon"/>
+        <result column="iframe_url" property="iframeUrl"/>
+        <result column="seq" property="seq"/>
+        <result column="modle" property="modle"/>
+        <result column="disabled" property="disabled"/>
+        <result column="pmid" property="pmid"/>
+    </resultMap>
 
-	<resultMap id="map" type="java.util.HashMap">
-		<result column="menu_id" property="menuId"/>
-		<result column="menu_name" property="menuName"/>
-		<result column="icon_class" property="iconClass"/>
-		<result column="run_id" property="runId"/>
-		<result column="run_name" property="runName"/>
-		<result column="run_comm" property="runComm"/>
-		<result column="pmid" property="pmid"/>
-		<result column="x" property="x"/>
-		<result column="y" property="y"/>
+    <resultMap id="map" type="java.util.HashMap">
+        <result column="menu_id" property="menuId"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="icon_class" property="iconClass"/>
+        <result column="run_id" property="runId"/>
+        <result column="run_name" property="runName"/>
+        <result column="run_comm" property="runComm"/>
+        <result column="pmid" property="pmid"/>
+        <result column="x" property="x"/>
+        <result column="y" property="y"/>
 
-	</resultMap>
+    </resultMap>
 
-	<!-- Extend Result Map-->
-	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.SysMenuEntity">
-	</resultMap>
-       
-	<!-- sys_menu table all fields -->
-	<sql id="Base_Column_List" >
-		a.menu_id,a.menu_name,a.elid,a.icon_class,a.tab_id,a.tab_title,a.tab_icon,a.iframe_url,a.seq,a.modle,a.disabled,a.pmid
-	</sql>
-   
-	<!-- 基本查询条件 -->
-	<sql id="Example_Where_Clause">
-		<where>
-			<trim  suffixOverrides="," >
-				<if test="menuId != null" > and menu_id =  #{menuId}</if>
-				<if test="menuName != null and menuName != ''" > and menu_name =  #{menuName}</if>
-				<if test="elid != null and elid != ''" > and elid =  #{elid}</if>
-				<if test="iconClass != null and iconClass != ''" > and icon_class =  #{iconClass}</if>
-				<if test="tabId != null and tabId != ''" > and tab_id =  #{tabId}</if>
-				<if test="tabTitle != null and tabTitle != ''" > and tab_title =  #{tabTitle}</if>
-				<if test="tabIcon != null and tabIcon != ''" > and tab_icon =  #{tabIcon}</if>
-				<if test="iframeUrl != null and iframeUrl != ''" > and iframe_url =  #{iframeUrl}</if>
-				<if test="seq != null" > and seq =  #{seq}</if>
-				<if test="modle != null" > and modle =  #{modle}</if>
-				<if test="disabled != null" > and disabled =  #{disabled}</if>
-				<if test="pmid != null" > and pmid =  #{pmid}</if>
-			</trim>
-		</where>
-	</sql>
-   
-	<!-- 插入记录 -->
-	<insert id="add" parameterType="com.coocaa.pro.manage.entity.SysMenuEntity" useGeneratedKeys="true" keyProperty="menu_id" >
-		insert into sys_menu(menu_id,menu_name,elid,icon_class,tab_id,tab_title,tab_icon,iframe_url,seq,modle,disabled,pmid)
-		values(#{menuId},#{menuName},#{elid},#{iconClass},#{tabId},#{tabTitle},#{tabIcon},#{iframeUrl},#{seq},#{modle},#{disabled},#{pmid})
-	</insert>
-	
-	<!-- 批量插入记录 -->
-	<insert id="addBatch" parameterType="java.util.List">  
-    	insert into sys_menu(
-			menu_id,menu_name,elid,icon_class,tab_id,tab_title,tab_icon,iframe_url,seq,modle,disabled,pmid
-		) values
-		<foreach collection="list" item="item" index="index" separator=",">
-			(#{item.menuId},#{item.menuName},#{item.elid},#{item.iconClass},#{item.tabId},#{item.tabTitle},#{item.tabIcon},#{item.iframeUrl},#{item.seq},#{item.modle},#{item.disabled},#{item.pmid})
-		</foreach>  
-  	</insert>
+    <!-- Extend Result Map-->
+    <resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.SysMenuEntity">
+    </resultMap>
 
-	<!-- 根据id，修改记录-->  
-	<update id="update" parameterType="com.coocaa.pro.manage.entity.SysMenuEntity" >
-		update sys_menu 
-		set menu_name=#{menuName},elid=#{elid},icon_class=#{iconClass},tab_id=#{tabId},tab_title=#{tabTitle},tab_icon=#{tabIcon},iframe_url=#{iframeUrl},seq=#{seq},modle=#{modle},disabled=#{disabled},pmid=#{pmid} 
-		where menu_id=#{menuId}
-	</update>
- 
-	<!-- 修改记录，只修改只不为空的字段 -->
-	<update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.SysMenuEntity" >
-		update sys_menu set 
-		<trim  suffixOverrides="," >
-			<if test="menuName != null "> menu_name=#{menuName},</if>
-			<if test="elid != null "> elid=#{elid},</if>
-			<if test="iconClass != null "> icon_class=#{iconClass},</if>
-			<if test="tabId != null "> tab_id=#{tabId},</if>
-			<if test="tabTitle != null "> tab_title=#{tabTitle},</if>
-			<if test="tabIcon != null "> tab_icon=#{tabIcon},</if>
-			<if test="iframeUrl != null "> iframe_url=#{iframeUrl},</if>
-			<if test="seq != null "> seq=#{seq},</if>
-			<if test="modle != null "> modle=#{modle},</if>
-			<if test="disabled != null "> disabled=#{disabled},</if>
-			<if test="pmid != null "> pmid=#{pmid},</if>
-		</trim>
-		where menu_id=#{menuId}
-	</update>
+    <!-- sys_menu table all fields -->
+    <sql id="Base_Column_List">
+        a.menu_id,a.menu_name,a.elid,a.icon_class,a.tab_id,a.tab_title,a.tab_icon,a.iframe_url,a.seq,a.modle,a.disabled,a.pmid
+    </sql>
 
-	<!-- 删除记录 -->
-	<delete id="delete" parameterType="Object">
-		delete from sys_menu
-		where menu_id = #{menuId}
-	</delete>
-	
-	<!-- 按id批量删除记录 -->
-	<delete id="deleteBatchByIds">
-		delete from sys_menu
-		<where>
-			menu_id in
-			<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
-				#{item}
-			</foreach>
-		</where>
-	</delete>
-	
-	<!-- 按条件批量删除记录 -->
-	<delete id="deleteBatch" parameterType = "com.coocaa.pro.manage.entity.SysMenuEntity">
-		delete from sys_menu
-		<include refid="Example_Where_Clause"/> 
-	</delete>
- 	
- 	<!-- 查找所有记录 -->
- 	<select id="queryByAll" resultMap="BaseResultMap" parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
- 		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_menu a
- 	</select>
- 
-	<!-- 根据id查询 系统菜单 -->
-	<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_menu a
-		WHERE a.menu_id = #{menuId}
-	</select>
+    <!-- 基本查询条件 -->
+    <sql id="Example_Where_Clause">
+        <where>
+            <trim suffixOverrides=",">
+                <if test="menuId != null">and menu_id = #{menuId}</if>
+                <if test="menuName != null and menuName != ''">and menu_name = #{menuName}</if>
+                <if test="elid != null and elid != ''">and elid = #{elid}</if>
+                <if test="iconClass != null and iconClass != ''">and icon_class = #{iconClass}</if>
+                <if test="tabId != null and tabId != ''">and tab_id = #{tabId}</if>
+                <if test="tabTitle != null and tabTitle != ''">and tab_title = #{tabTitle}</if>
+                <if test="tabIcon != null and tabIcon != ''">and tab_icon = #{tabIcon}</if>
+                <if test="iframeUrl != null and iframeUrl != ''">and iframe_url = #{iframeUrl}</if>
+                <if test="seq != null">and seq = #{seq}</if>
+                <if test="modle != null">and modle = #{modle}</if>
+                <if test="disabled != null">and disabled = #{disabled}</if>
+                <if test="pmid != null">and pmid = #{pmid}</if>
+            </trim>
+        </where>
+    </sql>
 
-	<!-- 系统菜单 符合条件总数-->
-	<select id="queryByCount" resultType="java.lang.Integer"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
-		select count(1) from sys_menu a
-	</select>
-  	
-	<!-- 查询系统菜单列表 -->
-	<select id="queryByList" resultMap="extendResultMap"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_menu a
-	</select>
-	
-	<!-- 系统菜单分页查询 -->
-	<select id="queryByPage" resultMap="extendResultMap"  parameterType="com.coocaa.fire.utils.plugin.Pager">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_menu a
-	</select>
+    <!-- 插入记录 -->
+    <insert id="add" parameterType="com.coocaa.pro.manage.entity.SysMenuEntity" useGeneratedKeys="true"
+            keyProperty="menu_id">
+        insert into
+        sys_menu(menu_id,menu_name,elid,icon_class,tab_id,tab_title,tab_icon,iframe_url,seq,modle,disabled,pmid)
+        values(#{menuId},#{menuName},#{elid},#{iconClass},#{tabId},#{tabTitle},#{tabIcon},#{iframeUrl},#{seq},#{modle},#{disabled},#{pmid})
+    </insert>
 
-	<!-- 获取指定角色列表对应的菜单聚合,已去重 -->
-	<select id="getMenusByRole" parameterType="list" resultMap="BaseResultMap">
-	
-		SELECT 
-			DISTINCT d.menu_id,d.menu_name,d.elid,d.icon_class,d.tab_id,d.tab_title,d.tab_icon,d.iframe_url,d.seq,d.modle,d.pmid
-		FROM sys_role_menu_run a
-			LEFT JOIN sys_menu d ON(a.menu_id = d.menu_id)
-		WHERE a.run_id =1 AND d.disabled = 0 AND a.role_id IN
-			<foreach item="item" index="index" collection="list" open="(" separator="," close=")">
-				#{item}
-			</foreach>
-		ORDER BY d.pmid,d.seq
-		
-	</select>
+    <!-- 批量插入记录 -->
+    <insert id="addBatch" parameterType="java.util.List">
+        insert into sys_menu(
+        menu_id,menu_name,elid,icon_class,tab_id,tab_title,tab_icon,iframe_url,seq,modle,disabled,pmid
+        ) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.menuId},#{item.menuName},#{item.elid},#{item.iconClass},#{item.tabId},#{item.tabTitle},#{item.tabIcon},#{item.iframeUrl},#{item.seq},#{item.modle},#{item.disabled},#{item.pmid})
+        </foreach>
+    </insert>
+
+    <!-- 根据id，修改记录-->
+    <update id="update" parameterType="com.coocaa.pro.manage.entity.SysMenuEntity">
+        update sys_menu
+        set
+        menu_name=#{menuName},elid=#{elid},icon_class=#{iconClass},tab_id=#{tabId},tab_title=#{tabTitle},tab_icon=#{tabIcon},iframe_url=#{iframeUrl},seq=#{seq},modle=#{modle},disabled=#{disabled},pmid=#{pmid}
+        where menu_id=#{menuId}
+    </update>
+
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.SysMenuEntity">
+        update sys_menu set
+        <trim suffixOverrides=",">
+            <if test="menuName != null ">menu_name=#{menuName},</if>
+            <if test="elid != null ">elid=#{elid},</if>
+            <if test="iconClass != null ">icon_class=#{iconClass},</if>
+            <if test="tabId != null ">tab_id=#{tabId},</if>
+            <if test="tabTitle != null ">tab_title=#{tabTitle},</if>
+            <if test="tabIcon != null ">tab_icon=#{tabIcon},</if>
+            <if test="iframeUrl != null ">iframe_url=#{iframeUrl},</if>
+            <if test="seq != null ">seq=#{seq},</if>
+            <if test="modle != null ">modle=#{modle},</if>
+            <if test="disabled != null ">disabled=#{disabled},</if>
+            <if test="pmid != null ">pmid=#{pmid},</if>
+        </trim>
+        where menu_id=#{menuId}
+    </update>
+
+    <!-- 删除记录 -->
+    <delete id="delete" parameterType="Object">
+        delete from sys_menu
+        where menu_id = #{menuId}
+    </delete>
+
+    <!-- 按id批量删除记录 -->
+    <delete id="deleteBatchByIds">
+        delete from sys_menu
+        <where>
+            menu_id in
+            <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </delete>
+
+    <!-- 按条件批量删除记录 -->
+    <delete id="deleteBatch" parameterType="com.coocaa.pro.manage.entity.SysMenuEntity">
+        delete from sys_menu
+        <include refid="Example_Where_Clause"/>
+    </delete>
+
+    <!-- 查找所有记录 -->
+    <select id="queryByAll" resultMap="BaseResultMap" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_menu a
+    </select>
+
+    <!-- 根据id查询 系统菜单 -->
+    <select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_menu a
+        WHERE a.menu_id = #{menuId}
+    </select>
+
+    <!-- 系统菜单 符合条件总数-->
+    <select id="queryByCount" resultType="java.lang.Integer" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select count(1) from sys_menu a
+    </select>
+
+    <!-- 查询系统菜单列表 -->
+    <select id="queryByList" resultMap="extendResultMap" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_menu a
+    </select>
+
+    <!-- 系统菜单分页查询 -->
+    <select id="queryByPage" resultMap="extendResultMap" parameterType="com.coocaa.fire.utils.plugin.Pager">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_menu a
+    </select>
+
+    <!-- 获取指定角色列表对应的菜单聚合,已去重 -->
+    <select id="getMenusByRole" parameterType="list" resultMap="BaseResultMap">
+
+        SELECT
+        DISTINCT
+        d.menu_id,d.menu_name,d.elid,d.icon_class,d.tab_id,d.tab_title,d.tab_icon,d.iframe_url,d.seq,d.modle,d.pmid
+        FROM sys_role_menu_run a
+        LEFT JOIN sys_menu d ON(a.menu_id = d.menu_id)
+        WHERE a.run_id =1 AND d.disabled = 0 AND a.role_id IN
+        <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        ORDER BY d.pmid,d.seq
+
+    </select>
 
 
-	<select id="queryByRole" resultMap="map">
-		SELECT
-			a.menu_id,
-			a.menu_name,
-			a.icon_class,
-			a.run_id,
-			a.pmid,
-			a.run_name,
-			a.run_comm,
-			CASE
-		WHEN b.menu_id IS NOT NULL THEN
-			1
-		ELSE
-			0
-		END AS x,
-		 CASE
-		WHEN c.menu_id IS NOT NULL THEN
-			1
-		ELSE
-			0
-		END AS y
-		FROM
-			(
-				SELECT
-					a.menu_id,
-					a.menu_name,
-					a.pmid,
-					a.icon_class,
-					b.run_id,
-					b.run_name,
-					b.run_comm
-				FROM
-					sys_menu a
-				CROSS JOIN sys_run b
-				WHERE
-					a.disabled = 0
-				AND a.pmid = #{parent}
-			) a
-		LEFT JOIN sys_menu_run b ON a.menu_id = b.menu_id
-		AND a.run_id = b.run_id
-		LEFT JOIN sys_role_menu_run c ON a.menu_id = c.menu_id
-		AND a.run_id = c.run_id
-		AND c.role_id = #{roleId}
-	</select>
+    <select id="queryByRole" resultMap="map">
+        SELECT
+        a.menu_id,
+        a.menu_name,
+        a.icon_class,
+        a.run_id,
+        a.pmid,
+        a.run_name,
+        a.run_comm,
+        CASE
+        WHEN b.menu_id IS NOT NULL THEN
+        1
+        ELSE
+        0
+        END AS x,
+        CASE
+        WHEN c.menu_id IS NOT NULL THEN
+        1
+        ELSE
+        0
+        END AS y
+        FROM
+        (
+        SELECT
+        a.menu_id,
+        a.menu_name,
+        a.pmid,
+        a.icon_class,
+        b.run_id,
+        b.run_name,
+        b.run_comm
+        FROM
+        sys_menu a
+        CROSS JOIN sys_run b
+        WHERE
+        a.disabled = 0
+        AND a.pmid = #{parent}
+        ) a
+        LEFT JOIN sys_menu_run b ON a.menu_id = b.menu_id
+        AND a.run_id = b.run_id
+        LEFT JOIN sys_role_menu_run c ON a.menu_id = c.menu_id
+        AND a.run_id = c.run_id
+        AND c.role_id = #{roleId}
+    </select>
 </mapper>   

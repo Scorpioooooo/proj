@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class MainAction extends BasicAction {
@@ -19,12 +21,10 @@ public class MainAction extends BasicAction {
 
     @Autowired(required = false)
     private SysAdminMgrService sysAdminMgrService;
-    @Autowired(required = false)
-
 
     /**
      * 获取系统菜单
-     * 
+     *
      * @param request
      * @return
      */
@@ -35,12 +35,27 @@ public class MainAction extends BasicAction {
         try {
             SysUserEntity userInfo = (SysUserEntity) HttpSessionUtils.getSessionValue(request, Constant.SESSION_LOGIN_USER);
             menus = sysAdminMgrService.getUserMenusByUser(userInfo);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             log.error("获取系统菜单失败");
         }
         return menus;
     }
 
+
+
+    /**
+     * 错误信息
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/error", produces = "text/html;charset=UTF-8")
+    @ResponseBody
+    public String error(HttpServletRequest request) {
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("success", false);
+        map.put("msg", "wrong page");
+        return renderToJson(map);
+    }
 
 }

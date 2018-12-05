@@ -10,6 +10,6 @@ import com.coocaa.pro.manage.entity.MilepostsEntity;
  * <b>详细说明：</b>无<br>
  */
 public interface MilepostsMapper extends BaseMapper<MilepostsEntity> {
-	
-	
+
+
 }

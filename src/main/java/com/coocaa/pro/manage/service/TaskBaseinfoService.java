@@ -3,7 +3,6 @@ package com.coocaa.pro.manage.service;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.coocaa.pro.manage.service.sys.BaseService;
 
 import com.coocaa.pro.manage.entity.TaskBaseinfoEntity;
 import com.coocaa.pro.manage.mapper.TaskBaseinfoMapper;
@@ -17,15 +16,15 @@ import com.coocaa.pro.manage.mapper.TaskBaseinfoMapper;
  */
 @Service("taskBaseinfoService")
 public class TaskBaseinfoService extends BaseService<TaskBaseinfoEntity> {
-	
-	private final static Logger log= Logger.getLogger(TaskBaseinfoService.class);
 
-	@Autowired
+    private final static Logger log = Logger.getLogger(TaskBaseinfoService.class);
+
+    @Autowired
     private TaskBaseinfoMapper mapper;
 
-		
-	public TaskBaseinfoMapper getMapper() {
-		return mapper;
-	}
+
+    public TaskBaseinfoMapper getMapper() {
+        return mapper;
+    }
 
 }

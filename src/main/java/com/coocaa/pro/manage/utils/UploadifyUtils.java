@@ -10,11 +10,13 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import javax.imageio.ImageIO;
-import javax.imageio.ImageReader;
 import javax.servlet.http.HttpServletRequest;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.DigestInputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -239,7 +241,7 @@ public class UploadifyUtils {
      */
     public UploadifyUtils(HttpServletRequest request, String customPath, Boolean flag) throws OriginException, IOException {
         CUSTOM_PATH = customPath;
-        paserReqeust(request,false);
+        paserReqeust(request, false);
     }
 
     /**

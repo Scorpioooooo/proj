@@ -10,7 +10,7 @@ import org.springframework.cache.annotation.EnableCaching;
 @EnableCaching
 public class ProManageserverApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(ProManageserverApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(ProManageserverApplication.class, args);
+    }
 }

@@ -1,136 +1,138 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.coocaa.pro.manage.mapper.SysDeptMapper" >
-	<!-- Base Result Map-->
-	<resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.SysDeptEntity" >
-		<result column="dept_id" property="deptId"/>
-		<result column="dept_name" property="deptName"/>
-		<result column="dept_tel" property="deptTel"/>
-		<result column="dept_fax" property="deptFax"/>
-		<result column="disabled" property="disabled"/>
-		<result column="remark" property="remark"/>
-		<result column="seq" property="seq"/>
-		<result column="pid" property="pid"/>
-	</resultMap>
+<mapper namespace="com.coocaa.pro.manage.mapper.SysDeptMapper">
+    <!-- Base Result Map-->
+    <resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.SysDeptEntity">
+        <result column="dept_id" property="deptId"/>
+        <result column="dept_name" property="deptName"/>
+        <result column="dept_tel" property="deptTel"/>
+        <result column="dept_fax" property="deptFax"/>
+        <result column="disabled" property="disabled"/>
+        <result column="remark" property="remark"/>
+        <result column="seq" property="seq"/>
+        <result column="pid" property="pid"/>
+    </resultMap>
 
-	<!-- Extend Result Map-->
-	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.SysDeptEntity">
-	</resultMap>
-       
-	<!-- sys_dept table all fields -->
-	<sql id="Base_Column_List" >
-		a.dept_id,a.dept_name,a.dept_tel,a.dept_fax,a.disabled,a.remark,a.seq,a.pid
-	</sql>
-   
-	<!-- 基本查询条件 -->
-	<sql id="Example_Where_Clause">
-		<where>
-			<trim  suffixOverrides="," >
-				<if test="deptId != null" > and dept_id =  #{deptId}</if>
-				<if test="deptName != null and deptName != ''" > and dept_name =  #{deptName}</if>
-				<if test="deptTel != null and deptTel != ''" > and dept_tel =  #{deptTel}</if>
-				<if test="deptFax != null and deptFax != ''" > and dept_fax =  #{deptFax}</if>
-				<if test="disabled != null" > and disabled =  #{disabled}</if>
-				<if test="remark != null and remark != ''" > and remark =  #{remark}</if>
-				<if test="seq != null" > and seq =  #{seq}</if>
-				<if test="pid != null" > and pid =  #{pid}</if>
-			</trim>
-		</where>
-	</sql>
-   
-	<!-- 插入记录 -->
-	<insert id="add" parameterType="com.coocaa.pro.manage.entity.SysDeptEntity" useGeneratedKeys="true" keyProperty="dept_id" >
-		insert into sys_dept(dept_id,dept_name,dept_tel,dept_fax,disabled,remark,seq,pid)
-		values(#{deptId},#{deptName},#{deptTel},#{deptFax},#{disabled},#{remark},#{seq},#{pid})
-	</insert>
-	
-	<!-- 批量插入记录 -->
-	<insert id="addBatch" parameterType="java.util.List">  
-    	insert into sys_dept(
-			dept_id,dept_name,dept_tel,dept_fax,disabled,remark,seq,pid
-		) values
-		<foreach collection="list" item="item" index="index" separator=",">
-			(#{item.deptId},#{item.deptName},#{item.deptTel},#{item.deptFax},#{item.disabled},#{item.remark},#{item.seq},#{item.pid})
-		</foreach>  
-  	</insert>
+    <!-- Extend Result Map-->
+    <resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.SysDeptEntity">
+    </resultMap>
 
-	<!-- 根据id，修改记录-->  
-	<update id="update" parameterType="com.coocaa.pro.manage.entity.SysDeptEntity" >
-		update sys_dept 
-		set dept_name=#{deptName},dept_tel=#{deptTel},dept_fax=#{deptFax},disabled=#{disabled},remark=#{remark},seq=#{seq},pid=#{pid} 
-		where dept_id=#{deptId}
-	</update>
- 
-	<!-- 修改记录，只修改只不为空的字段 -->
-	<update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.SysDeptEntity" >
-		update sys_dept set 
-		<trim  suffixOverrides="," >
-			<if test="deptName != null "> dept_name=#{deptName},</if>
-			<if test="deptTel != null "> dept_tel=#{deptTel},</if>
-			<if test="deptFax != null "> dept_fax=#{deptFax},</if>
-			<if test="disabled != null "> disabled=#{disabled},</if>
-			<if test="remark != null "> remark=#{remark},</if>
-			<if test="seq != null "> seq=#{seq},</if>
-			<if test="pid != null "> pid=#{pid},</if>
-		</trim>
-		where dept_id=#{deptId}
-	</update>
+    <!-- sys_dept table all fields -->
+    <sql id="Base_Column_List">
+        a.dept_id,a.dept_name,a.dept_tel,a.dept_fax,a.disabled,a.remark,a.seq,a.pid
+    </sql>
 
-	<!-- 删除记录 -->
-	<delete id="delete" parameterType="Object">
-		delete from sys_dept
-		where dept_id = #{deptId}
-	</delete>
-	
-	<!-- 按id批量删除记录 -->
-	<delete id="deleteBatchByIds">
-		delete from sys_dept
-		<where>
-			dept_id in
-			<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
-				#{item}
-			</foreach>
-		</where>
-	</delete>
-	
-	<!-- 按条件批量删除记录 -->
-	<delete id="deleteBatch" parameterType = "com.coocaa.pro.manage.entity.SysDeptEntity">
-		delete from sys_dept
-		<include refid="Example_Where_Clause"/> 
-	</delete>
- 	
- 	<!-- 查找所有记录 -->
- 	<select id="queryByAll" resultMap="BaseResultMap" parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
- 		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_dept a
- 	</select>
- 
-	<!-- 根据id查询 部门信息 -->
-	<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_dept a
-		WHERE a.dept_id = #{deptId}
-	</select>
+    <!-- 基本查询条件 -->
+    <sql id="Example_Where_Clause">
+        <where>
+            <trim suffixOverrides=",">
+                <if test="deptId != null">and dept_id = #{deptId}</if>
+                <if test="deptName != null and deptName != ''">and dept_name = #{deptName}</if>
+                <if test="deptTel != null and deptTel != ''">and dept_tel = #{deptTel}</if>
+                <if test="deptFax != null and deptFax != ''">and dept_fax = #{deptFax}</if>
+                <if test="disabled != null">and disabled = #{disabled}</if>
+                <if test="remark != null and remark != ''">and remark = #{remark}</if>
+                <if test="seq != null">and seq = #{seq}</if>
+                <if test="pid != null">and pid = #{pid}</if>
+            </trim>
+        </where>
+    </sql>
 
-	<!-- 部门信息 符合条件总数-->
-	<select id="queryByCount" resultType="java.lang.Integer"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
-		select count(1) from sys_dept a
-	</select>
-  	
-	<!-- 查询部门信息列表 -->
-	<select id="queryByList" resultMap="extendResultMap"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_dept a
-	</select>
-	
-	<!-- 部门信息分页查询 -->
-	<select id="queryByPage" resultMap="extendResultMap"  parameterType="com.coocaa.fire.utils.plugin.Pager">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_dept a
-	</select>
+    <!-- 插入记录 -->
+    <insert id="add" parameterType="com.coocaa.pro.manage.entity.SysDeptEntity" useGeneratedKeys="true"
+            keyProperty="dept_id">
+        insert into sys_dept(dept_id,dept_name,dept_tel,dept_fax,disabled,remark,seq,pid)
+        values(#{deptId},#{deptName},#{deptTel},#{deptFax},#{disabled},#{remark},#{seq},#{pid})
+    </insert>
+
+    <!-- 批量插入记录 -->
+    <insert id="addBatch" parameterType="java.util.List">
+        insert into sys_dept(
+        dept_id,dept_name,dept_tel,dept_fax,disabled,remark,seq,pid
+        ) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.deptId},#{item.deptName},#{item.deptTel},#{item.deptFax},#{item.disabled},#{item.remark},#{item.seq},#{item.pid})
+        </foreach>
+    </insert>
+
+    <!-- 根据id，修改记录-->
+    <update id="update" parameterType="com.coocaa.pro.manage.entity.SysDeptEntity">
+        update sys_dept
+        set
+        dept_name=#{deptName},dept_tel=#{deptTel},dept_fax=#{deptFax},disabled=#{disabled},remark=#{remark},seq=#{seq},pid=#{pid}
+        where dept_id=#{deptId}
+    </update>
+
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.SysDeptEntity">
+        update sys_dept set
+        <trim suffixOverrides=",">
+            <if test="deptName != null ">dept_name=#{deptName},</if>
+            <if test="deptTel != null ">dept_tel=#{deptTel},</if>
+            <if test="deptFax != null ">dept_fax=#{deptFax},</if>
+            <if test="disabled != null ">disabled=#{disabled},</if>
+            <if test="remark != null ">remark=#{remark},</if>
+            <if test="seq != null ">seq=#{seq},</if>
+            <if test="pid != null ">pid=#{pid},</if>
+        </trim>
+        where dept_id=#{deptId}
+    </update>
+
+    <!-- 删除记录 -->
+    <delete id="delete" parameterType="Object">
+        delete from sys_dept
+        where dept_id = #{deptId}
+    </delete>
+
+    <!-- 按id批量删除记录 -->
+    <delete id="deleteBatchByIds">
+        delete from sys_dept
+        <where>
+            dept_id in
+            <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </delete>
+
+    <!-- 按条件批量删除记录 -->
+    <delete id="deleteBatch" parameterType="com.coocaa.pro.manage.entity.SysDeptEntity">
+        delete from sys_dept
+        <include refid="Example_Where_Clause"/>
+    </delete>
+
+    <!-- 查找所有记录 -->
+    <select id="queryByAll" resultMap="BaseResultMap" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dept a
+    </select>
+
+    <!-- 根据id查询 部门信息 -->
+    <select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dept a
+        WHERE a.dept_id = #{deptId}
+    </select>
+
+    <!-- 部门信息 符合条件总数-->
+    <select id="queryByCount" resultType="java.lang.Integer" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select count(1) from sys_dept a
+    </select>
+
+    <!-- 查询部门信息列表 -->
+    <select id="queryByList" resultMap="extendResultMap" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dept a
+    </select>
+
+    <!-- 部门信息分页查询 -->
+    <select id="queryByPage" resultMap="extendResultMap" parameterType="com.coocaa.fire.utils.plugin.Pager">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_dept a
+    </select>
 
 </mapper>   

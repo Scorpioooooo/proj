@@ -67,7 +67,7 @@ public class SysLogOpAction extends BasicAction {
     @RequestMapping(value = "/view")
     public String list(HttpServletRequest request) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("path","sysLogOp/sysLogOpView");
+        map.put("path", "sysLogOp/sysLogOpView");
         return renderToJson(map);
     }
 
@@ -183,7 +183,7 @@ public class SysLogOpAction extends BasicAction {
     @RequestMapping("/add")
     public String add(HttpServletRequest request) throws Exception {
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("path","sysLogOp/sysLogOpAdd");
+        map.put("path", "sysLogOp/sysLogOpAdd");
         return renderToJson(map);
     }
 
@@ -202,7 +202,7 @@ public class SysLogOpAction extends BasicAction {
         Map<String, Object> map = new HashMap<String, Object>();
         SysLogOpEntity entity = sysLogOpService.queryById(id);
         map.put("entity", JsonUtils.obj2Json(entity));
-        map.put("path","sysLogOp/sysLogOpEdit");
+        map.put("path", "sysLogOp/sysLogOpEdit");
         return renderToJson(map);
     }
 

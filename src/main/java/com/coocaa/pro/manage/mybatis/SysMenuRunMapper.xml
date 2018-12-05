@@ -1,132 +1,134 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.coocaa.pro.manage.mapper.SysMenuRunMapper" >
-	<!-- Base Result Map-->
-	<resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.SysMenuRunEntity" >
-		<result column="menu_id" property="menuId"/>
-		<result column="run_id" property="runId"/>
-	</resultMap>
+<mapper namespace="com.coocaa.pro.manage.mapper.SysMenuRunMapper">
+    <!-- Base Result Map-->
+    <resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.SysMenuRunEntity">
+        <result column="menu_id" property="menuId"/>
+        <result column="run_id" property="runId"/>
+    </resultMap>
 
-	<!-- Extend Result Map-->
-	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.SysMenuRunEntity">
-		<association property="sysRun" column="run_id" resultMap="com.coocaa.pro.manage.mapper.SysRunMapper.BaseResultMap">
-		</association>
-		<association property="sysMenu" column="menu_id" resultMap="com.coocaa.pro.manage.mapper.SysMenuMapper.BaseResultMap">
-		</association>
-	</resultMap>
-       
-	<!-- sys_menu_run table all fields -->
-	<sql id="Base_Column_List" >
-		a.menu_id,a.run_id
-	</sql>
-   
-	<!-- 基本查询条件 -->
-	<sql id="Example_Where_Clause">
-		<where>
-			<trim  suffixOverrides="," >
-				<if test="menuId != null" > and menu_id =  #{menuId}</if>
-				<if test="runId != null" > and run_id =  #{runId}</if>
-			</trim>
-		</where>
-	</sql>
-   
-	<!-- 插入记录 -->
-	<insert id="add" parameterType="com.coocaa.pro.manage.entity.SysMenuRunEntity" >
-		insert into sys_menu_run(menu_id,run_id)
-		values(#{menuId},#{runId})
-	</insert>
-	
-	<!-- 批量插入记录 -->
-	<insert id="addBatch" parameterType="java.util.List">  
-    	insert into sys_menu_run(
-			menu_id,run_id
-		) values
-		<foreach collection="list" item="item" index="index" separator=",">
-			(#{item.menuId},#{item.runId})
-		</foreach>  
-  	</insert>
+    <!-- Extend Result Map-->
+    <resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.SysMenuRunEntity">
+        <association property="sysRun" column="run_id"
+                     resultMap="com.coocaa.pro.manage.mapper.SysRunMapper.BaseResultMap">
+        </association>
+        <association property="sysMenu" column="menu_id"
+                     resultMap="com.coocaa.pro.manage.mapper.SysMenuMapper.BaseResultMap">
+        </association>
+    </resultMap>
 
-	<!-- 根据id，修改记录-->  
-	<update id="update" parameterType="com.coocaa.pro.manage.entity.SysMenuRunEntity" >
-		update sys_menu_run 
-		set run_id=#{runId} 
-		where menu_id=#{menuId}
-	</update>
- 
-	<!-- 修改记录，只修改只不为空的字段 -->
-	<update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.SysMenuRunEntity" >
-		update sys_menu_run set 
-		<trim  suffixOverrides="," >
-			<if test="runId != null "> run_id=#{runId},</if>
-		</trim>
-		where menu_id=#{menuId}
-	</update>
+    <!-- sys_menu_run table all fields -->
+    <sql id="Base_Column_List">
+        a.menu_id,a.run_id
+    </sql>
 
-	<!-- 删除记录 -->
-	<delete id="delete" parameterType="Object">
-		delete from sys_menu_run
-		where menu_id = #{menuId}
-	</delete>
-	
-	<!-- 按id批量删除记录 -->
-	<delete id="deleteBatchByIds">
-		delete from sys_menu_run
-		<where>
-			menu_id in
-			<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
-				#{item}
-			</foreach>
-		</where>
-	</delete>
-	
-	<!-- 按条件批量删除记录 -->
-	<delete id="deleteBatch" parameterType = "com.coocaa.pro.manage.entity.SysMenuRunEntity">
-		delete from sys_menu_run
-		<include refid="Example_Where_Clause"/> 
-	</delete>
- 	
- 	<!-- 查找所有记录 -->
- 	<select id="queryByAll" resultMap="BaseResultMap" parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
- 		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_menu_run a
-			left join sys_run b on(a.run_id = b.run_id)
-			left join sys_menu c on(a.menu_id = c.menu_id)
- 	</select>
- 
-	<!-- 根据id查询 菜单功能 -->
-	<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_menu_run a
-			left join sys_run b on(a.run_id = b.run_id)
-			left join sys_menu c on(a.menu_id = c.menu_id)
-		WHERE a.menu_id = #{menuId}
-	</select>
+    <!-- 基本查询条件 -->
+    <sql id="Example_Where_Clause">
+        <where>
+            <trim suffixOverrides=",">
+                <if test="menuId != null">and menu_id = #{menuId}</if>
+                <if test="runId != null">and run_id = #{runId}</if>
+            </trim>
+        </where>
+    </sql>
 
-	<!-- 菜单功能 符合条件总数-->
-	<select id="queryByCount" resultType="java.lang.Integer"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
-		select count(1) from sys_menu_run a
-			left join sys_run b on(a.run_id = b.run_id)
-			left join sys_menu c on(a.menu_id = c.menu_id)
-	</select>
-  	
-	<!-- 查询菜单功能列表 -->
-	<select id="queryByList" resultMap="extendResultMap"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_menu_run a
-			left join sys_run b on(a.run_id = b.run_id)
-			left join sys_menu c on(a.menu_id = c.menu_id)
-	</select>
-	
-	<!-- 菜单功能分页查询 -->
-	<select id="queryByPage" resultMap="extendResultMap"  parameterType="com.coocaa.fire.utils.plugin.Pager">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_menu_run a
-			left join sys_run b on(a.run_id = b.run_id)
-			left join sys_menu c on(a.menu_id = c.menu_id)
-	</select>
+    <!-- 插入记录 -->
+    <insert id="add" parameterType="com.coocaa.pro.manage.entity.SysMenuRunEntity">
+        insert into sys_menu_run(menu_id,run_id)
+        values(#{menuId},#{runId})
+    </insert>
+
+    <!-- 批量插入记录 -->
+    <insert id="addBatch" parameterType="java.util.List">
+        insert into sys_menu_run(
+        menu_id,run_id
+        ) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.menuId},#{item.runId})
+        </foreach>
+    </insert>
+
+    <!-- 根据id，修改记录-->
+    <update id="update" parameterType="com.coocaa.pro.manage.entity.SysMenuRunEntity">
+        update sys_menu_run
+        set run_id=#{runId}
+        where menu_id=#{menuId}
+    </update>
+
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.SysMenuRunEntity">
+        update sys_menu_run set
+        <trim suffixOverrides=",">
+            <if test="runId != null ">run_id=#{runId},</if>
+        </trim>
+        where menu_id=#{menuId}
+    </update>
+
+    <!-- 删除记录 -->
+    <delete id="delete" parameterType="Object">
+        delete from sys_menu_run
+        where menu_id = #{menuId}
+    </delete>
+
+    <!-- 按id批量删除记录 -->
+    <delete id="deleteBatchByIds">
+        delete from sys_menu_run
+        <where>
+            menu_id in
+            <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </delete>
+
+    <!-- 按条件批量删除记录 -->
+    <delete id="deleteBatch" parameterType="com.coocaa.pro.manage.entity.SysMenuRunEntity">
+        delete from sys_menu_run
+        <include refid="Example_Where_Clause"/>
+    </delete>
+
+    <!-- 查找所有记录 -->
+    <select id="queryByAll" resultMap="BaseResultMap" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_menu_run a
+        left join sys_run b on(a.run_id = b.run_id)
+        left join sys_menu c on(a.menu_id = c.menu_id)
+    </select>
+
+    <!-- 根据id查询 菜单功能 -->
+    <select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_menu_run a
+        left join sys_run b on(a.run_id = b.run_id)
+        left join sys_menu c on(a.menu_id = c.menu_id)
+        WHERE a.menu_id = #{menuId}
+    </select>
+
+    <!-- 菜单功能 符合条件总数-->
+    <select id="queryByCount" resultType="java.lang.Integer" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select count(1) from sys_menu_run a
+        left join sys_run b on(a.run_id = b.run_id)
+        left join sys_menu c on(a.menu_id = c.menu_id)
+    </select>
+
+    <!-- 查询菜单功能列表 -->
+    <select id="queryByList" resultMap="extendResultMap" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_menu_run a
+        left join sys_run b on(a.run_id = b.run_id)
+        left join sys_menu c on(a.menu_id = c.menu_id)
+    </select>
+
+    <!-- 菜单功能分页查询 -->
+    <select id="queryByPage" resultMap="extendResultMap" parameterType="com.coocaa.fire.utils.plugin.Pager">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_menu_run a
+        left join sys_run b on(a.run_id = b.run_id)
+        left join sys_menu c on(a.menu_id = c.menu_id)
+    </select>
 
 </mapper>   

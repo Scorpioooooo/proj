@@ -10,6 +10,6 @@ import com.coocaa.pro.manage.entity.TasksEntity;
  * <b>详细说明：</b>无<br>
  */
 public interface TasksMapper extends BaseMapper<TasksEntity> {
-	
-	
+
+
 }

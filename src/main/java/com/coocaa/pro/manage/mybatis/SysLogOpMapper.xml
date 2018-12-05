@@ -1,136 +1,138 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.coocaa.pro.manage.mapper.SysLogOpMapper" >
-	<!-- Base Result Map-->
-	<resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.SysLogOpEntity" >
-		<result column="id" property="id"/>
-		<result column="create_time" property="createTime"/>
-		<result column="elapsed_time" property="elapsedTime"/>
-		<result column="exec_sql" property="execSql"/>
-		<result column="user_id" property="userId"/>
-		<result column="user_name" property="userName"/>
-		<result column="exec_type" property="execType"/>
-		<result column="exec_table" property="execTable"/>
-	</resultMap>
+<mapper namespace="com.coocaa.pro.manage.mapper.SysLogOpMapper">
+    <!-- Base Result Map-->
+    <resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.SysLogOpEntity">
+        <result column="id" property="id"/>
+        <result column="create_time" property="createTime"/>
+        <result column="elapsed_time" property="elapsedTime"/>
+        <result column="exec_sql" property="execSql"/>
+        <result column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="exec_type" property="execType"/>
+        <result column="exec_table" property="execTable"/>
+    </resultMap>
 
-	<!-- Extend Result Map-->
-	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.SysLogOpEntity">
-	</resultMap>
-       
-	<!-- sys_log_op table all fields -->
-	<sql id="Base_Column_List" >
-		a.id,a.create_time,a.elapsed_time,a.exec_sql,a.user_id,a.user_name,a.exec_type,a.exec_table
-	</sql>
-   
-	<!-- 基本查询条件 -->
-	<sql id="Example_Where_Clause">
-		<where>
-			<trim  suffixOverrides="," >
-				<if test="id != null" > and id =  #{id}</if>
-				<if test="createTime != null" > and create_time =  #{createTime}</if>
-				<if test="elapsedTime != null" > and elapsed_time =  #{elapsedTime}</if>
-				<if test="execSql != null and execSql != ''" > and exec_sql =  #{execSql}</if>
-				<if test="userId != null" > and user_id =  #{userId}</if>
-				<if test="userName != null and userName != ''" > and user_name =  #{userName}</if>
-				<if test="execType != null and execType != ''" > and exec_type =  #{execType}</if>
-				<if test="execTable != null and execTable != ''" > and exec_table =  #{execTable}</if>
-			</trim>
-		</where>
-	</sql>
-   
-	<!-- 插入记录 -->
-	<insert id="add" parameterType="com.coocaa.pro.manage.entity.SysLogOpEntity" useGeneratedKeys="true" keyProperty="id" >
-		insert into sys_log_op(id,create_time,elapsed_time,exec_sql,user_id,user_name,exec_type,exec_table)
-		values(#{id},now(),#{elapsedTime},#{execSql},#{userId},#{userName},#{execType},#{execTable})
-	</insert>
-	
-	<!-- 批量插入记录 -->
-	<insert id="addBatch" parameterType="java.util.List">  
-    	insert into sys_log_op(
-			id,create_time,elapsed_time,exec_sql,user_id,user_name,exec_type,exec_table
-		) values
-		<foreach collection="list" item="item" index="index" separator=",">
-			(#{item.id},#{item.createTime},#{item.elapsedTime},#{item.execSql},#{item.userId},#{item.userName},#{item.execType},#{item.execTable})
-		</foreach>  
-  	</insert>
+    <!-- Extend Result Map-->
+    <resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.SysLogOpEntity">
+    </resultMap>
 
-	<!-- 根据id，修改记录-->  
-	<update id="update" parameterType="com.coocaa.pro.manage.entity.SysLogOpEntity" >
-		update sys_log_op 
-		set create_time=now(),elapsed_time=#{elapsedTime},exec_sql=#{execSql},user_id=#{userId},user_name=#{userName},exec_type=#{execType},exec_table=#{execTable}
-		where id=#{id}
-	</update>
- 
-	<!-- 修改记录，只修改只不为空的字段 -->
-	<update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.SysLogOpEntity" >
-		update sys_log_op set 
-		<trim  suffixOverrides="," >
-			<if test="createTime != null "> create_time=#{createTime},</if>
-			<if test="elapsedTime != null "> elapsed_time=#{elapsedTime},</if>
-			<if test="execSql != null "> exec_sql=#{execSql},</if>
-			<if test="userId != null "> user_id=#{userId},</if>
-			<if test="userName != null "> user_name=#{userName},</if>
-			<if test="execType != null "> exec_type=#{execType},</if>
-			<if test="execTable != null "> exec_table=#{execTable},</if>
-		</trim>
-		where id=#{id}
-	</update>
+    <!-- sys_log_op table all fields -->
+    <sql id="Base_Column_List">
+        a.id,a.create_time,a.elapsed_time,a.exec_sql,a.user_id,a.user_name,a.exec_type,a.exec_table
+    </sql>
 
-	<!-- 删除记录 -->
-	<delete id="delete" parameterType="Object">
-		delete from sys_log_op
-		where id = #{id}
-	</delete>
-	
-	<!-- 按id批量删除记录 -->
-	<delete id="deleteBatchByIds">
-		delete from sys_log_op
-		<where>
-			id in
-			<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
-				#{item}
-			</foreach>
-		</where>
-	</delete>
-	
-	<!-- 按条件批量删除记录 -->
-	<delete id="deleteBatch" parameterType = "com.coocaa.pro.manage.entity.SysLogOpEntity">
-		delete from sys_log_op
-		<include refid="Example_Where_Clause"/> 
-	</delete>
- 	
- 	<!-- 查找所有记录 -->
- 	<select id="queryByAll" resultMap="BaseResultMap" parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
- 		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_log_op a
- 	</select>
- 
-	<!-- 根据id查询 操作日志 -->
-	<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_log_op a
-		WHERE a.id = #{id}
-	</select>
+    <!-- 基本查询条件 -->
+    <sql id="Example_Where_Clause">
+        <where>
+            <trim suffixOverrides=",">
+                <if test="id != null">and id = #{id}</if>
+                <if test="createTime != null">and create_time = #{createTime}</if>
+                <if test="elapsedTime != null">and elapsed_time = #{elapsedTime}</if>
+                <if test="execSql != null and execSql != ''">and exec_sql = #{execSql}</if>
+                <if test="userId != null">and user_id = #{userId}</if>
+                <if test="userName != null and userName != ''">and user_name = #{userName}</if>
+                <if test="execType != null and execType != ''">and exec_type = #{execType}</if>
+                <if test="execTable != null and execTable != ''">and exec_table = #{execTable}</if>
+            </trim>
+        </where>
+    </sql>
 
-	<!-- 操作日志 符合条件总数-->
-	<select id="queryByCount" resultType="java.lang.Integer"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
-		select count(1) from sys_log_op a
-	</select>
-  	
-	<!-- 查询操作日志列表 -->
-	<select id="queryByList" resultMap="extendResultMap"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_log_op a
-	</select>
-	
-	<!-- 操作日志分页查询 -->
-	<select id="queryByPage" resultMap="extendResultMap"  parameterType="com.coocaa.fire.utils.plugin.Pager">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_log_op a
-	</select>
+    <!-- 插入记录 -->
+    <insert id="add" parameterType="com.coocaa.pro.manage.entity.SysLogOpEntity" useGeneratedKeys="true"
+            keyProperty="id">
+        insert into sys_log_op(id,create_time,elapsed_time,exec_sql,user_id,user_name,exec_type,exec_table)
+        values(#{id},now(),#{elapsedTime},#{execSql},#{userId},#{userName},#{execType},#{execTable})
+    </insert>
+
+    <!-- 批量插入记录 -->
+    <insert id="addBatch" parameterType="java.util.List">
+        insert into sys_log_op(
+        id,create_time,elapsed_time,exec_sql,user_id,user_name,exec_type,exec_table
+        ) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id},#{item.createTime},#{item.elapsedTime},#{item.execSql},#{item.userId},#{item.userName},#{item.execType},#{item.execTable})
+        </foreach>
+    </insert>
+
+    <!-- 根据id，修改记录-->
+    <update id="update" parameterType="com.coocaa.pro.manage.entity.SysLogOpEntity">
+        update sys_log_op
+        set
+        create_time=now(),elapsed_time=#{elapsedTime},exec_sql=#{execSql},user_id=#{userId},user_name=#{userName},exec_type=#{execType},exec_table=#{execTable}
+        where id=#{id}
+    </update>
+
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.SysLogOpEntity">
+        update sys_log_op set
+        <trim suffixOverrides=",">
+            <if test="createTime != null ">create_time=#{createTime},</if>
+            <if test="elapsedTime != null ">elapsed_time=#{elapsedTime},</if>
+            <if test="execSql != null ">exec_sql=#{execSql},</if>
+            <if test="userId != null ">user_id=#{userId},</if>
+            <if test="userName != null ">user_name=#{userName},</if>
+            <if test="execType != null ">exec_type=#{execType},</if>
+            <if test="execTable != null ">exec_table=#{execTable},</if>
+        </trim>
+        where id=#{id}
+    </update>
+
+    <!-- 删除记录 -->
+    <delete id="delete" parameterType="Object">
+        delete from sys_log_op
+        where id = #{id}
+    </delete>
+
+    <!-- 按id批量删除记录 -->
+    <delete id="deleteBatchByIds">
+        delete from sys_log_op
+        <where>
+            id in
+            <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </delete>
+
+    <!-- 按条件批量删除记录 -->
+    <delete id="deleteBatch" parameterType="com.coocaa.pro.manage.entity.SysLogOpEntity">
+        delete from sys_log_op
+        <include refid="Example_Where_Clause"/>
+    </delete>
+
+    <!-- 查找所有记录 -->
+    <select id="queryByAll" resultMap="BaseResultMap" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_log_op a
+    </select>
+
+    <!-- 根据id查询 操作日志 -->
+    <select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_log_op a
+        WHERE a.id = #{id}
+    </select>
+
+    <!-- 操作日志 符合条件总数-->
+    <select id="queryByCount" resultType="java.lang.Integer" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select count(1) from sys_log_op a
+    </select>
+
+    <!-- 查询操作日志列表 -->
+    <select id="queryByList" resultMap="extendResultMap" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_log_op a
+    </select>
+
+    <!-- 操作日志分页查询 -->
+    <select id="queryByPage" resultMap="extendResultMap" parameterType="com.coocaa.fire.utils.plugin.Pager">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_log_op a
+    </select>
 
 </mapper>   

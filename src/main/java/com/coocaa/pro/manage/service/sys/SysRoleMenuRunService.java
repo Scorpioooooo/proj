@@ -3,6 +3,7 @@ package com.coocaa.pro.manage.service.sys;
 
 import com.coocaa.pro.manage.entity.SysRoleMenuRunEntity;
 import com.coocaa.pro.manage.mapper.SysRoleMenuRunMapper;
+import com.coocaa.pro.manage.service.BaseService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,14 +18,14 @@ import org.springframework.stereotype.Service;
  */
 @Service("sysRoleMenuRunService")
 public class SysRoleMenuRunService extends BaseService<SysRoleMenuRunEntity> {
-	
-	private final static Logger log= Logger.getLogger(SysRoleMenuRunService.class);
 
-	@Autowired(required=false)
+    private final static Logger log = Logger.getLogger(SysRoleMenuRunService.class);
+
+    @Autowired(required = false)
     private SysRoleMenuRunMapper mapper;
-		
-	public SysRoleMenuRunMapper getMapper() {
-		return mapper;
-	}
+
+    public SysRoleMenuRunMapper getMapper() {
+        return mapper;
+    }
 
 }

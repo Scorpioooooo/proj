@@ -10,6 +10,6 @@ import com.coocaa.pro.manage.entity.ProjectsEntity;
  * <b>详细说明：</b>无<br>
  */
 public interface ProjectsMapper extends BaseMapper<ProjectsEntity> {
-	
-	
+
+
 }

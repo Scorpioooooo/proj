@@ -1,133 +1,138 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.coocaa.pro.manage.mapper.ProjectsBaseinfoMapper" > 
-	<!-- Base Result Map-->
-	<resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.ProjectsBaseinfoEntity" >
-		<result column="id" property="id"/>
-		<result column="project_id" property="projectId"/>
-		<result column="market" property="market"/>
-		<result column="technology" property="technology"/>
-		<result column="competitor" property="competitor"/>
-		<result column="policy" property="policy"/>
-		<result column="enclosure_document_ids" property="enclosureDocumentIds"/>
-	</resultMap>
+<mapper namespace="com.coocaa.pro.manage.mapper.ProjectsBaseinfoMapper">
+    <!-- Base Result Map-->
+    <resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.ProjectsBaseinfoEntity">
+        <result column="id" property="id"/>
+        <result column="project_id" property="projectId"/>
+        <result column="market" property="market"/>
+        <result column="technology" property="technology"/>
+        <result column="competitor" property="competitor"/>
+        <result column="policy" property="policy"/>
+        <result column="enclosure_document_ids" property="enclosureDocumentIds"/>
+    </resultMap>
 
-	<!-- Extend Result Map-->
-	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.ProjectsBaseinfoEntity">
-	</resultMap>
-       
-	<!-- projects_baseinfo table all fields -->
-	<sql id="Base_Column_List" >
-		a.`id`,a.`project_id`,a.`market`,a.`technology`,a.`competitor`,a.`policy`,a.`enclosure_document_ids`
-	</sql>
-   
-	<!-- 基本查询条件 -->
-	<sql id="Example_Where_Clause">
-		<where>
-			<trim  suffixOverrides="," >
-				<if test="id != null" > and `id` =  #{id}</if>
-				<if test="projectId != null" > and `project_id` =  #{projectId}</if>
-				<if test="market != null and market != ''" > and `market` =  #{market}</if>
-				<if test="technology != null and technology != ''" > and `technology` =  #{technology}</if>
-				<if test="competitor != null and competitor != ''" > and `competitor` =  #{competitor}</if>
-				<if test="policy != null and policy != ''" > and `policy` =  #{policy}</if>
-				<if test="enclosureDocumentIds != null and enclosureDocumentIds != ''" > and `enclosure_document_ids` =  #{enclosureDocumentIds}</if>
-			</trim>
-		</where>
-	</sql>
-   
-	<!-- 插入记录 -->
-	<insert id="add" parameterType="com.coocaa.pro.manage.entity.ProjectsBaseinfoEntity" useGeneratedKeys="true" keyProperty="`id`" >
-		insert into projects_baseinfo(`id`,`project_id`,`market`,`technology`,`competitor`,`policy`,`enclosure_document_ids`)
-		values(#{id},#{projectId},#{market},#{technology},#{competitor},#{policy},#{enclosureDocumentIds})
-	</insert>
-	
-	<!-- 批量插入记录 -->
-	<insert id="addBatch" parameterType="java.util.List">  
-    	insert into projects_baseinfo(
-			`id`,`project_id`,`market`,`technology`,`competitor`,`policy`,`enclosure_document_ids`
-		) values
-		<foreach collection="list" item="item" index="index" separator=",">
-			(#{item.id},#{item.projectId},#{item.market},#{item.technology},#{item.competitor},#{item.policy},#{item.enclosureDocumentIds})
-		</foreach>  
-  	</insert>
+    <!-- Extend Result Map-->
+    <resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.ProjectsBaseinfoEntity">
+    </resultMap>
 
-	<!-- 根据id，修改记录-->  
-	<update id="update" parameterType="com.coocaa.pro.manage.entity.ProjectsBaseinfoEntity" >
-		update projects_baseinfo 
-		set `project_id`=#{projectId},`market`=#{market},`technology`=#{technology},`competitor`=#{competitor},`policy`=#{policy},`enclosure_document_ids`=#{enclosureDocumentIds} 
-		where `id`=#{id}
-	</update>
- 
-	<!-- 修改记录，只修改只不为空的字段 -->
-	<update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.ProjectsBaseinfoEntity" >
-		update projects_baseinfo set 
-		<trim  suffixOverrides="," >
-			<if test="projectId != null "> `project_id`=#{projectId},</if>
-			<if test="market != null "> `market`=#{market},</if>
-			<if test="technology != null "> `technology`=#{technology},</if>
-			<if test="competitor != null "> `competitor`=#{competitor},</if>
-			<if test="policy != null "> `policy`=#{policy},</if>
-			<if test="enclosureDocumentIds != null "> `enclosure_document_ids`=#{enclosureDocumentIds},</if>
-		</trim>
-		where `id`=#{id}
-	</update>
+    <!-- projects_baseinfo table all fields -->
+    <sql id="Base_Column_List">
+        a.`id`,a.`project_id`,a.`market`,a.`technology`,a.`competitor`,a.`policy`,a.`enclosure_document_ids`
+    </sql>
 
-	<!-- 删除记录 -->
-	<delete id="delete" parameterType="Object">
-		delete from projects_baseinfo
-		where `id` = #{id}
-	</delete>
-	
-	<!-- 按id批量删除记录 -->
-	<delete id="deleteBatchByIds">
-		delete from projects_baseinfo
-		<where>
-			`id` in
-			<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
-				#{item}
-			</foreach>
-		</where>
-	</delete>
-	
-	<!-- 按条件批量删除记录 -->
-	<delete id="deleteBatch" parameterType = "com.coocaa.pro.manage.entity.ProjectsBaseinfoEntity">
-		delete from projects_baseinfo
-		<include refid="Example_Where_Clause"/> 
-	</delete>
- 	
- 	<!-- 查找所有记录 -->
- 	<select id="queryByAll" resultMap="BaseResultMap" parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
- 		select 
-			 <include refid="Base_Column_List" /> 
-		from projects_baseinfo a
- 	</select>
- 
-	<!-- 根据id查询 基础项目表 -->
-	<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from projects_baseinfo a
-		WHERE a.`id` = #{id}
-	</select>
+    <!-- 基本查询条件 -->
+    <sql id="Example_Where_Clause">
+        <where>
+            <trim suffixOverrides=",">
+                <if test="id != null">and `id` = #{id}</if>
+                <if test="projectId != null">and `project_id` = #{projectId}</if>
+                <if test="market != null and market != ''">and `market` = #{market}</if>
+                <if test="technology != null and technology != ''">and `technology` = #{technology}</if>
+                <if test="competitor != null and competitor != ''">and `competitor` = #{competitor}</if>
+                <if test="policy != null and policy != ''">and `policy` = #{policy}</if>
+                <if test="enclosureDocumentIds != null and enclosureDocumentIds != ''">and `enclosure_document_ids` =
+                    #{enclosureDocumentIds}
+                </if>
+            </trim>
+        </where>
+    </sql>
 
-	<!-- 基础项目表 符合条件总数-->
-	<select id="queryByCount" resultType="java.lang.Integer"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
-		select count(1) from projects_baseinfo a
-	</select>
-  	
-	<!-- 查询基础项目表列表 -->
-	<select id="queryByList" resultMap="extendResultMap"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from projects_baseinfo a
-	</select>
-	
-	<!-- 基础项目表分页查询 -->
-	<select id="queryByPage" resultMap="extendResultMap"  parameterType="com.coocaa.fire.utils.plugin.Pager">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from projects_baseinfo a
-	</select>
+    <!-- 插入记录 -->
+    <insert id="add" parameterType="com.coocaa.pro.manage.entity.ProjectsBaseinfoEntity" useGeneratedKeys="true"
+            keyProperty="`id`">
+        insert into
+        projects_baseinfo(`id`,`project_id`,`market`,`technology`,`competitor`,`policy`,`enclosure_document_ids`)
+        values(#{id},#{projectId},#{market},#{technology},#{competitor},#{policy},#{enclosureDocumentIds})
+    </insert>
+
+    <!-- 批量插入记录 -->
+    <insert id="addBatch" parameterType="java.util.List">
+        insert into projects_baseinfo(
+        `id`,`project_id`,`market`,`technology`,`competitor`,`policy`,`enclosure_document_ids`
+        ) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id},#{item.projectId},#{item.market},#{item.technology},#{item.competitor},#{item.policy},#{item.enclosureDocumentIds})
+        </foreach>
+    </insert>
+
+    <!-- 根据id，修改记录-->
+    <update id="update" parameterType="com.coocaa.pro.manage.entity.ProjectsBaseinfoEntity">
+        update projects_baseinfo
+        set
+        `project_id`=#{projectId},`market`=#{market},`technology`=#{technology},`competitor`=#{competitor},`policy`=#{policy},`enclosure_document_ids`=#{enclosureDocumentIds}
+        where `id`=#{id}
+    </update>
+
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.ProjectsBaseinfoEntity">
+        update projects_baseinfo set
+        <trim suffixOverrides=",">
+            <if test="projectId != null ">`project_id`=#{projectId},</if>
+            <if test="market != null ">`market`=#{market},</if>
+            <if test="technology != null ">`technology`=#{technology},</if>
+            <if test="competitor != null ">`competitor`=#{competitor},</if>
+            <if test="policy != null ">`policy`=#{policy},</if>
+            <if test="enclosureDocumentIds != null ">`enclosure_document_ids`=#{enclosureDocumentIds},</if>
+        </trim>
+        where `id`=#{id}
+    </update>
+
+    <!-- 删除记录 -->
+    <delete id="delete" parameterType="Object">
+        delete from projects_baseinfo
+        where `id` = #{id}
+    </delete>
+
+    <!-- 按id批量删除记录 -->
+    <delete id="deleteBatchByIds">
+        delete from projects_baseinfo
+        <where>
+            `id` in
+            <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </delete>
+
+    <!-- 按条件批量删除记录 -->
+    <delete id="deleteBatch" parameterType="com.coocaa.pro.manage.entity.ProjectsBaseinfoEntity">
+        delete from projects_baseinfo
+        <include refid="Example_Where_Clause"/>
+    </delete>
+
+    <!-- 查找所有记录 -->
+    <select id="queryByAll" resultMap="BaseResultMap" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select
+        <include refid="Base_Column_List"/>
+        from projects_baseinfo a
+    </select>
+
+    <!-- 根据id查询 基础项目表 -->
+    <select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from projects_baseinfo a
+        WHERE a.`id` = #{id}
+    </select>
+
+    <!-- 基础项目表 符合条件总数-->
+    <select id="queryByCount" resultType="java.lang.Integer" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select count(1) from projects_baseinfo a
+    </select>
+
+    <!-- 查询基础项目表列表 -->
+    <select id="queryByList" resultMap="extendResultMap" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select
+        <include refid="Base_Column_List"/>
+        from projects_baseinfo a
+    </select>
+
+    <!-- 基础项目表分页查询 -->
+    <select id="queryByPage" resultMap="extendResultMap" parameterType="com.coocaa.fire.utils.plugin.Pager">
+        select
+        <include refid="Base_Column_List"/>
+        from projects_baseinfo a
+    </select>
 
 </mapper>   

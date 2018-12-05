@@ -1,4 +1,4 @@
-package com.coocaa.pro.manage.service.sys;
+package com.coocaa.pro.manage.service;
 
 import com.coocaa.fire.utils.plugin.Pager;
 import com.coocaa.fire.utils.plugin.QueryOperator;
@@ -17,7 +17,7 @@ public abstract class BaseService<T> {
      * @return
      * @throws Exception
      */
-    public T add(T entity){
+    public T add(T entity) {
         getMapper().add(entity);
         return entity;
     }
@@ -28,7 +28,7 @@ public abstract class BaseService<T> {
      * @param entitys
      * @return
      */
-    public Integer addBatch(List<T> entitys){
+    public Integer addBatch(List<T> entitys) {
 
         return getMapper().addBatch(entitys);
     }
@@ -39,7 +39,7 @@ public abstract class BaseService<T> {
      * @param entity
      * @throws Exception
      */
-    public void update(T entity){
+    public void update(T entity) {
         getMapper().update(entity);
     }
 
@@ -49,7 +49,7 @@ public abstract class BaseService<T> {
      * @param entity
      * @throws Exception
      */
-    public void updateBySelective(T entity){
+    public void updateBySelective(T entity) {
         getMapper().updateBySelective(entity);
     }
 
@@ -165,7 +165,7 @@ public abstract class BaseService<T> {
      *
      * @return
      */
-    public List<T> queryByAll(QueryOperator operator){
+    public List<T> queryByAll(QueryOperator operator) {
 
         return getMapper().queryByAll(operator);
     }

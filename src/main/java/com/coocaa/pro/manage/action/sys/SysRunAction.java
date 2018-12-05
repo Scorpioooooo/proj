@@ -58,7 +58,7 @@ public class SysRunAction extends BasicAction {
     public String list(HttpServletRequest request) throws Exception {
 
         Map<String, Object> map = new HashMap<String, Object>();
-        map.put("path","sysRun/sysRunView");
+        map.put("path", "sysRun/sysRunView");
         return renderToJson(map);
     }
 
@@ -155,7 +155,7 @@ public class SysRunAction extends BasicAction {
 
         Map<String, Object> map = new HashMap<String, Object>();
 
-        map.put("path",  "sysRun/sysRunAdd");
+        map.put("path", "sysRun/sysRunAdd");
         return renderToJson(map);
     }
 

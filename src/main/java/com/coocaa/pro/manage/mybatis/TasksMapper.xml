@@ -1,163 +1,172 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.coocaa.pro.manage.mapper.TasksMapper" > 
-	<!-- Base Result Map-->
-	<resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.TasksEntity" >
-		<result column="id" property="id"/>
-		<result column="task_id" property="taskId"/>
-		<result column="belong_project_id" property="belongProjectId"/>
-		<result column="task_asign_person_id" property="taskAsignPersonId"/>
-		<result column="task_asign_person_history_ids" property="taskAsignPersonHistoryIds"/>
-		<result column="task_level" property="taskLevel"/>
-		<result column="task_parent_id" property="taskParentId"/>
-		<result column="task_name" property="taskName"/>
-		<result column="task_discription" property="taskDiscription"/>
-		<result column="task_grade" property="taskGrade"/>
-		<result column="task_begin_time" property="taskBeginTime"/>
-		<result column="task_end_time" property="taskEndTime"/>
-		<result column="task_real_begin_time" property="taskRealBeginTime"/>
-		<result column="task_real_end_time" property="taskRealEndTime"/>
-		<result column="createtime" property="createtime"/>
-		<result column="updatetime" property="updatetime"/>
-		<result column="task_isclosed" property="taskIsclosed"/>
-	</resultMap>
+<mapper namespace="com.coocaa.pro.manage.mapper.TasksMapper">
+    <!-- Base Result Map-->
+    <resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.TasksEntity">
+        <result column="id" property="id"/>
+        <result column="task_id" property="taskId"/>
+        <result column="belong_project_id" property="belongProjectId"/>
+        <result column="task_asign_person_id" property="taskAsignPersonId"/>
+        <result column="task_asign_person_history_ids" property="taskAsignPersonHistoryIds"/>
+        <result column="task_level" property="taskLevel"/>
+        <result column="task_parent_id" property="taskParentId"/>
+        <result column="task_name" property="taskName"/>
+        <result column="task_discription" property="taskDiscription"/>
+        <result column="task_grade" property="taskGrade"/>
+        <result column="task_begin_time" property="taskBeginTime"/>
+        <result column="task_end_time" property="taskEndTime"/>
+        <result column="task_real_begin_time" property="taskRealBeginTime"/>
+        <result column="task_real_end_time" property="taskRealEndTime"/>
+        <result column="createtime" property="createtime"/>
+        <result column="updatetime" property="updatetime"/>
+        <result column="task_isclosed" property="taskIsclosed"/>
+    </resultMap>
 
-	<!-- Extend Result Map-->
-	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.TasksEntity">
-	</resultMap>
-       
-	<!-- tasks table all fields -->
-	<sql id="Base_Column_List" >
-		a.`id`,a.`task_id`,a.`belong_project_id`,a.`task_asign_person_id`,a.`task_asign_person_history_ids`,a.`task_level`,a.`task_parent_id`,a.`task_name`,a.`task_discription`,a.`task_grade`,a.`task_begin_time`,a.`task_end_time`,a.`task_real_begin_time`,a.`task_real_end_time`,a.`createtime`,a.`updatetime`,a.`task_isclosed`
-	</sql>
-   
-	<!-- 基本查询条件 -->
-	<sql id="Example_Where_Clause">
-		<where>
-			<trim  suffixOverrides="," >
-				<if test="id != null" > and `id` =  #{id}</if>
-				<if test="taskId != null" > and `task_id` =  #{taskId}</if>
-				<if test="belongProjectId != null" > and `belong_project_id` =  #{belongProjectId}</if>
-				<if test="taskAsignPersonId != null" > and `task_asign_person_id` =  #{taskAsignPersonId}</if>
-				<if test="taskAsignPersonHistoryIds != null and taskAsignPersonHistoryIds != ''" > and `task_asign_person_history_ids` =  #{taskAsignPersonHistoryIds}</if>
-				<if test="taskLevel != null" > and `task_level` =  #{taskLevel}</if>
-				<if test="taskParentId != null" > and `task_parent_id` =  #{taskParentId}</if>
-				<if test="taskName != null and taskName != ''" > and `task_name` =  #{taskName}</if>
-				<if test="taskDiscription != null and taskDiscription != ''" > and `task_discription` =  #{taskDiscription}</if>
-				<if test="taskGrade != null" > and `task_grade` =  #{taskGrade}</if>
-				<if test="taskBeginTime != null" > and `task_begin_time` =  #{taskBeginTime}</if>
-				<if test="taskEndTime != null" > and `task_end_time` =  #{taskEndTime}</if>
-				<if test="taskRealBeginTime != null" > and `task_real_begin_time` =  #{taskRealBeginTime}</if>
-				<if test="taskRealEndTime != null" > and `task_real_end_time` =  #{taskRealEndTime}</if>
-				<if test="createtime != null" > and `createtime` =  #{createtime}</if>
-				<if test="updatetime != null" > and `updatetime` =  #{updatetime}</if>
-				<if test="taskIsclosed != null" > and `task_isclosed` =  #{taskIsclosed}</if>
-			</trim>
-		</where>
-	</sql>
-   
-	<!-- 插入记录 -->
-	<insert id="add" parameterType="com.coocaa.pro.manage.entity.TasksEntity" useGeneratedKeys="true" keyProperty="`id`" >
-		insert into tasks(`id`,`task_id`,`belong_project_id`,`task_asign_person_id`,`task_asign_person_history_ids`,`task_level`,`task_parent_id`,`task_name`,`task_discription`,`task_grade`,`task_begin_time`,`task_end_time`,`task_real_begin_time`,`task_real_end_time`,`createtime`,`updatetime`,`task_isclosed`)
-		values(#{id},#{taskId},#{belongProjectId},#{taskAsignPersonId},#{taskAsignPersonHistoryIds},#{taskLevel},#{taskParentId},#{taskName},#{taskDiscription},#{taskGrade},#{taskBeginTime},#{taskEndTime},#{taskRealBeginTime},#{taskRealEndTime},#{createtime},#{updatetime},#{taskIsclosed})
-	</insert>
-	
-	<!-- 批量插入记录 -->
-	<insert id="addBatch" parameterType="java.util.List">  
-    	insert into tasks(
-			`id`,`task_id`,`belong_project_id`,`task_asign_person_id`,`task_asign_person_history_ids`,`task_level`,`task_parent_id`,`task_name`,`task_discription`,`task_grade`,`task_begin_time`,`task_end_time`,`task_real_begin_time`,`task_real_end_time`,`createtime`,`updatetime`,`task_isclosed`
-		) values
-		<foreach collection="list" item="item" index="index" separator=",">
-			(#{item.id},#{item.taskId},#{item.belongProjectId},#{item.taskAsignPersonId},#{item.taskAsignPersonHistoryIds},#{item.taskLevel},#{item.taskParentId},#{item.taskName},#{item.taskDiscription},#{item.taskGrade},#{item.taskBeginTime},#{item.taskEndTime},#{item.taskRealBeginTime},#{item.taskRealEndTime},#{item.createtime},#{item.updatetime},#{item.taskIsclosed})
-		</foreach>  
-  	</insert>
+    <!-- Extend Result Map-->
+    <resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.TasksEntity">
+    </resultMap>
 
-	<!-- 根据id，修改记录-->  
-	<update id="update" parameterType="com.coocaa.pro.manage.entity.TasksEntity" >
-		update tasks 
-		set `task_id`=#{taskId},`belong_project_id`=#{belongProjectId},`task_asign_person_id`=#{taskAsignPersonId},`task_asign_person_history_ids`=#{taskAsignPersonHistoryIds},`task_level`=#{taskLevel},`task_parent_id`=#{taskParentId},`task_name`=#{taskName},`task_discription`=#{taskDiscription},`task_grade`=#{taskGrade},`task_begin_time`=#{taskBeginTime},`task_end_time`=#{taskEndTime},`task_real_begin_time`=#{taskRealBeginTime},`task_real_end_time`=#{taskRealEndTime},`createtime`=#{createtime},`updatetime`=#{updatetime},`task_isclosed`=#{taskIsclosed} 
-		where `id`=#{id}
-	</update>
- 
-	<!-- 修改记录，只修改只不为空的字段 -->
-	<update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.TasksEntity" >
-		update tasks set 
-		<trim  suffixOverrides="," >
-			<if test="taskId != null "> `task_id`=#{taskId},</if>
-			<if test="belongProjectId != null "> `belong_project_id`=#{belongProjectId},</if>
-			<if test="taskAsignPersonId != null "> `task_asign_person_id`=#{taskAsignPersonId},</if>
-			<if test="taskAsignPersonHistoryIds != null "> `task_asign_person_history_ids`=#{taskAsignPersonHistoryIds},</if>
-			<if test="taskLevel != null "> `task_level`=#{taskLevel},</if>
-			<if test="taskParentId != null "> `task_parent_id`=#{taskParentId},</if>
-			<if test="taskName != null "> `task_name`=#{taskName},</if>
-			<if test="taskDiscription != null "> `task_discription`=#{taskDiscription},</if>
-			<if test="taskGrade != null "> `task_grade`=#{taskGrade},</if>
-			<if test="taskBeginTime != null "> `task_begin_time`=#{taskBeginTime},</if>
-			<if test="taskEndTime != null "> `task_end_time`=#{taskEndTime},</if>
-			<if test="taskRealBeginTime != null "> `task_real_begin_time`=#{taskRealBeginTime},</if>
-			<if test="taskRealEndTime != null "> `task_real_end_time`=#{taskRealEndTime},</if>
-			<if test="createtime != null "> `createtime`=#{createtime},</if>
-			<if test="updatetime != null "> `updatetime`=#{updatetime},</if>
-			<if test="taskIsclosed != null "> `task_isclosed`=#{taskIsclosed},</if>
-		</trim>
-		where `id`=#{id}
-	</update>
+    <!-- tasks table all fields -->
+    <sql id="Base_Column_List">
+        a.`id`,a.`task_id`,a.`belong_project_id`,a.`task_asign_person_id`,a.`task_asign_person_history_ids`,a.`task_level`,a.`task_parent_id`,a.`task_name`,a.`task_discription`,a.`task_grade`,a.`task_begin_time`,a.`task_end_time`,a.`task_real_begin_time`,a.`task_real_end_time`,a.`createtime`,a.`updatetime`,a.`task_isclosed`
+    </sql>
 
-	<!-- 删除记录 -->
-	<delete id="delete" parameterType="Object">
-		delete from tasks
-		where `id` = #{id}
-	</delete>
-	
-	<!-- 按id批量删除记录 -->
-	<delete id="deleteBatchByIds">
-		delete from tasks
-		<where>
-			`id` in
-			<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
-				#{item}
-			</foreach>
-		</where>
-	</delete>
-	
-	<!-- 按条件批量删除记录 -->
-	<delete id="deleteBatch" parameterType = "com.coocaa.pro.manage.entity.TasksEntity">
-		delete from tasks
-		<include refid="Example_Where_Clause"/> 
-	</delete>
- 	
- 	<!-- 查找所有记录 -->
- 	<select id="queryByAll" resultMap="BaseResultMap" parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
- 		select 
-			 <include refid="Base_Column_List" /> 
-		from tasks a
- 	</select>
- 
-	<!-- 根据id查询 任务表 -->
-	<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from tasks a
-		WHERE a.`id` = #{id}
-	</select>
+    <!-- 基本查询条件 -->
+    <sql id="Example_Where_Clause">
+        <where>
+            <trim suffixOverrides=",">
+                <if test="id != null">and `id` = #{id}</if>
+                <if test="taskId != null">and `task_id` = #{taskId}</if>
+                <if test="belongProjectId != null">and `belong_project_id` = #{belongProjectId}</if>
+                <if test="taskAsignPersonId != null">and `task_asign_person_id` = #{taskAsignPersonId}</if>
+                <if test="taskAsignPersonHistoryIds != null and taskAsignPersonHistoryIds != ''">and
+                    `task_asign_person_history_ids` = #{taskAsignPersonHistoryIds}
+                </if>
+                <if test="taskLevel != null">and `task_level` = #{taskLevel}</if>
+                <if test="taskParentId != null">and `task_parent_id` = #{taskParentId}</if>
+                <if test="taskName != null and taskName != ''">and `task_name` = #{taskName}</if>
+                <if test="taskDiscription != null and taskDiscription != ''">and `task_discription` =
+                    #{taskDiscription}
+                </if>
+                <if test="taskGrade != null">and `task_grade` = #{taskGrade}</if>
+                <if test="taskBeginTime != null">and `task_begin_time` = #{taskBeginTime}</if>
+                <if test="taskEndTime != null">and `task_end_time` = #{taskEndTime}</if>
+                <if test="taskRealBeginTime != null">and `task_real_begin_time` = #{taskRealBeginTime}</if>
+                <if test="taskRealEndTime != null">and `task_real_end_time` = #{taskRealEndTime}</if>
+                <if test="createtime != null">and `createtime` = #{createtime}</if>
+                <if test="updatetime != null">and `updatetime` = #{updatetime}</if>
+                <if test="taskIsclosed != null">and `task_isclosed` = #{taskIsclosed}</if>
+            </trim>
+        </where>
+    </sql>
 
-	<!-- 任务表 符合条件总数-->
-	<select id="queryByCount" resultType="java.lang.Integer"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
-		select count(1) from tasks a
-	</select>
-  	
-	<!-- 查询任务表列表 -->
-	<select id="queryByList" resultMap="extendResultMap"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from tasks a
-	</select>
-	
-	<!-- 任务表分页查询 -->
-	<select id="queryByPage" resultMap="extendResultMap"  parameterType="com.coocaa.fire.utils.plugin.Pager">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from tasks a
-	</select>
+    <!-- 插入记录 -->
+    <insert id="add" parameterType="com.coocaa.pro.manage.entity.TasksEntity" useGeneratedKeys="true"
+            keyProperty="`id`">
+        insert into
+        tasks(`id`,`task_id`,`belong_project_id`,`task_asign_person_id`,`task_asign_person_history_ids`,`task_level`,`task_parent_id`,`task_name`,`task_discription`,`task_grade`,`task_begin_time`,`task_end_time`,`task_real_begin_time`,`task_real_end_time`,`createtime`,`updatetime`,`task_isclosed`)
+        values(#{id},#{taskId},#{belongProjectId},#{taskAsignPersonId},#{taskAsignPersonHistoryIds},#{taskLevel},#{taskParentId},#{taskName},#{taskDiscription},#{taskGrade},#{taskBeginTime},#{taskEndTime},#{taskRealBeginTime},#{taskRealEndTime},#{createtime},#{updatetime},#{taskIsclosed})
+    </insert>
+
+    <!-- 批量插入记录 -->
+    <insert id="addBatch" parameterType="java.util.List">
+        insert into tasks(
+        `id`,`task_id`,`belong_project_id`,`task_asign_person_id`,`task_asign_person_history_ids`,`task_level`,`task_parent_id`,`task_name`,`task_discription`,`task_grade`,`task_begin_time`,`task_end_time`,`task_real_begin_time`,`task_real_end_time`,`createtime`,`updatetime`,`task_isclosed`
+        ) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id},#{item.taskId},#{item.belongProjectId},#{item.taskAsignPersonId},#{item.taskAsignPersonHistoryIds},#{item.taskLevel},#{item.taskParentId},#{item.taskName},#{item.taskDiscription},#{item.taskGrade},#{item.taskBeginTime},#{item.taskEndTime},#{item.taskRealBeginTime},#{item.taskRealEndTime},#{item.createtime},#{item.updatetime},#{item.taskIsclosed})
+        </foreach>
+    </insert>
+
+    <!-- 根据id，修改记录-->
+    <update id="update" parameterType="com.coocaa.pro.manage.entity.TasksEntity">
+        update tasks
+        set
+        `task_id`=#{taskId},`belong_project_id`=#{belongProjectId},`task_asign_person_id`=#{taskAsignPersonId},`task_asign_person_history_ids`=#{taskAsignPersonHistoryIds},`task_level`=#{taskLevel},`task_parent_id`=#{taskParentId},`task_name`=#{taskName},`task_discription`=#{taskDiscription},`task_grade`=#{taskGrade},`task_begin_time`=#{taskBeginTime},`task_end_time`=#{taskEndTime},`task_real_begin_time`=#{taskRealBeginTime},`task_real_end_time`=#{taskRealEndTime},`createtime`=#{createtime},`updatetime`=#{updatetime},`task_isclosed`=#{taskIsclosed}
+        where `id`=#{id}
+    </update>
+
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.TasksEntity">
+        update tasks set
+        <trim suffixOverrides=",">
+            <if test="taskId != null ">`task_id`=#{taskId},</if>
+            <if test="belongProjectId != null ">`belong_project_id`=#{belongProjectId},</if>
+            <if test="taskAsignPersonId != null ">`task_asign_person_id`=#{taskAsignPersonId},</if>
+            <if test="taskAsignPersonHistoryIds != null ">
+                `task_asign_person_history_ids`=#{taskAsignPersonHistoryIds},
+            </if>
+            <if test="taskLevel != null ">`task_level`=#{taskLevel},</if>
+            <if test="taskParentId != null ">`task_parent_id`=#{taskParentId},</if>
+            <if test="taskName != null ">`task_name`=#{taskName},</if>
+            <if test="taskDiscription != null ">`task_discription`=#{taskDiscription},</if>
+            <if test="taskGrade != null ">`task_grade`=#{taskGrade},</if>
+            <if test="taskBeginTime != null ">`task_begin_time`=#{taskBeginTime},</if>
+            <if test="taskEndTime != null ">`task_end_time`=#{taskEndTime},</if>
+            <if test="taskRealBeginTime != null ">`task_real_begin_time`=#{taskRealBeginTime},</if>
+            <if test="taskRealEndTime != null ">`task_real_end_time`=#{taskRealEndTime},</if>
+            <if test="createtime != null ">`createtime`=#{createtime},</if>
+            <if test="updatetime != null ">`updatetime`=#{updatetime},</if>
+            <if test="taskIsclosed != null ">`task_isclosed`=#{taskIsclosed},</if>
+        </trim>
+        where `id`=#{id}
+    </update>
+
+    <!-- 删除记录 -->
+    <delete id="delete" parameterType="Object">
+        delete from tasks
+        where `id` = #{id}
+    </delete>
+
+    <!-- 按id批量删除记录 -->
+    <delete id="deleteBatchByIds">
+        delete from tasks
+        <where>
+            `id` in
+            <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </delete>
+
+    <!-- 按条件批量删除记录 -->
+    <delete id="deleteBatch" parameterType="com.coocaa.pro.manage.entity.TasksEntity">
+        delete from tasks
+        <include refid="Example_Where_Clause"/>
+    </delete>
+
+    <!-- 查找所有记录 -->
+    <select id="queryByAll" resultMap="BaseResultMap" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select
+        <include refid="Base_Column_List"/>
+        from tasks a
+    </select>
+
+    <!-- 根据id查询 任务表 -->
+    <select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from tasks a
+        WHERE a.`id` = #{id}
+    </select>
+
+    <!-- 任务表 符合条件总数-->
+    <select id="queryByCount" resultType="java.lang.Integer" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select count(1) from tasks a
+    </select>
+
+    <!-- 查询任务表列表 -->
+    <select id="queryByList" resultMap="extendResultMap" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select
+        <include refid="Base_Column_List"/>
+        from tasks a
+    </select>
+
+    <!-- 任务表分页查询 -->
+    <select id="queryByPage" resultMap="extendResultMap" parameterType="com.coocaa.fire.utils.plugin.Pager">
+        select
+        <include refid="Base_Column_List"/>
+        from tasks a
+    </select>
 
 </mapper>   

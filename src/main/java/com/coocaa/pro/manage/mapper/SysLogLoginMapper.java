@@ -11,6 +11,6 @@ import com.coocaa.pro.manage.entity.SysLogLoginEntity;
  * <b>详细说明：</b>无<br>
  */
 public interface SysLogLoginMapper extends BaseMapper<SysLogLoginEntity> {
-	
-	
+
+
 }

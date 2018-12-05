@@ -2,6 +2,7 @@ package com.coocaa.pro.manage.service.sys;
 
 import com.coocaa.pro.manage.entity.SysLogOpEntity;
 import com.coocaa.pro.manage.mapper.SysLogOpMapper;
+import com.coocaa.pro.manage.service.BaseService;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,15 +17,15 @@ import org.springframework.stereotype.Service;
  */
 @Service("sysLogOpService")
 public class SysLogOpService extends BaseService<SysLogOpEntity> {
-	
-	private final static Logger log= Logger.getLogger(SysLogOpService.class);
 
-	@Autowired(required=false)
+    private final static Logger log = Logger.getLogger(SysLogOpService.class);
+
+    @Autowired(required = false)
     private SysLogOpMapper mapper;
 
-		
-	public SysLogOpMapper getMapper() {
-		return mapper;
-	}
+
+    public SysLogOpMapper getMapper() {
+        return mapper;
+    }
 
 }

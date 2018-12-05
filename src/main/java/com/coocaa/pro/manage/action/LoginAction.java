@@ -98,7 +98,7 @@ public class LoginAction extends BasicAction {
 //			map.put("msg", "验证码错误！");
 //		}else{
         Boolean isOk = sysAdminMgrService.userLogin(request, userName, pwd);
-        if (isOk ) {
+        if (isOk) {
             map.put("success", true);
             map.put("msg", "登录成功！");
         } else {

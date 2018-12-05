@@ -1,149 +1,151 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.coocaa.pro.manage.mapper.SysRoleMapper" >
-	<!-- Base Result Map-->
-	<resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.SysRoleEntity" >
-		<result column="role_id" property="roleId"/>
-		<result column="role_name" property="roleName"/>
-		<result column="seq" property="seq"/>
-		<result column="role_desc" property="roleDesc"/>
-		<result column="create_uid" property="createUid"/>
-		<result column="create_date" property="createDate"/>
-		<result column="modify_uid" property="modifyUid"/>
-		<result column="modify_date" property="modifyDate"/>
-	</resultMap>
+<mapper namespace="com.coocaa.pro.manage.mapper.SysRoleMapper">
+    <!-- Base Result Map-->
+    <resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.SysRoleEntity">
+        <result column="role_id" property="roleId"/>
+        <result column="role_name" property="roleName"/>
+        <result column="seq" property="seq"/>
+        <result column="role_desc" property="roleDesc"/>
+        <result column="create_uid" property="createUid"/>
+        <result column="create_date" property="createDate"/>
+        <result column="modify_uid" property="modifyUid"/>
+        <result column="modify_date" property="modifyDate"/>
+    </resultMap>
 
-	<!-- Extend Result Map-->
-	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.SysRoleEntity">
-	</resultMap>
-       
-	<!-- sys_role table all fields -->
-	<sql id="Base_Column_List" >
-		a.role_id,a.role_name,a.seq,a.role_desc,a.create_uid,a.create_date,a.modify_uid,a.modify_date
-	</sql>
-   
-	<!-- 基本查询条件 -->
-	<sql id="Example_Where_Clause">
-		<where>
-			<trim  suffixOverrides="," >
-				<if test="roleId != null" > and role_id =  #{roleId}</if>
-				<if test="roleName != null and roleName != ''" > and role_name =  #{roleName}</if>
-				<if test="seq != null" > and seq =  #{seq}</if>
-				<if test="roleDesc != null and roleDesc != ''" > and role_desc =  #{roleDesc}</if>
-				<if test="createUid != null" > and create_uid =  #{createUid}</if>
-				<if test="createDate != null" > and create_date =  #{createDate}</if>
-				<if test="modifyUid != null" > and modify_uid =  #{modifyUid}</if>
-				<if test="modifyDate != null" > and modify_date =  #{modifyDate}</if>
-			</trim>
-		</where>
-	</sql>
-   
-	<!-- 插入记录 -->
-	<insert id="add" parameterType="com.coocaa.pro.manage.entity.SysRoleEntity" useGeneratedKeys="true" keyProperty="role_id" >
-		insert into sys_role(role_id,role_name,seq,role_desc,create_uid,create_date,modify_uid,modify_date)
-		values(#{roleId},#{roleName},#{seq},#{roleDesc},#{createUid},#{createDate},#{modifyUid},#{modifyDate})
-	</insert>
-	
-	<!-- 批量插入记录 -->
-	<insert id="addBatch" parameterType="java.util.List">  
-    	insert into sys_role(
-			role_id,role_name,seq,role_desc,create_uid,create_date,modify_uid,modify_date
-		) values
-		<foreach collection="list" item="item" index="index" separator=",">
-			(#{item.roleId},#{item.roleName},#{item.seq},#{item.roleDesc},#{item.createUid},#{item.createDate},#{item.modifyUid},#{item.modifyDate})
-		</foreach>  
-  	</insert>
+    <!-- Extend Result Map-->
+    <resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.SysRoleEntity">
+    </resultMap>
 
-	<!-- 根据id，修改记录-->  
-	<update id="update" parameterType="com.coocaa.pro.manage.entity.SysRoleEntity" >
-		update sys_role 
-		set role_name=#{roleName},seq=#{seq},role_desc=#{roleDesc},create_uid=#{createUid},create_date=#{createDate},modify_uid=#{modifyUid},modify_date=#{modifyDate} 
-		where role_id=#{roleId}
-	</update>
- 
-	<!-- 修改记录，只修改只不为空的字段 -->
-	<update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.SysRoleEntity" >
-		update sys_role set 
-		<trim  suffixOverrides="," >
-			<if test="roleName != null "> role_name=#{roleName},</if>
-			<if test="seq != null "> seq=#{seq},</if>
-			<if test="roleDesc != null "> role_desc=#{roleDesc},</if>
-			<if test="createUid != null "> create_uid=#{createUid},</if>
-			<if test="createDate != null "> create_date=#{createDate},</if>
-			<if test="modifyUid != null "> modify_uid=#{modifyUid},</if>
-			<if test="modifyDate != null "> modify_date=#{modifyDate},</if>
-		</trim>
-		where role_id=#{roleId}
-	</update>
+    <!-- sys_role table all fields -->
+    <sql id="Base_Column_List">
+        a.role_id,a.role_name,a.seq,a.role_desc,a.create_uid,a.create_date,a.modify_uid,a.modify_date
+    </sql>
 
-	<!-- 删除记录 -->
-	<delete id="delete" parameterType="Object">
-		delete from sys_role
-		where role_id = #{roleId}
-	</delete>
-	
-	<!-- 按id批量删除记录 -->
-	<delete id="deleteBatchByIds">
-		delete from sys_role
-		<where>
-			role_id in
-			<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
-				#{item}
-			</foreach>
-		</where>
-	</delete>
-	
-	<!-- 按条件批量删除记录 -->
-	<delete id="deleteBatch" parameterType = "com.coocaa.pro.manage.entity.SysRoleEntity">
-		delete from sys_role
-		<include refid="Example_Where_Clause"/> 
-	</delete>
- 	
- 	<!-- 查找所有记录 -->
- 	<select id="queryByAll" resultMap="BaseResultMap" parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
- 		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_role a
- 	</select>
- 
-	<!-- 根据id查询 角色 -->
-	<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_role a
-		WHERE a.role_id = #{roleId}
-	</select>
+    <!-- 基本查询条件 -->
+    <sql id="Example_Where_Clause">
+        <where>
+            <trim suffixOverrides=",">
+                <if test="roleId != null">and role_id = #{roleId}</if>
+                <if test="roleName != null and roleName != ''">and role_name = #{roleName}</if>
+                <if test="seq != null">and seq = #{seq}</if>
+                <if test="roleDesc != null and roleDesc != ''">and role_desc = #{roleDesc}</if>
+                <if test="createUid != null">and create_uid = #{createUid}</if>
+                <if test="createDate != null">and create_date = #{createDate}</if>
+                <if test="modifyUid != null">and modify_uid = #{modifyUid}</if>
+                <if test="modifyDate != null">and modify_date = #{modifyDate}</if>
+            </trim>
+        </where>
+    </sql>
 
-	<!-- 角色 符合条件总数-->
-	<select id="queryByCount" resultType="java.lang.Integer"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
-		select count(1) from sys_role a
-	</select>
-  	
-	<!-- 查询角色列表 -->
-	<select id="queryByList" resultMap="extendResultMap"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_role a
-	</select>
-	
-	<!-- 角色分页查询 -->
-	<select id="queryByPage" resultMap="extendResultMap"  parameterType="com.coocaa.fire.utils.plugin.Pager">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_role a
-	</select>
+    <!-- 插入记录 -->
+    <insert id="add" parameterType="com.coocaa.pro.manage.entity.SysRoleEntity" useGeneratedKeys="true"
+            keyProperty="role_id">
+        insert into sys_role(role_id,role_name,seq,role_desc,create_uid,create_date,modify_uid,modify_date)
+        values(#{roleId},#{roleName},#{seq},#{roleDesc},#{createUid},#{createDate},#{modifyUid},#{modifyDate})
+    </insert>
 
-	<!-- 获取用户没有角色列表 -->
-	<select id="getNotRolesByUserId" resultMap="BaseResultMap" parameterType="int">
-		SELECT role_id,role_name 
-		FROM sys_role 
-		WHERE role_id NOT IN(SELECT role_id FROM sys_user_role WHERE user_id = #{userId})
-	</select>
-	
-	<!-- 获取用户已有角色列表 -->
-	<select id="getRolesByUserId" resultMap="BaseResultMap" parameterType="int">
-		SELECT b.role_id,b.role_name 
-		FROM sys_user_role a
-		LEFT JOIN sys_role b ON (a.role_id = b.role_id) WHERE user_id = #{userId}
-	</select>
+    <!-- 批量插入记录 -->
+    <insert id="addBatch" parameterType="java.util.List">
+        insert into sys_role(
+        role_id,role_name,seq,role_desc,create_uid,create_date,modify_uid,modify_date
+        ) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.roleId},#{item.roleName},#{item.seq},#{item.roleDesc},#{item.createUid},#{item.createDate},#{item.modifyUid},#{item.modifyDate})
+        </foreach>
+    </insert>
+
+    <!-- 根据id，修改记录-->
+    <update id="update" parameterType="com.coocaa.pro.manage.entity.SysRoleEntity">
+        update sys_role
+        set
+        role_name=#{roleName},seq=#{seq},role_desc=#{roleDesc},create_uid=#{createUid},create_date=#{createDate},modify_uid=#{modifyUid},modify_date=#{modifyDate}
+        where role_id=#{roleId}
+    </update>
+
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.SysRoleEntity">
+        update sys_role set
+        <trim suffixOverrides=",">
+            <if test="roleName != null ">role_name=#{roleName},</if>
+            <if test="seq != null ">seq=#{seq},</if>
+            <if test="roleDesc != null ">role_desc=#{roleDesc},</if>
+            <if test="createUid != null ">create_uid=#{createUid},</if>
+            <if test="createDate != null ">create_date=#{createDate},</if>
+            <if test="modifyUid != null ">modify_uid=#{modifyUid},</if>
+            <if test="modifyDate != null ">modify_date=#{modifyDate},</if>
+        </trim>
+        where role_id=#{roleId}
+    </update>
+
+    <!-- 删除记录 -->
+    <delete id="delete" parameterType="Object">
+        delete from sys_role
+        where role_id = #{roleId}
+    </delete>
+
+    <!-- 按id批量删除记录 -->
+    <delete id="deleteBatchByIds">
+        delete from sys_role
+        <where>
+            role_id in
+            <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </delete>
+
+    <!-- 按条件批量删除记录 -->
+    <delete id="deleteBatch" parameterType="com.coocaa.pro.manage.entity.SysRoleEntity">
+        delete from sys_role
+        <include refid="Example_Where_Clause"/>
+    </delete>
+
+    <!-- 查找所有记录 -->
+    <select id="queryByAll" resultMap="BaseResultMap" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role a
+    </select>
+
+    <!-- 根据id查询 角色 -->
+    <select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role a
+        WHERE a.role_id = #{roleId}
+    </select>
+
+    <!-- 角色 符合条件总数-->
+    <select id="queryByCount" resultType="java.lang.Integer" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select count(1) from sys_role a
+    </select>
+
+    <!-- 查询角色列表 -->
+    <select id="queryByList" resultMap="extendResultMap" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role a
+    </select>
+
+    <!-- 角色分页查询 -->
+    <select id="queryByPage" resultMap="extendResultMap" parameterType="com.coocaa.fire.utils.plugin.Pager">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role a
+    </select>
+
+    <!-- 获取用户没有角色列表 -->
+    <select id="getNotRolesByUserId" resultMap="BaseResultMap" parameterType="int">
+        SELECT role_id,role_name
+        FROM sys_role
+        WHERE role_id NOT IN(SELECT role_id FROM sys_user_role WHERE user_id = #{userId})
+    </select>
+
+    <!-- 获取用户已有角色列表 -->
+    <select id="getRolesByUserId" resultMap="BaseResultMap" parameterType="int">
+        SELECT b.role_id,b.role_name
+        FROM sys_user_role a
+        LEFT JOIN sys_role b ON (a.role_id = b.role_id) WHERE user_id = #{userId}
+    </select>
 </mapper>   

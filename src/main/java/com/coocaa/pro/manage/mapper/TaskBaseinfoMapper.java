@@ -10,6 +10,6 @@ import com.coocaa.pro.manage.entity.TaskBaseinfoEntity;
  * <b>详细说明：</b>无<br>
  */
 public interface TaskBaseinfoMapper extends BaseMapper<TaskBaseinfoEntity> {
-	
-	
+
+
 }

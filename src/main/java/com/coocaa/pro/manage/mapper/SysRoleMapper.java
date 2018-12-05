@@ -14,18 +14,20 @@ import java.util.List;
  * <b>详细说明：</b>无<br>
  */
 public interface SysRoleMapper extends BaseMapper<SysRoleEntity> {
-	
-	/**
-	 * 获取用户没有角色列表
-	 * @param userId
-	 * @return
-	 */
-	public List<SysRoleEntity> getNotRolesByUserId(Integer userId);
-	
-	/**
-	 * 获取用户已有角色列表
-	 * @param userId
-	 * @return
-	 */
-	public List<SysRoleEntity> getRolesByUserId(Integer userId);
+
+    /**
+     * 获取用户没有角色列表
+     *
+     * @param userId
+     * @return
+     */
+    public List<SysRoleEntity> getNotRolesByUserId(Integer userId);
+
+    /**
+     * 获取用户已有角色列表
+     *
+     * @param userId
+     * @return
+     */
+    public List<SysRoleEntity> getRolesByUserId(Integer userId);
 }

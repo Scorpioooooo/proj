@@ -165,7 +165,7 @@ public class SysRoleAction extends BasicAction {
         Map<String, Object> map = new HashMap<String, Object>();
         SysRoleEntity entity = sysRoleService.queryById(id);
         map.put("entity", JsonUtils.obj2Json(entity));
-        map.put("path","sysRole/sysRoleEdit");
+        map.put("path", "sysRole/sysRoleEdit");
         return renderToJson(map);
     }
 

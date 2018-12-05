@@ -46,8 +46,9 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (!(handler instanceof HandlerMethod)) {
-            notVerified(request, response, "非法请求");
-            return false;
+            return super.preHandle(request, response, handler);
+            //notVerified(request, response, "非法请求");
+            //return false;
         }
         HandlerMethod method = (HandlerMethod) handler;
         Auth auth = method.getMethod().getAnnotation(Auth.class);
@@ -122,6 +123,14 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
 //		}else{
 //			super.afterCompletion(request, response, handler, ex);
 //		}
+//        response.setHeader("Access-Control-Allow-Credentials","true");
+//        //response.setHeader("Access-Control-Allow-Origin","http://localhost:8082");
+//        response.setHeader("Access-Control-Allow-Origin",request.getHeader("Origin"));
+//        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+//        response.setHeader("Access-Control-Max-Age", "3600");
+//        response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
+
+
         super.afterCompletion(request, response, handler, ex);
     }
 
@@ -159,19 +168,19 @@ public class SessionInterceptor extends HandlerInterceptorAdapter {
     }
 
     private void notVerified(HttpServletRequest request, HttpServletResponse response, String msg) throws Exception {
-            //ajax请求
-            Map<String, Object> result = new HashMap<String, Object>();
-            result.put("success", false);
-            result.put("msg", msg);
-            // 传统的登录页面
-            response.setContentType("application/json");
-            //设置页面不缓存
-            response.setHeader("Pragma", "No-cache");
-            response.setHeader("Cache-Control", "no-cache");
-            response.setCharacterEncoding("UTF-8");
-            PrintWriter out = response.getWriter();
-            out.print(JsonUtils.obj2Json(result));
-            out.flush();
-            out.close();
+        //ajax请求
+        Map<String, Object> result = new HashMap<String, Object>();
+        result.put("success", false);
+        result.put("msg", msg);
+        // 传统的登录页面
+        response.setContentType("application/json");
+        //设置页面不缓存
+        response.setHeader("Pragma", "No-cache");
+        response.setHeader("Cache-Control", "no-cache");
+        response.setCharacterEncoding("UTF-8");
+        PrintWriter out = response.getWriter();
+        out.print(JsonUtils.obj2Json(result));
+        out.flush();
+        out.close();
     }
 }

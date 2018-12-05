@@ -119,7 +119,7 @@ public class SysAdminMgrService {
             SysMenuEntity menu = sysMenuService.queryByOne(query);
             if (menu != null) {
                 menuId = menu.getMenuId();
-               // MemcachedCMgr.getInstance().set(key, CacheEnum.CacheTimeEnum.CACHE_EXP_H.key, menuId);
+                // MemcachedCMgr.getInstance().set(key, CacheEnum.CacheTimeEnum.CACHE_EXP_H.key, menuId);
             }
         }
         return menuId;
@@ -263,69 +263,69 @@ public class SysAdminMgrService {
      * 通过角色id获取当前角色权限赋值情况 <br/>
      * add by liuzinong at 2016年9月20日 09:04:33 <br/>
      * 结果集格式来自 {@link SysAdminMgrService#getMenuAuths(Integer)}
+     *
      * @param roleId 角色id
      * @return
      */
-    public Object getMenuAuths2 (Integer roleId) {
+    public Object getMenuAuths2(Integer roleId) {
         //一级目录
-        List<HashMap<String,Object>> datas = sysMenuService.getMapper().queryByRole(0,roleId);
-        return this.prepareData(datas,roleId);
+        List<HashMap<String, Object>> datas = sysMenuService.getMapper().queryByRole(0, roleId);
+        return this.prepareData(datas, roleId);
     }
 
     /**
      * 处理数据
-     * @param datas 数据库查询结果集
+     *
+     * @param datas  数据库查询结果集
      * @param roleId 角色id
      * @return
      */
-    private List<Map<String,Object>> prepareData (List<HashMap<String,Object>> datas, Integer roleId) {
+    private List<Map<String, Object>> prepareData(List<HashMap<String, Object>> datas, Integer roleId) {
         // key ：menuid  value ：options
-        Map<Object,List<HashMap<String,Object>>> result = new HashMap<>();
+        Map<Object, List<HashMap<String, Object>>> result = new HashMap<>();
 
         //把菜单id相同的加入同一list
         //方便后续结果处理
         if (CollectionUtils.isNotEmpty(datas)) {
-            for (HashMap<String,Object> data : datas) {
+            for (HashMap<String, Object> data : datas) {
                 Object menuId = data.get("menuId");
                 if (result.get(menuId) != null) {
                     result.get(menuId).add(data);
-                }
-                else {
-                    List<HashMap<String,Object>> list = new ArrayList<>();
+                } else {
+                    List<HashMap<String, Object>> list = new ArrayList<>();
                     list.add(data);
-                    result.put(menuId,list);
+                    result.put(menuId, list);
                 }
             }
         }
 
-        List<Map<String,Object>> target = new ArrayList<>();
-        for (Map.Entry<Object,List<HashMap<String,Object>>> entry : result.entrySet()) {
+        List<Map<String, Object>> target = new ArrayList<>();
+        for (Map.Entry<Object, List<HashMap<String, Object>>> entry : result.entrySet()) {
             if (CollectionUtils.isNotEmpty(entry.getValue())) {
-                HashMap<String,Object> first = entry.getValue().get(0);
+                HashMap<String, Object> first = entry.getValue().get(0);
                 //菜单单条数据
-                Map<String,Object> that = new HashMap<>();
-                that.put("menuId",entry.getKey());
-                that.put("text",first.get("menuName"));
-                that.put("iconCls",first.get("iconClass"));
+                Map<String, Object> that = new HashMap<>();
+                that.put("menuId", entry.getKey());
+                that.put("text", first.get("menuName"));
+                that.put("iconCls", first.get("iconClass"));
                 //父id
-                int parent = Integer.parseInt(first.get("pmid")+"");
+                int parent = Integer.parseInt(first.get("pmid") + "");
                 if (parent == 0) {
                     //递归调用
-                    that.put("children",this.prepareData(sysMenuService.getMapper().queryByRole(Integer.parseInt(that.get("menuId")+""),roleId),roleId));
+                    that.put("children", this.prepareData(sysMenuService.getMapper().queryByRole(Integer.parseInt(that.get("menuId") + ""), roleId), roleId));
                 }
-                for (HashMap<String,Object> map : entry.getValue()) {
+                for (HashMap<String, Object> map : entry.getValue()) {
                     int status = 0;
                     Object x = map.get("x"); // 1当前菜单有配置操作选项  0 当前菜单没有配置
-                    if (x != null && Integer.parseInt( x + "") == 0) {
+                    if (x != null && Integer.parseInt(x + "") == 0) {
                         status = -1;
-                    }
-                    else if (x != null && Integer.parseInt( x + "") == 1) {
+                    } else if (x != null && Integer.parseInt(x + "") == 1) {
                         // y 当前角色对当前菜单有操作选项
                         if (1 == Integer.parseInt(map.get("y") + "")) {
                             status = 1;
                         }
                     }
-                    that.put(map.get("runComm")+"",status);
+                    that.put(map.get("runComm") + "", status);
                 }
 
                 target.add(that);
@@ -333,7 +333,6 @@ public class SysAdminMgrService {
         }
         return target;
     }
-
 
 
     /**

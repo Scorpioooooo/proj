@@ -16,19 +16,19 @@ import java.util.List;
  * <b>详细说明：</b>无<br>
  */
 public interface SysMenuMapper extends BaseMapper<SysMenuEntity> {
-	
-	/**
-	 * 获取指定角色列表对应的菜单聚合,已去重
-	 * @param roleIds
-	 * @return
-	 */
-	public List<SysMenuEntity> getMenusByRole(List<Integer> roleIds);
 
-	/**
-	 *
-	 * @param parent 菜单父id
-	 * @param roleId 角色id
+    /**
+     * 获取指定角色列表对应的菜单聚合,已去重
+     *
+     * @param roleIds
      * @return
      */
-	List<HashMap<String,Object>> queryByRole(@Param("parent") Integer parent, @Param("roleId") Integer roleId);
+    public List<SysMenuEntity> getMenusByRole(List<Integer> roleIds);
+
+    /**
+     * @param parent 菜单父id
+     * @param roleId 角色id
+     * @return
+     */
+    List<HashMap<String, Object>> queryByRole(@Param("parent") Integer parent, @Param("roleId") Integer roleId);
 }

@@ -24,6 +24,7 @@
         <java.version>1.8</java.version>
     </properties>
 
+
     <dependencies>
         <dependency>
             <groupId>com.coocaa.fire</groupId>
@@ -115,11 +116,7 @@
             <artifactId>commons-net</artifactId>
             <version>3.2</version>
         </dependency>
-        <dependency>
-            <groupId>commons-net</groupId>
-            <artifactId>commons-net</artifactId>
-            <version>3.2</version>
-        </dependency>
+
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
@@ -132,23 +129,57 @@
             <!--<version>3.2.8</version>-->
         <!--</dependency>-->
     </dependencies>
+
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <env>dev</env>
+            </properties>
+        </profile>
+
+        <profile>
+            <id>master</id>
+            <properties>
+                <env>master</env>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
+
+
+
+        <finalName>ROOT</finalName>
         <resources>
             <resource>
                 <directory>src/main/java</directory>
                 <includes>
                     <include>**/*.xml</include>
                 </includes>
+                <filtering>true</filtering>
             </resource>
             <resource>
                 <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+                <includes>
+                    <include>**/**</include>
+                </includes>
             </resource>
         </resources>
+
+        <filters>
+            <filter>src/main/resources/configs/${env}/jdbc.properties</filter>
+        </filters>
+
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
     </build>
 </project>

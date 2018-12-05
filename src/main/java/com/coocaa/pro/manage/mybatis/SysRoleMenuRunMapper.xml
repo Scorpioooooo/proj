@@ -1,142 +1,145 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.coocaa.pro.manage.mapper.SysRoleMenuRunMapper" >
-	<!-- Base Result Map-->
-	<resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.SysRoleMenuRunEntity" >
-		<result column="role_id" property="roleId"/>
-		<result column="menu_id" property="menuId"/>
-		<result column="run_id" property="runId"/>
-	</resultMap>
+<mapper namespace="com.coocaa.pro.manage.mapper.SysRoleMenuRunMapper">
+    <!-- Base Result Map-->
+    <resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.SysRoleMenuRunEntity">
+        <result column="role_id" property="roleId"/>
+        <result column="menu_id" property="menuId"/>
+        <result column="run_id" property="runId"/>
+    </resultMap>
 
-	<!-- Extend Result Map-->
-	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.SysRoleMenuRunEntity">
-		<association property="sysRun" column="run_id" resultMap="com.coocaa.pro.manage.mapper.SysRunMapper.BaseResultMap">
-		</association>
-		<association property="sysRole" column="role_id" resultMap="com.coocaa.pro.manage.mapper.SysRoleMapper.BaseResultMap">
-		</association>
-		<association property="sysMenu" column="menu_id" resultMap="com.coocaa.pro.manage.mapper.SysMenuMapper.BaseResultMap">
-		</association>
-	</resultMap>
-       
-	<!-- sys_role_menu_run table all fields -->
-	<sql id="Base_Column_List" >
-		a.role_id,a.menu_id,a.run_id
-	</sql>
-   
-	<!-- 基本查询条件 -->
-	<sql id="Example_Where_Clause">
-		<where>
-			<trim  suffixOverrides="," >
-				<if test="roleId != null" > and role_id =  #{roleId}</if>
-				<if test="menuId != null" > and menu_id =  #{menuId}</if>
-				<if test="runId != null" > and run_id =  #{runId}</if>
-			</trim>
-		</where>
-	</sql>
-   
-	<!-- 插入记录 -->
-	<insert id="add" parameterType="com.coocaa.pro.manage.entity.SysRoleMenuRunEntity" >
-		insert into sys_role_menu_run(role_id,menu_id,run_id)
-		values(#{roleId},#{menuId},#{runId})
-	</insert>
-	
-	<!-- 批量插入记录 -->
-	<insert id="addBatch" parameterType="java.util.List">  
-    	insert into sys_role_menu_run(
-			role_id,menu_id,run_id
-		) values
-		<foreach collection="list" item="item" index="index" separator=",">
-			(#{item.roleId},#{item.menuId},#{item.runId})
-		</foreach>  
-  	</insert>
+    <!-- Extend Result Map-->
+    <resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.SysRoleMenuRunEntity">
+        <association property="sysRun" column="run_id"
+                     resultMap="com.coocaa.pro.manage.mapper.SysRunMapper.BaseResultMap">
+        </association>
+        <association property="sysRole" column="role_id"
+                     resultMap="com.coocaa.pro.manage.mapper.SysRoleMapper.BaseResultMap">
+        </association>
+        <association property="sysMenu" column="menu_id"
+                     resultMap="com.coocaa.pro.manage.mapper.SysMenuMapper.BaseResultMap">
+        </association>
+    </resultMap>
 
-	<!-- 根据id，修改记录-->  
-	<update id="update" parameterType="com.coocaa.pro.manage.entity.SysRoleMenuRunEntity" >
-		update sys_role_menu_run 
-		set menu_id=#{menuId},run_id=#{runId} 
-		where role_id=#{roleId}
-	</update>
- 
-	<!-- 修改记录，只修改只不为空的字段 -->
-	<update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.SysRoleMenuRunEntity" >
-		update sys_role_menu_run set 
-		<trim  suffixOverrides="," >
-			<if test="menuId != null "> menu_id=#{menuId},</if>
-			<if test="runId != null "> run_id=#{runId},</if>
-		</trim>
-		where role_id=#{roleId}
-	</update>
+    <!-- sys_role_menu_run table all fields -->
+    <sql id="Base_Column_List">
+        a.role_id,a.menu_id,a.run_id
+    </sql>
 
-	<!-- 删除记录 -->
-	<delete id="delete" parameterType="Object">
-		delete from sys_role_menu_run
-		where role_id = #{roleId}
-	</delete>
-	
-	<!-- 按id批量删除记录 -->
-	<delete id="deleteBatchByIds">
-		delete from sys_role_menu_run
-		<where>
-			role_id in
-			<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
-				#{item}
-			</foreach>
-		</where>
-	</delete>
-	
-	<!-- 按条件批量删除记录 -->
-	<delete id="deleteBatch" parameterType = "com.coocaa.pro.manage.entity.SysRoleMenuRunEntity">
-		delete from sys_role_menu_run
-		<include refid="Example_Where_Clause"/> 
-	</delete>
- 	
- 	<!-- 查找所有记录 -->
- 	<select id="queryByAll" resultMap="BaseResultMap" parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
- 		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_role_menu_run a
-			left join sys_run b on(a.run_id = b.run_id)
-			left join sys_role c on(a.role_id = c.role_id)
-			left join sys_menu d on(a.menu_id = d.menu_id)
- 	</select>
- 
-	<!-- 根据id查询 角色菜单功能 -->
-	<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_role_menu_run a
-			left join sys_run b on(a.run_id = b.run_id)
-			left join sys_role c on(a.role_id = c.role_id)
-			left join sys_menu d on(a.menu_id = d.menu_id)
-		WHERE a.role_id = #{roleId}
-	</select>
+    <!-- 基本查询条件 -->
+    <sql id="Example_Where_Clause">
+        <where>
+            <trim suffixOverrides=",">
+                <if test="roleId != null">and role_id = #{roleId}</if>
+                <if test="menuId != null">and menu_id = #{menuId}</if>
+                <if test="runId != null">and run_id = #{runId}</if>
+            </trim>
+        </where>
+    </sql>
 
-	<!-- 角色菜单功能 符合条件总数-->
-	<select id="queryByCount" resultType="java.lang.Integer"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
-		select count(1) from sys_role_menu_run a
-			left join sys_run b on(a.run_id = b.run_id)
-			left join sys_role c on(a.role_id = c.role_id)
-			left join sys_menu d on(a.menu_id = d.menu_id)
-	</select>
-  	
-	<!-- 查询角色菜单功能列表 -->
-	<select id="queryByList" resultMap="extendResultMap"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_role_menu_run a
-			left join sys_run b on(a.run_id = b.run_id)
-			left join sys_role c on(a.role_id = c.role_id)
-			left join sys_menu d on(a.menu_id = d.menu_id)
-	</select>
-	
-	<!-- 角色菜单功能分页查询 -->
-	<select id="queryByPage" resultMap="extendResultMap"  parameterType="com.coocaa.fire.utils.plugin.Pager">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_role_menu_run a
-			left join sys_run b on(a.run_id = b.run_id)
-			left join sys_role c on(a.role_id = c.role_id)
-			left join sys_menu d on(a.menu_id = d.menu_id)
-	</select>
+    <!-- 插入记录 -->
+    <insert id="add" parameterType="com.coocaa.pro.manage.entity.SysRoleMenuRunEntity">
+        insert into sys_role_menu_run(role_id,menu_id,run_id)
+        values(#{roleId},#{menuId},#{runId})
+    </insert>
+
+    <!-- 批量插入记录 -->
+    <insert id="addBatch" parameterType="java.util.List">
+        insert into sys_role_menu_run(
+        role_id,menu_id,run_id
+        ) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.roleId},#{item.menuId},#{item.runId})
+        </foreach>
+    </insert>
+
+    <!-- 根据id，修改记录-->
+    <update id="update" parameterType="com.coocaa.pro.manage.entity.SysRoleMenuRunEntity">
+        update sys_role_menu_run
+        set menu_id=#{menuId},run_id=#{runId}
+        where role_id=#{roleId}
+    </update>
+
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.SysRoleMenuRunEntity">
+        update sys_role_menu_run set
+        <trim suffixOverrides=",">
+            <if test="menuId != null ">menu_id=#{menuId},</if>
+            <if test="runId != null ">run_id=#{runId},</if>
+        </trim>
+        where role_id=#{roleId}
+    </update>
+
+    <!-- 删除记录 -->
+    <delete id="delete" parameterType="Object">
+        delete from sys_role_menu_run
+        where role_id = #{roleId}
+    </delete>
+
+    <!-- 按id批量删除记录 -->
+    <delete id="deleteBatchByIds">
+        delete from sys_role_menu_run
+        <where>
+            role_id in
+            <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </delete>
+
+    <!-- 按条件批量删除记录 -->
+    <delete id="deleteBatch" parameterType="com.coocaa.pro.manage.entity.SysRoleMenuRunEntity">
+        delete from sys_role_menu_run
+        <include refid="Example_Where_Clause"/>
+    </delete>
+
+    <!-- 查找所有记录 -->
+    <select id="queryByAll" resultMap="BaseResultMap" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role_menu_run a
+        left join sys_run b on(a.run_id = b.run_id)
+        left join sys_role c on(a.role_id = c.role_id)
+        left join sys_menu d on(a.menu_id = d.menu_id)
+    </select>
+
+    <!-- 根据id查询 角色菜单功能 -->
+    <select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role_menu_run a
+        left join sys_run b on(a.run_id = b.run_id)
+        left join sys_role c on(a.role_id = c.role_id)
+        left join sys_menu d on(a.menu_id = d.menu_id)
+        WHERE a.role_id = #{roleId}
+    </select>
+
+    <!-- 角色菜单功能 符合条件总数-->
+    <select id="queryByCount" resultType="java.lang.Integer" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select count(1) from sys_role_menu_run a
+        left join sys_run b on(a.run_id = b.run_id)
+        left join sys_role c on(a.role_id = c.role_id)
+        left join sys_menu d on(a.menu_id = d.menu_id)
+    </select>
+
+    <!-- 查询角色菜单功能列表 -->
+    <select id="queryByList" resultMap="extendResultMap" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role_menu_run a
+        left join sys_run b on(a.run_id = b.run_id)
+        left join sys_role c on(a.role_id = c.role_id)
+        left join sys_menu d on(a.menu_id = d.menu_id)
+    </select>
+
+    <!-- 角色菜单功能分页查询 -->
+    <select id="queryByPage" resultMap="extendResultMap" parameterType="com.coocaa.fire.utils.plugin.Pager">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_role_menu_run a
+        left join sys_run b on(a.run_id = b.run_id)
+        left join sys_role c on(a.role_id = c.role_id)
+        left join sys_menu d on(a.menu_id = d.menu_id)
+    </select>
 
 </mapper>   

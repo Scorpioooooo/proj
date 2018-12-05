@@ -10,6 +10,6 @@ import com.coocaa.pro.manage.entity.ProjectsEvaluationEntity;
  * <b>详细说明：</b>无<br>
  */
 public interface ProjectsEvaluationMapper extends BaseMapper<ProjectsEvaluationEntity> {
-	
-	
+
+
 }

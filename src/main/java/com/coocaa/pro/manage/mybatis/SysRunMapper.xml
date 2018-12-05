@@ -1,166 +1,169 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.coocaa.pro.manage.mapper.SysRunMapper" >
-	<!-- Base Result Map-->
-	<resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.SysRunEntity" >
-		<result column="run_id" property="runId"/>
-		<result column="run_comm" property="runComm"/>
-		<result column="run_name" property="runName"/>
-		<result column="run_btn" property="runBtn"/>
-		<result column="run_btn_icon" property="runBtnIcon"/>
-		<result column="seq" property="seq"/>
-	</resultMap>
+<mapper namespace="com.coocaa.pro.manage.mapper.SysRunMapper">
+    <!-- Base Result Map-->
+    <resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.SysRunEntity">
+        <result column="run_id" property="runId"/>
+        <result column="run_comm" property="runComm"/>
+        <result column="run_name" property="runName"/>
+        <result column="run_btn" property="runBtn"/>
+        <result column="run_btn_icon" property="runBtnIcon"/>
+        <result column="seq" property="seq"/>
+    </resultMap>
 
-	<!-- Extend Result Map-->
-	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.SysRunEntity">
-	</resultMap>
-       
-	<!-- sys_run table all fields -->
-	<sql id="Base_Column_List" >
-		a.run_id,a.run_comm,a.run_name,a.run_btn,a.run_btn_icon,a.seq
-	</sql>
-   
-	<!-- 基本查询条件 -->
-	<sql id="Example_Where_Clause">
-		<where>
-			<trim  suffixOverrides="," >
-				<if test="runId != null" > and run_id =  #{runId}</if>
-				<if test="runComm != null and runComm != ''" > and run_comm =  #{runComm}</if>
-				<if test="runName != null and runName != ''" > and run_name =  #{runName}</if>
-				<if test="runBtn != null" > and run_btn =  #{runBtn}</if>
-				<if test="runBtnIcon != null and runBtnIcon != ''" > and run_btn_icon =  #{runBtnIcon}</if>
-				<if test="seq != null" > and seq =  #{seq}</if>
-			</trim>
-		</where>
-	</sql>
-   
-	<!-- 插入记录 -->
-	<insert id="add" parameterType="com.coocaa.pro.manage.entity.SysRunEntity" useGeneratedKeys="true" keyProperty="run_id" >
-		insert into sys_run(run_id,run_comm,run_name,run_btn,run_btn_icon,seq)
-		values(#{runId},#{runComm},#{runName},#{runBtn},#{runBtnIcon},#{seq})
-	</insert>
-	
-	<!-- 批量插入记录 -->
-	<insert id="addBatch" parameterType="java.util.List">  
-    	insert into sys_run(
-			run_id,run_comm,run_name,run_btn,run_btn_icon,seq
-		) values
-		<foreach collection="list" item="item" index="index" separator=",">
-			(#{item.runId},#{item.runComm},#{item.runName},#{item.runBtn},#{item.runBtnIcon},#{item.seq})
-		</foreach>  
-  	</insert>
+    <!-- Extend Result Map-->
+    <resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.SysRunEntity">
+    </resultMap>
 
-	<!-- 根据id，修改记录-->  
-	<update id="update" parameterType="com.coocaa.pro.manage.entity.SysRunEntity" >
-		update sys_run 
-		set run_comm=#{runComm},run_name=#{runName},run_btn=#{runBtn},run_btn_icon=#{runBtnIcon},seq=#{seq} 
-		where run_id=#{runId}
-	</update>
- 
-	<!-- 修改记录，只修改只不为空的字段 -->
-	<update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.SysRunEntity" >
-		update sys_run set 
-		<trim  suffixOverrides="," >
-			<if test="runComm != null "> run_comm=#{runComm},</if>
-			<if test="runName != null "> run_name=#{runName},</if>
-			<if test="runBtn != null "> run_btn=#{runBtn},</if>
-			<if test="runBtnIcon != null "> run_btn_icon=#{runBtnIcon},</if>
-			<if test="seq != null "> seq=#{seq},</if>
-		</trim>
-		where run_id=#{runId}
-	</update>
+    <!-- sys_run table all fields -->
+    <sql id="Base_Column_List">
+        a.run_id,a.run_comm,a.run_name,a.run_btn,a.run_btn_icon,a.seq
+    </sql>
 
-	<!-- 删除记录 -->
-	<delete id="delete" parameterType="Object">
-		delete from sys_run
-		where run_id = #{runId}
-	</delete>
-	
-	<!-- 按id批量删除记录 -->
-	<delete id="deleteBatchByIds">
-		delete from sys_run
-		<where>
-			run_id in
-			<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
-				#{item}
-			</foreach>
-		</where>
-	</delete>
-	
-	<!-- 按条件批量删除记录 -->
-	<delete id="deleteBatch" parameterType = "com.coocaa.pro.manage.entity.SysRunEntity">
-		delete from sys_run
-		<include refid="Example_Where_Clause"/> 
-	</delete>
- 	
- 	<!-- 查找所有记录 -->
- 	<select id="queryByAll" resultMap="BaseResultMap" parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
- 		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_run a
- 	</select>
- 
-	<!-- 根据id查询 功能 -->
-	<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_run a
-		WHERE a.run_id = #{runId}
-	</select>
+    <!-- 基本查询条件 -->
+    <sql id="Example_Where_Clause">
+        <where>
+            <trim suffixOverrides=",">
+                <if test="runId != null">and run_id = #{runId}</if>
+                <if test="runComm != null and runComm != ''">and run_comm = #{runComm}</if>
+                <if test="runName != null and runName != ''">and run_name = #{runName}</if>
+                <if test="runBtn != null">and run_btn = #{runBtn}</if>
+                <if test="runBtnIcon != null and runBtnIcon != ''">and run_btn_icon = #{runBtnIcon}</if>
+                <if test="seq != null">and seq = #{seq}</if>
+            </trim>
+        </where>
+    </sql>
 
-	<!-- 功能 符合条件总数-->
-	<select id="queryByCount" resultType="java.lang.Integer"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
-		select count(1) from sys_run a
-	</select>
-  	
-	<!-- 查询功能列表 -->
-	<select id="queryByList" resultMap="extendResultMap"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_run a
-	</select>
-	
-	<!-- 功能分页查询 -->
-	<select id="queryByPage" resultMap="extendResultMap"  parameterType="com.coocaa.fire.utils.plugin.Pager">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_run a
-	</select>
+    <!-- 插入记录 -->
+    <insert id="add" parameterType="com.coocaa.pro.manage.entity.SysRunEntity" useGeneratedKeys="true"
+            keyProperty="run_id">
+        insert into sys_run(run_id,run_comm,run_name,run_btn,run_btn_icon,seq)
+        values(#{runId},#{runComm},#{runName},#{runBtn},#{runBtnIcon},#{seq})
+    </insert>
 
-	<!-- 获取角色菜单运行权限列表 -->
-	<select id="queryMenuRunsByMenuId" resultMap="BaseResultMap" parameterType="map">
-		SELECT DISTINCT b.run_id,b.run_comm,b.run_name,b.run_btn_icon 
-		FROM sys_role_menu_run a
-			LEFT JOIN sys_run b ON(a.run_id = b.run_id)
-			WHERE a.role_id IN
-			<foreach item="item" index="index" collection="roles" open="(" separator="," close=")">
-				#{item}
-			</foreach>
-			 AND a.menu_id = #{menuId}<if test="tools == true"> AND b.run_btn = 1</if> 
-			ORDER BY b.seq ASC
-	</select>
-	
-	<!-- 获取菜单运行列表 -->
-	<select id="queryMenuRuns" resultMap="BaseResultMap" parameterType="map">
-		SELECT b.run_id,b.run_comm,b.run_name,b.run_btn_icon  
-		FROM sys_menu_run a
-			LEFT JOIN sys_run b ON(a.run_id = b.run_id)
-		WHERE menu_id = #{menuId}<if test="tools == true"> AND b.run_btn = 1</if>
-		ORDER BY b.seq ASC
-	</select>
-	
-	<!-- 获取菜单没有操作列表 -->
-	<select id="getNotRunByMenuId" resultMap="BaseResultMap" parameterType="int">
-		SELECT run_id,run_name 
-		FROM sys_run 
-		WHERE run_id NOT IN(SELECT run_id FROM sys_menu_run WHERE menu_id = #{menuId})
-	</select>
-	
-	<!-- 获取菜单已有操作列表 -->
-	<select id="getRunByMenuId" resultMap="BaseResultMap" parameterType="int">
-		SELECT b.run_id,b.run_name 
-		FROM sys_menu_run a
-		LEFT JOIN sys_run b ON (a.run_id = b.run_id) WHERE menu_id = #{menuId}
-	</select>
-	
+    <!-- 批量插入记录 -->
+    <insert id="addBatch" parameterType="java.util.List">
+        insert into sys_run(
+        run_id,run_comm,run_name,run_btn,run_btn_icon,seq
+        ) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.runId},#{item.runComm},#{item.runName},#{item.runBtn},#{item.runBtnIcon},#{item.seq})
+        </foreach>
+    </insert>
+
+    <!-- 根据id，修改记录-->
+    <update id="update" parameterType="com.coocaa.pro.manage.entity.SysRunEntity">
+        update sys_run
+        set run_comm=#{runComm},run_name=#{runName},run_btn=#{runBtn},run_btn_icon=#{runBtnIcon},seq=#{seq}
+        where run_id=#{runId}
+    </update>
+
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.SysRunEntity">
+        update sys_run set
+        <trim suffixOverrides=",">
+            <if test="runComm != null ">run_comm=#{runComm},</if>
+            <if test="runName != null ">run_name=#{runName},</if>
+            <if test="runBtn != null ">run_btn=#{runBtn},</if>
+            <if test="runBtnIcon != null ">run_btn_icon=#{runBtnIcon},</if>
+            <if test="seq != null ">seq=#{seq},</if>
+        </trim>
+        where run_id=#{runId}
+    </update>
+
+    <!-- 删除记录 -->
+    <delete id="delete" parameterType="Object">
+        delete from sys_run
+        where run_id = #{runId}
+    </delete>
+
+    <!-- 按id批量删除记录 -->
+    <delete id="deleteBatchByIds">
+        delete from sys_run
+        <where>
+            run_id in
+            <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </delete>
+
+    <!-- 按条件批量删除记录 -->
+    <delete id="deleteBatch" parameterType="com.coocaa.pro.manage.entity.SysRunEntity">
+        delete from sys_run
+        <include refid="Example_Where_Clause"/>
+    </delete>
+
+    <!-- 查找所有记录 -->
+    <select id="queryByAll" resultMap="BaseResultMap" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_run a
+    </select>
+
+    <!-- 根据id查询 功能 -->
+    <select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_run a
+        WHERE a.run_id = #{runId}
+    </select>
+
+    <!-- 功能 符合条件总数-->
+    <select id="queryByCount" resultType="java.lang.Integer" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select count(1) from sys_run a
+    </select>
+
+    <!-- 查询功能列表 -->
+    <select id="queryByList" resultMap="extendResultMap" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_run a
+    </select>
+
+    <!-- 功能分页查询 -->
+    <select id="queryByPage" resultMap="extendResultMap" parameterType="com.coocaa.fire.utils.plugin.Pager">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_run a
+    </select>
+
+    <!-- 获取角色菜单运行权限列表 -->
+    <select id="queryMenuRunsByMenuId" resultMap="BaseResultMap" parameterType="map">
+        SELECT DISTINCT b.run_id,b.run_comm,b.run_name,b.run_btn_icon
+        FROM sys_role_menu_run a
+        LEFT JOIN sys_run b ON(a.run_id = b.run_id)
+        WHERE a.role_id IN
+        <foreach item="item" index="index" collection="roles" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        AND a.menu_id = #{menuId}
+        <if test="tools == true">AND b.run_btn = 1</if>
+        ORDER BY b.seq ASC
+    </select>
+
+    <!-- 获取菜单运行列表 -->
+    <select id="queryMenuRuns" resultMap="BaseResultMap" parameterType="map">
+        SELECT b.run_id,b.run_comm,b.run_name,b.run_btn_icon
+        FROM sys_menu_run a
+        LEFT JOIN sys_run b ON(a.run_id = b.run_id)
+        WHERE menu_id = #{menuId}
+        <if test="tools == true">AND b.run_btn = 1</if>
+        ORDER BY b.seq ASC
+    </select>
+
+    <!-- 获取菜单没有操作列表 -->
+    <select id="getNotRunByMenuId" resultMap="BaseResultMap" parameterType="int">
+        SELECT run_id,run_name
+        FROM sys_run
+        WHERE run_id NOT IN(SELECT run_id FROM sys_menu_run WHERE menu_id = #{menuId})
+    </select>
+
+    <!-- 获取菜单已有操作列表 -->
+    <select id="getRunByMenuId" resultMap="BaseResultMap" parameterType="int">
+        SELECT b.run_id,b.run_name
+        FROM sys_menu_run a
+        LEFT JOIN sys_run b ON (a.run_id = b.run_id) WHERE menu_id = #{menuId}
+    </select>
+
 </mapper>   

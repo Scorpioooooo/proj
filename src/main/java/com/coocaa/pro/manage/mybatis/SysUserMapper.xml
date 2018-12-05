@@ -1,173 +1,177 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.coocaa.pro.manage.mapper.SysUserMapper" >
-	<!-- Base Result Map-->
-	<resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.SysUserEntity" >
-		<result column="user_id" property="userId"/>
-		<result column="user_name" property="userName"/>
-		<result column="dept_id" property="deptId"/>
-		<result column="login_name" property="loginName"/>
-		<result column="login_pwd" property="loginPwd"/>
-		<result column="salt" property="salt"/>
-		<result column="email" property="email"/>
-		<result column="login_time" property="loginTime"/>
-		<result column="login_ip" property="loginIp"/>
-		<result column="login_count" property="loginCount"/>
-		<result column="disabled" property="disabled"/>
-		<result column="remark" property="remark"/>
-		<result column="date_create" property="dateCreate"/>
-		<result column="date_modify" property="dateModify"/>
-		<result column="super_admin" property="superAdmin"/>
-	</resultMap>
+<mapper namespace="com.coocaa.pro.manage.mapper.SysUserMapper">
+    <!-- Base Result Map-->
+    <resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.SysUserEntity">
+        <result column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
+        <result column="dept_id" property="deptId"/>
+        <result column="login_name" property="loginName"/>
+        <result column="login_pwd" property="loginPwd"/>
+        <result column="salt" property="salt"/>
+        <result column="email" property="email"/>
+        <result column="login_time" property="loginTime"/>
+        <result column="login_ip" property="loginIp"/>
+        <result column="login_count" property="loginCount"/>
+        <result column="disabled" property="disabled"/>
+        <result column="remark" property="remark"/>
+        <result column="date_create" property="dateCreate"/>
+        <result column="date_modify" property="dateModify"/>
+        <result column="super_admin" property="superAdmin"/>
+    </resultMap>
 
-	<!-- Extend Result Map-->
-	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.SysUserEntity">
-		<association property="sysDept" column="dept_id" resultMap="com.coocaa.pro.manage.mapper.SysDeptMapper.BaseResultMap">
-		</association>
-		<collection property="roles" column="{userId=user_id}" select="selectRolesByUid" />
-	</resultMap>
-	
-	<select id="selectRolesByUid" parameterType="map" resultType="int">
-		SELECT role_id FROM sys_user_role WHERE user_id = #{userId}
-	</select>
-       
-	<!-- sys_user table all fields -->
-	<sql id="Base_Column_List" >
-		a.user_id,a.user_name,a.dept_id,a.login_name,a.login_pwd,a.salt,a.email,a.login_time,a.login_ip,a.login_count,a.disabled,a.remark,a.date_create,a.date_modify,a.super_admin,b.dept_name
-	</sql>
-   
-	<!-- 基本查询条件 -->
-	<sql id="Example_Where_Clause">
-		<where>
-			<trim  suffixOverrides="," >
-				<if test="userId != null" > and user_id =  #{userId}</if>
-				<if test="userName != null and userName != ''" > and user_name =  #{userName}</if>
-				<if test="deptId != null" > and dept_id =  #{deptId}</if>
-				<if test="loginName != null and loginName != ''" > and login_name =  #{loginName}</if>
-				<if test="loginPwd != null and loginPwd != ''" > and login_pwd =  #{loginPwd}</if>
-				<if test="salt != null and salt != ''" > and salt =  #{salt}</if>
-				<if test="email != null and email != ''" > and email =  #{email}</if>
-				<if test="loginTime != null" > and login_time =  #{loginTime}</if>
-				<if test="loginIp != null and loginIp != ''" > and login_ip =  #{loginIp}</if>
-				<if test="loginCount != null" > and login_count =  #{loginCount}</if>
-				<if test="disabled != null" > and disabled =  #{disabled}</if>
-				<if test="remark != null and remark != ''" > and remark =  #{remark}</if>
-				<if test="dateCreate != null" > and date_create =  #{dateCreate}</if>
-				<if test="dateModify != null" > and date_modify =  #{dateModify}</if>
-				<if test="superAdmin != null" > and super_admin =  #{superAdmin}</if>
-			</trim>
-		</where>
-	</sql>
-   
-	<!-- 插入记录 -->
-	<insert id="add" parameterType="com.coocaa.pro.manage.entity.SysUserEntity" useGeneratedKeys="true" keyProperty="user_id" >
-		insert into sys_user(user_id,user_name,dept_id,login_name,login_pwd,salt,email,login_time,login_ip,login_count,disabled,remark,date_create,date_modify,super_admin)
-		values(#{userId},#{userName},#{deptId},#{loginName},#{loginPwd},#{salt},#{email},#{loginTime},#{loginIp},#{loginCount},#{disabled},#{remark},#{dateCreate},#{dateModify},#{superAdmin})
-	</insert>
-	
-	<!-- 批量插入记录 -->
-	<insert id="addBatch" parameterType="java.util.List">  
-    	insert into sys_user(
-			user_id,user_name,dept_id,login_name,login_pwd,salt,email,login_time,login_ip,login_count,disabled,remark,date_create,date_modify,super_admin
-		) values
-		<foreach collection="list" item="item" index="index" separator=",">
-			(#{item.userId},#{item.userName},#{item.deptId},#{item.loginName},#{item.loginPwd},#{item.salt},#{item.email},#{item.loginTime},#{item.loginIp},#{item.loginCount},#{item.disabled},#{item.remark},#{item.dateCreate},#{item.dateModify},#{item.superAdmin})
-		</foreach>  
-  	</insert>
+    <!-- Extend Result Map-->
+    <resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.SysUserEntity">
+        <association property="sysDept" column="dept_id"
+                     resultMap="com.coocaa.pro.manage.mapper.SysDeptMapper.BaseResultMap">
+        </association>
+        <collection property="roles" column="{userId=user_id}" select="selectRolesByUid"/>
+    </resultMap>
 
-	<!-- 根据id，修改记录-->  
-	<update id="update" parameterType="com.coocaa.pro.manage.entity.SysUserEntity" >
-		update sys_user 
-		set user_name=#{userName},dept_id=#{deptId},login_name=#{loginName},login_pwd=#{loginPwd},salt=#{salt},email=#{email},login_time=#{loginTime},login_ip=#{loginIp},login_count=#{loginCount},disabled=#{disabled},remark=#{remark},date_create=#{dateCreate},date_modify=#{dateModify},super_admin=#{superAdmin} 
-		where user_id=#{userId}
-	</update>
- 
-	<!-- 修改记录，只修改只不为空的字段 -->
-	<update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.SysUserEntity" >
-		update sys_user set 
-		<trim  suffixOverrides="," >
-			<if test="userName != null "> user_name=#{userName},</if>
-			<if test="deptId != null "> dept_id=#{deptId},</if>
-			<if test="loginName != null "> login_name=#{loginName},</if>
-			<if test="loginPwd != null "> login_pwd=#{loginPwd},</if>
-			<if test="salt != null "> salt=#{salt},</if>
-			<if test="email != null "> email=#{email},</if>
-			<if test="loginTime != null "> login_time=#{loginTime},</if>
-			<if test="loginIp != null "> login_ip=#{loginIp},</if>
-			<if test="loginCount != null "> login_count=#{loginCount},</if>
-			<if test="disabled != null "> disabled=#{disabled},</if>
-			<if test="remark != null "> remark=#{remark},</if>
-			<if test="dateCreate != null "> date_create=#{dateCreate},</if>
-			<if test="dateModify != null "> date_modify=#{dateModify},</if>
-			<if test="superAdmin != null "> super_admin=#{superAdmin},</if>
-		</trim>
-		where user_id=#{userId}
-	</update>
+    <select id="selectRolesByUid" parameterType="map" resultType="int">
+        SELECT role_id FROM sys_user_role WHERE user_id = #{userId}
+    </select>
 
-	<!-- 删除记录 -->
-	<delete id="delete" parameterType="Object">
-		delete from sys_user
-		where user_id = #{userId}
-	</delete>
-	
-	<!-- 按id批量删除记录 -->
-	<delete id="deleteBatchByIds">
-		delete from sys_user
-		<where>
-			user_id in
-			<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
-				#{item}
-			</foreach>
-		</where>
-	</delete>
-	
-	<!-- 按条件批量删除记录 -->
-	<delete id="deleteBatch" parameterType = "com.coocaa.pro.manage.entity.SysUserEntity">
-		delete from sys_user
-		<include refid="Example_Where_Clause"/> 
-	</delete>
- 	
- 	<!-- 查找所有记录 -->
- 	<select id="queryByAll" resultMap="BaseResultMap" parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
- 		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_user a
-			left join sys_dept b on(a.dept_id = b.dept_id)
- 	</select>
- 
-	<!-- 根据id查询 操作用户 -->
-	<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_user a
-			left join sys_dept b on(a.dept_id = b.dept_id)
-		WHERE a.user_id = #{userId}
-	</select>
+    <!-- sys_user table all fields -->
+    <sql id="Base_Column_List">
+        a.user_id,a.user_name,a.dept_id,a.login_name,a.login_pwd,a.salt,a.email,a.login_time,a.login_ip,a.login_count,a.disabled,a.remark,a.date_create,a.date_modify,a.super_admin,b.dept_name
+    </sql>
 
-	<!-- 操作用户 符合条件总数-->
-	<select id="queryByCount" resultType="java.lang.Integer"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
-		select count(1) from sys_user a
-			left join sys_dept b on(a.dept_id = b.dept_id)
-	</select>
-  	
-	<!-- 查询操作用户列表 -->
-	<select id="queryByList" resultMap="extendResultMap"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_user a
-			left join sys_dept b on(a.dept_id = b.dept_id)
-	</select>
-	
-	<!-- 操作用户分页查询 -->
-	<select id="queryByPage" resultMap="extendResultMap"  parameterType="com.coocaa.fire.utils.plugin.Pager">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from sys_user a
-			left join sys_dept b on(a.dept_id = b.dept_id)
-	</select>
+    <!-- 基本查询条件 -->
+    <sql id="Example_Where_Clause">
+        <where>
+            <trim suffixOverrides=",">
+                <if test="userId != null">and user_id = #{userId}</if>
+                <if test="userName != null and userName != ''">and user_name = #{userName}</if>
+                <if test="deptId != null">and dept_id = #{deptId}</if>
+                <if test="loginName != null and loginName != ''">and login_name = #{loginName}</if>
+                <if test="loginPwd != null and loginPwd != ''">and login_pwd = #{loginPwd}</if>
+                <if test="salt != null and salt != ''">and salt = #{salt}</if>
+                <if test="email != null and email != ''">and email = #{email}</if>
+                <if test="loginTime != null">and login_time = #{loginTime}</if>
+                <if test="loginIp != null and loginIp != ''">and login_ip = #{loginIp}</if>
+                <if test="loginCount != null">and login_count = #{loginCount}</if>
+                <if test="disabled != null">and disabled = #{disabled}</if>
+                <if test="remark != null and remark != ''">and remark = #{remark}</if>
+                <if test="dateCreate != null">and date_create = #{dateCreate}</if>
+                <if test="dateModify != null">and date_modify = #{dateModify}</if>
+                <if test="superAdmin != null">and super_admin = #{superAdmin}</if>
+            </trim>
+        </where>
+    </sql>
 
-	<!-- 通过角色查询用户email -->
-	<select id="queryUserRoleEmail" parameterType="java.lang.Integer" resultType="Object">
-		SELECT u.email FROM sys_user u,sys_user_role ur WHERE u.user_id=ur.user_id AND ur.role_id=#{roleid}
-	</select>
+    <!-- 插入记录 -->
+    <insert id="add" parameterType="com.coocaa.pro.manage.entity.SysUserEntity" useGeneratedKeys="true"
+            keyProperty="user_id">
+        insert into
+        sys_user(user_id,user_name,dept_id,login_name,login_pwd,salt,email,login_time,login_ip,login_count,disabled,remark,date_create,date_modify,super_admin)
+        values(#{userId},#{userName},#{deptId},#{loginName},#{loginPwd},#{salt},#{email},#{loginTime},#{loginIp},#{loginCount},#{disabled},#{remark},#{dateCreate},#{dateModify},#{superAdmin})
+    </insert>
+
+    <!-- 批量插入记录 -->
+    <insert id="addBatch" parameterType="java.util.List">
+        insert into sys_user(
+        user_id,user_name,dept_id,login_name,login_pwd,salt,email,login_time,login_ip,login_count,disabled,remark,date_create,date_modify,super_admin
+        ) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.userId},#{item.userName},#{item.deptId},#{item.loginName},#{item.loginPwd},#{item.salt},#{item.email},#{item.loginTime},#{item.loginIp},#{item.loginCount},#{item.disabled},#{item.remark},#{item.dateCreate},#{item.dateModify},#{item.superAdmin})
+        </foreach>
+    </insert>
+
+    <!-- 根据id，修改记录-->
+    <update id="update" parameterType="com.coocaa.pro.manage.entity.SysUserEntity">
+        update sys_user
+        set
+        user_name=#{userName},dept_id=#{deptId},login_name=#{loginName},login_pwd=#{loginPwd},salt=#{salt},email=#{email},login_time=#{loginTime},login_ip=#{loginIp},login_count=#{loginCount},disabled=#{disabled},remark=#{remark},date_create=#{dateCreate},date_modify=#{dateModify},super_admin=#{superAdmin}
+        where user_id=#{userId}
+    </update>
+
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.SysUserEntity">
+        update sys_user set
+        <trim suffixOverrides=",">
+            <if test="userName != null ">user_name=#{userName},</if>
+            <if test="deptId != null ">dept_id=#{deptId},</if>
+            <if test="loginName != null ">login_name=#{loginName},</if>
+            <if test="loginPwd != null ">login_pwd=#{loginPwd},</if>
+            <if test="salt != null ">salt=#{salt},</if>
+            <if test="email != null ">email=#{email},</if>
+            <if test="loginTime != null ">login_time=#{loginTime},</if>
+            <if test="loginIp != null ">login_ip=#{loginIp},</if>
+            <if test="loginCount != null ">login_count=#{loginCount},</if>
+            <if test="disabled != null ">disabled=#{disabled},</if>
+            <if test="remark != null ">remark=#{remark},</if>
+            <if test="dateCreate != null ">date_create=#{dateCreate},</if>
+            <if test="dateModify != null ">date_modify=#{dateModify},</if>
+            <if test="superAdmin != null ">super_admin=#{superAdmin},</if>
+        </trim>
+        where user_id=#{userId}
+    </update>
+
+    <!-- 删除记录 -->
+    <delete id="delete" parameterType="Object">
+        delete from sys_user
+        where user_id = #{userId}
+    </delete>
+
+    <!-- 按id批量删除记录 -->
+    <delete id="deleteBatchByIds">
+        delete from sys_user
+        <where>
+            user_id in
+            <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </delete>
+
+    <!-- 按条件批量删除记录 -->
+    <delete id="deleteBatch" parameterType="com.coocaa.pro.manage.entity.SysUserEntity">
+        delete from sys_user
+        <include refid="Example_Where_Clause"/>
+    </delete>
+
+    <!-- 查找所有记录 -->
+    <select id="queryByAll" resultMap="BaseResultMap" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user a
+        left join sys_dept b on(a.dept_id = b.dept_id)
+    </select>
+
+    <!-- 根据id查询 操作用户 -->
+    <select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user a
+        left join sys_dept b on(a.dept_id = b.dept_id)
+        WHERE a.user_id = #{userId}
+    </select>
+
+    <!-- 操作用户 符合条件总数-->
+    <select id="queryByCount" resultType="java.lang.Integer" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select count(1) from sys_user a
+        left join sys_dept b on(a.dept_id = b.dept_id)
+    </select>
+
+    <!-- 查询操作用户列表 -->
+    <select id="queryByList" resultMap="extendResultMap" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user a
+        left join sys_dept b on(a.dept_id = b.dept_id)
+    </select>
+
+    <!-- 操作用户分页查询 -->
+    <select id="queryByPage" resultMap="extendResultMap" parameterType="com.coocaa.fire.utils.plugin.Pager">
+        select
+        <include refid="Base_Column_List"/>
+        from sys_user a
+        left join sys_dept b on(a.dept_id = b.dept_id)
+    </select>
+
+    <!-- 通过角色查询用户email -->
+    <select id="queryUserRoleEmail" parameterType="java.lang.Integer" resultType="Object">
+        SELECT u.email FROM sys_user u,sys_user_role ur WHERE u.user_id=ur.user_id AND ur.role_id=#{roleid}
+    </select>
 </mapper>   

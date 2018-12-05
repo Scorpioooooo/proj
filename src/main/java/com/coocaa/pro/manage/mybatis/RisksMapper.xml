@@ -1,139 +1,144 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.coocaa.pro.manage.mapper.RisksMapper" > 
-	<!-- Base Result Map-->
-	<resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.RisksEntity" >
-		<result column="id" property="id"/>
-		<result column="risk_id" property="riskId"/>
-		<result column="orderby" property="orderby"/>
-		<result column="risk_discription" property="riskDiscription"/>
-		<result column="risk_solution" property="riskSolution"/>
-		<result column="risk_isresolved" property="riskIsresolved"/>
-		<result column="resolve_time" property="resolveTime"/>
-		<result column="create_time" property="createTime"/>
-		<result column="update_time" property="updateTime"/>
-	</resultMap>
+<mapper namespace="com.coocaa.pro.manage.mapper.RisksMapper">
+    <!-- Base Result Map-->
+    <resultMap id="BaseResultMap" type="com.coocaa.pro.manage.entity.RisksEntity">
+        <result column="id" property="id"/>
+        <result column="risk_id" property="riskId"/>
+        <result column="orderby" property="orderby"/>
+        <result column="risk_discription" property="riskDiscription"/>
+        <result column="risk_solution" property="riskSolution"/>
+        <result column="risk_isresolved" property="riskIsresolved"/>
+        <result column="resolve_time" property="resolveTime"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
 
-	<!-- Extend Result Map-->
-	<resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.RisksEntity">
-	</resultMap>
-       
-	<!-- risks table all fields -->
-	<sql id="Base_Column_List" >
-		a.`id`,a.`risk_id`,a.`orderby`,a.`risk_discription`,a.`risk_solution`,a.`risk_isresolved`,a.`resolve_time`,a.`create_time`,a.`update_time`
-	</sql>
-   
-	<!-- 基本查询条件 -->
-	<sql id="Example_Where_Clause">
-		<where>
-			<trim  suffixOverrides="," >
-				<if test="id != null" > and `id` =  #{id}</if>
-				<if test="riskId != null" > and `risk_id` =  #{riskId}</if>
-				<if test="orderby != null" > and `orderby` =  #{orderby}</if>
-				<if test="riskDiscription != null and riskDiscription != ''" > and `risk_discription` =  #{riskDiscription}</if>
-				<if test="riskSolution != null and riskSolution != ''" > and `risk_solution` =  #{riskSolution}</if>
-				<if test="riskIsresolved != null" > and `risk_isresolved` =  #{riskIsresolved}</if>
-				<if test="resolveTime != null" > and `resolve_time` =  #{resolveTime}</if>
-				<if test="createTime != null" > and `create_time` =  #{createTime}</if>
-				<if test="updateTime != null" > and `update_time` =  #{updateTime}</if>
-			</trim>
-		</where>
-	</sql>
-   
-	<!-- 插入记录 -->
-	<insert id="add" parameterType="com.coocaa.pro.manage.entity.RisksEntity" useGeneratedKeys="true" keyProperty="`id`" >
-		insert into risks(`id`,`risk_id`,`orderby`,`risk_discription`,`risk_solution`,`risk_isresolved`,`resolve_time`,`create_time`,`update_time`)
-		values(#{id},#{riskId},#{orderby},#{riskDiscription},#{riskSolution},#{riskIsresolved},#{resolveTime},now(),now())
-	</insert>
-	
-	<!-- 批量插入记录 -->
-	<insert id="addBatch" parameterType="java.util.List">  
-    	insert into risks(
-			`id`,`risk_id`,`orderby`,`risk_discription`,`risk_solution`,`risk_isresolved`,`resolve_time`,`create_time`,`update_time`
-		) values
-		<foreach collection="list" item="item" index="index" separator=",">
-			(#{item.id},#{item.riskId},#{item.orderby},#{item.riskDiscription},#{item.riskSolution},#{item.riskIsresolved},#{item.resolveTime},#{item.createTime},#{item.updateTime})
-		</foreach>  
-  	</insert>
+    <!-- Extend Result Map-->
+    <resultMap id="extendResultMap" extends="BaseResultMap" type="com.coocaa.pro.manage.entity.RisksEntity">
+    </resultMap>
 
-	<!-- 根据id，修改记录-->  
-	<update id="update" parameterType="com.coocaa.pro.manage.entity.RisksEntity" >
-		update risks 
-		set `risk_id`=#{riskId},`orderby`=#{orderby},`risk_discription`=#{riskDiscription},`risk_solution`=#{riskSolution},`risk_isresolved`=#{riskIsresolved},`resolve_time`=#{resolveTime},`create_time`=now(),`update_time`=now() 
-		where `id`=#{id}
-	</update>
- 
-	<!-- 修改记录，只修改只不为空的字段 -->
-	<update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.RisksEntity" >
-		update risks set 
-		<trim  suffixOverrides="," >
-			<if test="riskId != null "> `risk_id`=#{riskId},</if>
-			<if test="orderby != null "> `orderby`=#{orderby},</if>
-			<if test="riskDiscription != null "> `risk_discription`=#{riskDiscription},</if>
-			<if test="riskSolution != null "> `risk_solution`=#{riskSolution},</if>
-			<if test="riskIsresolved != null "> `risk_isresolved`=#{riskIsresolved},</if>
-			<if test="resolveTime != null "> `resolve_time`=#{resolveTime},</if>
-			<if test="createTime != null "> `create_time`=#{createTime},</if>
-			<if test="updateTime != null "> `update_time`=#{updateTime},</if>
-		</trim>
-		where `id`=#{id}
-	</update>
+    <!-- risks table all fields -->
+    <sql id="Base_Column_List">
+        a.`id`,a.`risk_id`,a.`orderby`,a.`risk_discription`,a.`risk_solution`,a.`risk_isresolved`,a.`resolve_time`,a.`create_time`,a.`update_time`
+    </sql>
 
-	<!-- 删除记录 -->
-	<delete id="delete" parameterType="Object">
-		delete from risks
-		where `id` = #{id}
-	</delete>
-	
-	<!-- 按id批量删除记录 -->
-	<delete id="deleteBatchByIds">
-		delete from risks
-		<where>
-			`id` in
-			<foreach item="item" index="index" collection="array" open="(" separator="," close=")">
-				#{item}
-			</foreach>
-		</where>
-	</delete>
-	
-	<!-- 按条件批量删除记录 -->
-	<delete id="deleteBatch" parameterType = "com.coocaa.pro.manage.entity.RisksEntity">
-		delete from risks
-		<include refid="Example_Where_Clause"/> 
-	</delete>
- 	
- 	<!-- 查找所有记录 -->
- 	<select id="queryByAll" resultMap="BaseResultMap" parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
- 		select 
-			 <include refid="Base_Column_List" /> 
-		from risks a
- 	</select>
- 
-	<!-- 根据id查询 风险表 -->
-	<select id="queryById"  resultMap="BaseResultMap" parameterType="Object">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from risks a
-		WHERE a.`id` = #{id}
-	</select>
+    <!-- 基本查询条件 -->
+    <sql id="Example_Where_Clause">
+        <where>
+            <trim suffixOverrides=",">
+                <if test="id != null">and `id` = #{id}</if>
+                <if test="riskId != null">and `risk_id` = #{riskId}</if>
+                <if test="orderby != null">and `orderby` = #{orderby}</if>
+                <if test="riskDiscription != null and riskDiscription != ''">and `risk_discription` =
+                    #{riskDiscription}
+                </if>
+                <if test="riskSolution != null and riskSolution != ''">and `risk_solution` = #{riskSolution}</if>
+                <if test="riskIsresolved != null">and `risk_isresolved` = #{riskIsresolved}</if>
+                <if test="resolveTime != null">and `resolve_time` = #{resolveTime}</if>
+                <if test="createTime != null">and `create_time` = #{createTime}</if>
+                <if test="updateTime != null">and `update_time` = #{updateTime}</if>
+            </trim>
+        </where>
+    </sql>
 
-	<!-- 风险表 符合条件总数-->
-	<select id="queryByCount" resultType="java.lang.Integer"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
-		select count(1) from risks a
-	</select>
-  	
-	<!-- 查询风险表列表 -->
-	<select id="queryByList" resultMap="extendResultMap"  parameterType = "com.coocaa.fire.utils.plugin.QueryOperator">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from risks a
-	</select>
-	
-	<!-- 风险表分页查询 -->
-	<select id="queryByPage" resultMap="extendResultMap"  parameterType="com.coocaa.fire.utils.plugin.Pager">
-		select 
-			 <include refid="Base_Column_List" /> 
-		from risks a
-	</select>
+    <!-- 插入记录 -->
+    <insert id="add" parameterType="com.coocaa.pro.manage.entity.RisksEntity" useGeneratedKeys="true"
+            keyProperty="`id`">
+        insert into
+        risks(`id`,`risk_id`,`orderby`,`risk_discription`,`risk_solution`,`risk_isresolved`,`resolve_time`,`create_time`,`update_time`)
+        values(#{id},#{riskId},#{orderby},#{riskDiscription},#{riskSolution},#{riskIsresolved},#{resolveTime},now(),now())
+    </insert>
+
+    <!-- 批量插入记录 -->
+    <insert id="addBatch" parameterType="java.util.List">
+        insert into risks(
+        `id`,`risk_id`,`orderby`,`risk_discription`,`risk_solution`,`risk_isresolved`,`resolve_time`,`create_time`,`update_time`
+        ) values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.id},#{item.riskId},#{item.orderby},#{item.riskDiscription},#{item.riskSolution},#{item.riskIsresolved},#{item.resolveTime},#{item.createTime},#{item.updateTime})
+        </foreach>
+    </insert>
+
+    <!-- 根据id，修改记录-->
+    <update id="update" parameterType="com.coocaa.pro.manage.entity.RisksEntity">
+        update risks
+        set
+        `risk_id`=#{riskId},`orderby`=#{orderby},`risk_discription`=#{riskDiscription},`risk_solution`=#{riskSolution},`risk_isresolved`=#{riskIsresolved},`resolve_time`=#{resolveTime},`create_time`=now(),`update_time`=now()
+        where `id`=#{id}
+    </update>
+
+    <!-- 修改记录，只修改只不为空的字段 -->
+    <update id="updateBySelective" parameterType="com.coocaa.pro.manage.entity.RisksEntity">
+        update risks set
+        <trim suffixOverrides=",">
+            <if test="riskId != null ">`risk_id`=#{riskId},</if>
+            <if test="orderby != null ">`orderby`=#{orderby},</if>
+            <if test="riskDiscription != null ">`risk_discription`=#{riskDiscription},</if>
+            <if test="riskSolution != null ">`risk_solution`=#{riskSolution},</if>
+            <if test="riskIsresolved != null ">`risk_isresolved`=#{riskIsresolved},</if>
+            <if test="resolveTime != null ">`resolve_time`=#{resolveTime},</if>
+            <if test="createTime != null ">`create_time`=#{createTime},</if>
+            <if test="updateTime != null ">`update_time`=#{updateTime},</if>
+        </trim>
+        where `id`=#{id}
+    </update>
+
+    <!-- 删除记录 -->
+    <delete id="delete" parameterType="Object">
+        delete from risks
+        where `id` = #{id}
+    </delete>
+
+    <!-- 按id批量删除记录 -->
+    <delete id="deleteBatchByIds">
+        delete from risks
+        <where>
+            `id` in
+            <foreach item="item" index="index" collection="array" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </delete>
+
+    <!-- 按条件批量删除记录 -->
+    <delete id="deleteBatch" parameterType="com.coocaa.pro.manage.entity.RisksEntity">
+        delete from risks
+        <include refid="Example_Where_Clause"/>
+    </delete>
+
+    <!-- 查找所有记录 -->
+    <select id="queryByAll" resultMap="BaseResultMap" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select
+        <include refid="Base_Column_List"/>
+        from risks a
+    </select>
+
+    <!-- 根据id查询 风险表 -->
+    <select id="queryById" resultMap="BaseResultMap" parameterType="Object">
+        select
+        <include refid="Base_Column_List"/>
+        from risks a
+        WHERE a.`id` = #{id}
+    </select>
+
+    <!-- 风险表 符合条件总数-->
+    <select id="queryByCount" resultType="java.lang.Integer" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select count(1) from risks a
+    </select>
+
+    <!-- 查询风险表列表 -->
+    <select id="queryByList" resultMap="extendResultMap" parameterType="com.coocaa.fire.utils.plugin.QueryOperator">
+        select
+        <include refid="Base_Column_List"/>
+        from risks a
+    </select>
+
+    <!-- 风险表分页查询 -->
+    <select id="queryByPage" resultMap="extendResultMap" parameterType="com.coocaa.fire.utils.plugin.Pager">
+        select
+        <include refid="Base_Column_List"/>
+        from risks a
+    </select>
 
 </mapper>   
